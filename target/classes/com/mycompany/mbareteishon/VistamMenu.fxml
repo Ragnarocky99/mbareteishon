@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mbareteishon.VistamMenuController">
+   <children>
+      <MenuBar layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="Movimientos">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Ventas" />
+                  <MenuItem mnemonicParsing="false" text="Pedidos" />
+                  <MenuItem mnemonicParsing="false" text="Apertura de Caja" />
+                  <MenuItem mnemonicParsing="false" text="Cierre de Caja" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Informes">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Ventas por Fecha" />
+                  <MenuItem mnemonicParsing="false" text="Pedidos por fecha" />
+                  <MenuItem mnemonicParsing="false" text="Recuento" />
+                  <MenuItem mnemonicParsing="false" text="Inventario" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Clientes">
+              <items>
+                <MenuItem fx:id="menuItemGestionarClientes" mnemonicParsing="false" onAction="#goToGestionarCliente" text="Gestionar Clientes" />
+                  <MenuItem mnemonicParsing="false" text="Ventas por Cliente" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Articulos">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#goToGestionarArticulo" text="Gestionar Articulos" />
+                  <MenuItem mnemonicParsing="false" text="Articulos por Pedido" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Proveedores">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#goToGestionarProveedor" text="Gestionar Proveedores" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Ayuda">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#goToAcercaDe" text="Acerca de" />
+              </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <Label fx:id="txtFecha" layoutX="465.0" layoutY="30.0" prefHeight="100.0" prefWidth="415.0" text="Fecha" textAlignment="CENTER" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="30.0">
+         <font>
+            <Font size="64.0" />
+         </font>
+      </Label>
+      <Label fx:id="txtHora" layoutX="465.0" layoutY="130.0" prefHeight="70.0" prefWidth="415.0" text="Hora" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="130.0">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
