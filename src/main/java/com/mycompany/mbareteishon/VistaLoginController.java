@@ -37,10 +37,11 @@ public class VistaLoginController implements Initializable {
     @FXML
     private PasswordField txtPswd;
     private String pswd;
-    UserController usr = new UserController();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        
         
         comboUsuario.getItems().addAll("Administrador", "Vendedor", "Contador");
         
@@ -72,46 +73,7 @@ public class VistaLoginController implements Initializable {
     @FXML
     private void actionIngresar(ActionEvent event) {
         
-        pswd = txtPswd.getText().toString();
         
-        String selectedUser = comboUsuario.getSelectionModel().getSelectedItem();
-        
-        if("Administrador".equals(selectedUser) && "556".equals(pswd)){
-            
-            usr.setUser("admin");
-            abrirFxml("VistamMenu.fxml", "Menu");
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.close();
-            
-            
-        }
-        else if("Vendedor".equals(selectedUser) && "123".equals(pswd)){
-            
-            usr.setUser("emp");
-            abrirFxml("VistamMenu.fxml", "Menu");
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.close();
-   
-        }
-        else if("Contador".equals(selectedUser) && "321".equals(pswd)){
-            
-            usr.setUser("quer");
-            abrirFxml("VistamMenu.fxml", "Menu");
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.close();
-            
-        }
-        else{
-            
-            System.out.println(selectedUser);
-            System.out.println(pswd);
-            Alert alertaError = new Alert(Alert.AlertType.ERROR);
-            alertaError.setTitle("Error");
-            alertaError.setHeaderText(null);
-            alertaError.setContentText("Contraseña Erronea");
-            alertaError.showAndWait();
-            
-        }
         
     }
     

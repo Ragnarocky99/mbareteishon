@@ -187,12 +187,15 @@ public class VistaGestionArticulosController implements Initializable {
             pro.setStock(Integer.parseInt(txtStock.getText()));
             
             if(modificar){
-                if(pro.modificar()){
-                    Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-                    alerta.setHeaderText(null);
-                    alerta.setContentText("Modificado correctamente");
-                    alerta.show();
-                } else {
+                if(pro.getPrecio() > 0 && pro.getCosto() > 0 && pro.getStock() > 0){
+                    if(pro.modificar()){
+                        
+                       Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                        alerta.setHeaderText(null);
+                        alerta.setContentText("Modificado correctamente");
+                        alerta.show(); 
+                        
+                    }else {
                     Alert alerta = new Alert(Alert.AlertType.ERROR);
                     alerta.setHeaderText(null);
                     alerta.setContentText("No se ha podido modificar correctamente");
@@ -204,18 +207,38 @@ public class VistaGestionArticulosController implements Initializable {
                     txtCosto.setText(String.valueOf(pro.getCosto()));
                     txtStock.setText(String.valueOf(pro.getStock()));
                     
+                    } 
+                    
+                }else{
+                    
+                    Alert alerta = new Alert(Alert.AlertType.ERROR);
+                    alerta.setHeaderText(null);
+                    alerta.setContentText("Valores Fuera de Rango");
+                    alerta.show();
+                    
                 }
             } else {
-                if(pro.insertar()){
+                if(pro.getPrecio() > 0 && pro.getCosto() > 0 && pro.getStock() > 0){
+                    
+                    if(pro.insertar()){
                     Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
                     alerta.setHeaderText(null);
                     alerta.setContentText("Insertado correctamente");
                     alerta.show();
-                } else {
+                    } else {
+                        Alert alerta = new Alert(Alert.AlertType.ERROR);
+                        alerta.setHeaderText(null);
+                        alerta.setContentText("No se ha podido insertar correctamente");
+                        alerta.show();
+                    }
+                    
+                }else{
+                    
                     Alert alerta = new Alert(Alert.AlertType.ERROR);
                     alerta.setHeaderText(null);
-                    alerta.setContentText("No se ha podido insertar correctamente");
+                    alerta.setContentText("Valores Fuera de Rango");
                     alerta.show();
+                    
                 }
             }
             
@@ -228,9 +251,9 @@ public class VistaGestionArticulosController implements Initializable {
             txtStock.setDisable(true);
             btnAceptar.setDisable(true);
             btnCancelar.setDisable(true);
-            btnModificar.setDisable(false);
-            btnEliminar.setDisable(false);
-            btnAgregar.setDisable(true);
+            btnModificar.setDisable(true);
+            btnEliminar.setDisable(true);
+            btnAgregar.setDisable(false);
         
     }
 

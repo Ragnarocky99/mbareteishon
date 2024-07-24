@@ -61,7 +61,6 @@ public class VistaGestionClientesController implements Initializable {
     private TextField txtApellidoCliente;
     @FXML
     private TextField txtRucCliente;
-    private CheckBox chkActivo;
     @FXML
     private Button btnAceptar;
     @FXML
@@ -86,7 +85,6 @@ public class VistaGestionClientesController implements Initializable {
         txtNombreCliente.setDisable(true);
         txtApellidoCliente.setDisable(true);
         txtRucCliente.setDisable(true);
-        chkActivo.setDisable(true);
         btnAceptar.setDisable(true);
         btnCancelar.setDisable(true);
         btnModificarCliente.setDisable(true);
@@ -115,7 +113,6 @@ public class VistaGestionClientesController implements Initializable {
         txtNombreCliente.setDisable(false);
         txtApellidoCliente.setDisable(false);
         txtRucCliente.setDisable(false);
-        chkActivo.setDisable(false);
         btnAceptar.setDisable(false);
         btnCancelar.setDisable(false);
         btnModificarCliente.setDisable(true);
@@ -141,7 +138,6 @@ public class VistaGestionClientesController implements Initializable {
         txtNombreCliente.setDisable(false);
         txtApellidoCliente.setDisable(false);
         txtRucCliente.setDisable(false);
-        chkActivo.setDisable(false);
         btnAceptar.setDisable(false);
         btnCancelar.setDisable(false);
         btnModificarCliente.setDisable(true);
@@ -199,7 +195,6 @@ private void eliminarCliente(ActionEvent event) {
         txtNombreCliente.setDisable(true);
         txtApellidoCliente.setDisable(true);
         txtRucCliente.setDisable(true);
-        chkActivo.setDisable(true);
         btnAceptar.setDisable(true);
         btnCancelar.setDisable(true);
         btnModificarCliente.setDisable(true);
@@ -275,7 +270,6 @@ private void eliminarCliente(ActionEvent event) {
         txtNombreCliente.setDisable(true);
         txtApellidoCliente.setDisable(true);
         txtRucCliente.setDisable(true);
-        chkActivo.setDisable(true);
         btnAceptar.setDisable(true);
         btnCancelar.setDisable(true);
         btnModificarCliente.setDisable(true);
@@ -299,7 +293,6 @@ private void eliminarCliente(ActionEvent event) {
         txtNombreCliente.setDisable(true);
         txtApellidoCliente.setDisable(true);
         txtRucCliente.setDisable(true);
-        chkActivo.setDisable(true);
         btnAceptar.setDisable(true);
         btnCancelar.setDisable(true);
         btnModificarCliente.setDisable(true);
@@ -356,7 +349,6 @@ private void eliminarCliente(ActionEvent event) {
         txtNombreCliente.setDisable(true);
         txtApellidoCliente.setDisable(true);
         txtRucCliente.setDisable(true);
-        chkActivo.setDisable(true);
         btnAceptar.setDisable(true);
         btnCancelar.setDisable(true);
         btnModificarCliente.setDisable(false);
@@ -378,7 +370,6 @@ private void eliminarCliente(ActionEvent event) {
         txtNombreCliente.setDisable(true);
         txtApellidoCliente.setDisable(true);
         txtRucCliente.setDisable(true);
-        chkActivo.setDisable(true);
         btnAceptar.setDisable(true);
         btnCancelar.setDisable(true);
         btnModificarCliente.setDisable(true);
