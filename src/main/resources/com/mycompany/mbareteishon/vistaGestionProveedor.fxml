@@ -9,30 +9,34 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<TabPane fx:id="tabPanePro" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0" prefWidth="761.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mbareteishon.VistaGestionProveedorController">
+<TabPane fx:id="tabPanePro" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0" prefWidth="761.0" style="-fx-background-color: #FFFF9E;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mbareteishon.VistaGestionProveedorController">
   <tabs>
-    <Tab text="Buscar Proveedor">
+    <Tab style="-fx-background-color: #FFFF9E;" text="Buscar Proveedor">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <Pane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-style: solid;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                      <children>
                         <Label layoutX="14.0" layoutY="14.0" text="Buscar" />
-                        <TextField fx:id="txtBuscar" layoutX="69.0" layoutY="10.0" onKeyReleased="#buscar" prefHeight="25.0" prefWidth="641.0" />
-                        <TableView fx:id="tblProveedor" layoutX="14.0" layoutY="44.0" onMouseClicked="#mostrarFila" onMouseReleased="#noMostrarFila" prefHeight="301.0" prefWidth="703.0">
+                        <TextField fx:id="txtBuscar" layoutX="69.0" layoutY="10.0" onKeyReleased="#buscar" prefHeight="25.0" prefWidth="641.0" style="-fx-background-color: white;" />
+                        <TableView fx:id="tblProveedor" layoutX="14.0" layoutY="44.0" onMouseClicked="#mostrarFila" onMouseReleased="#noMostrarFila" prefHeight="301.0" prefWidth="703.0" style="-fx-background-color: #EBCB59;">
                           <columns>
                             <TableColumn fx:id="colRuc" prefWidth="303.0" text="RUC/CI" />
                             <TableColumn fx:id="colNombre" prefWidth="400.0" text="Nombre / Razon Social" />
                           </columns>
                         </TableView>
-                        <Button fx:id="btnIrA" layoutX="14.0" layoutY="366.0" mnemonicParsing="false" onAction="#verInfoCliente" prefHeight="25.0" prefWidth="53.0" text="Ir a" />
+                        <Button fx:id="btnIrA" layoutX="14.0" layoutY="366.0" mnemonicParsing="false" onAction="#verInfoCliente" prefHeight="25.0" prefWidth="53.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Ir a">
+                           <font>
+                              <Font name="Consolas Bold" size="13.0" />
+                           </font></Button>
                      </children>
                   </Pane>
                </children></AnchorPane>
       </content>
     </Tab>
-    <Tab fx:id="paneInfo" text="Info. Proveedor">
+    <Tab fx:id="paneInfo" style="-fx-background-color: #FFFF9E;" text="Info. Proveedor">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
@@ -41,14 +45,29 @@
                         <Label layoutX="14.0" layoutY="40.0" text="Base ID" />
                         <Label layoutX="14.0" layoutY="85.0" text="Nombre / Razon Social" />
                         <Label layoutX="14.0" layoutY="130.0" text="RUC/CI" />
-                        <Button fx:id="btnAgregarProveedor" layoutX="14.0" layoutY="286.0" mnemonicParsing="false" onAction="#agregar" prefHeight="70.0" prefWidth="70.0" text="Agregar" />
-                        <Button fx:id="btnModificarProveedor" layoutX="113.0" layoutY="287.0" mnemonicParsing="false" onAction="#modificar" prefHeight="70.0" prefWidth="87.0" text="Modificar" />
-                        <Button fx:id="btnEliminarProveedor" layoutX="230.0" layoutY="287.0" mnemonicParsing="false" onAction="#eliminar" prefHeight="70.0" prefWidth="70.0" text="Eliminar" />
+                        <Button fx:id="btnAgregarProveedor" layoutX="14.0" layoutY="286.0" mnemonicParsing="false" onAction="#agregar" prefHeight="70.0" prefWidth="75.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Agregar">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></Button>
+                        <Button fx:id="btnModificarProveedor" layoutX="113.0" layoutY="287.0" mnemonicParsing="false" onAction="#modificar" prefHeight="70.0" prefWidth="87.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Modificar">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></Button>
+                        <Button fx:id="btnEliminarProveedor" layoutX="230.0" layoutY="287.0" mnemonicParsing="false" onAction="#eliminar" prefHeight="70.0" prefWidth="80.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Eliminar">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></Button>
                         <TextField fx:id="txtIdProveedor" disable="true" editable="false" layoutX="160.0" layoutY="36.0" prefHeight="25.0" prefWidth="218.0" />
                         <TextField fx:id="txtNombreProveedor" layoutX="160.0" layoutY="81.0" prefHeight="25.0" prefWidth="217.0" />
                         <TextField fx:id="txtRucProveedor" layoutX="160.0" layoutY="126.0" prefHeight="25.0" prefWidth="217.0" />
-                        <Button fx:id="btnAceptar" layoutX="73.0" layoutY="233.0" mnemonicParsing="false" onAction="#aceptar" text="Aceptar" />
-                        <Button fx:id="btnCancelar" layoutX="152.0" layoutY="233.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+                        <Button fx:id="btnAceptar" layoutX="73.0" layoutY="233.0" mnemonicParsing="false" onAction="#aceptar" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Aceptar">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></Button>
+                        <Button fx:id="btnCancelar" layoutX="152.0" layoutY="233.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-border-color: black; -fx-background-color: #EBC759;" text="Cancelar">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></Button>
                      </children>
                   </Pane>
                </children></AnchorPane>

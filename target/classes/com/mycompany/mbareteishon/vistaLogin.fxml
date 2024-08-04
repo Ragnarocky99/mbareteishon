@@ -9,13 +9,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mbareteishon.VistaLoginController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFF9E;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mbareteishon.VistaLoginController">
    <children>
-      <Pane layoutX="14.0" layoutY="14.0" prefHeight="358.0" prefWidth="272.0" style="-fx-border-style: solid;">
+      <Pane layoutX="14.0" layoutY="14.0" prefHeight="358.0" prefWidth="272.0" style="-fx-border-style: solid; -fx-border-width: 3; -fx-background-color: #FEB647#FEB647;">
          <children>
-            <Label layoutX="14.0" layoutY="14.0" text="Bienvenid@">
+            <Label layoutX="24.0" layoutY="36.0" text="Bienvenid@" textOverrun="CENTER_WORD_ELLIPSIS">
                <font>
-                  <Font size="34.0" />
+                  <Font name="System Bold" size="40.0" />
                </font>
             </Label>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="61.0" layoutY="194.0" pickOnBounds="true" preserveRatio="true">
@@ -23,17 +23,26 @@
                   <Image url="@ice-cream-cone-png-0000053849-800.jpeg" />
                </image>
             </ImageView>
-            <ImageView fitHeight="129.0" fitWidth="179.0" layoutX="47.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="156.0" fitWidth="200.0" layoutX="36.0" layoutY="101.0">
                <image>
-                  <Image url="@pngtree-scoop-of-pink-ice-cream-cherry-ice-cream-nobody-ice-cream-png-image_12063453.png" />
+                  <Image url="@mbaretelogin.png" />
                </image>
             </ImageView>
          </children>
       </Pane>
-      <ComboBox fx:id="comboUsuario" layoutX="300.0" layoutY="72.0" prefHeight="25.0" prefWidth="235.0" />
-      <Label layoutX="300.0" layoutY="47.0" text="Usuario" />
-      <Label layoutX="300.0" layoutY="132.0" text="Contraseña" />
-      <Button fx:id="btnIngresar" layoutX="304.0" layoutY="241.0" mnemonicParsing="false" onAction="#actionIngresar" prefHeight="25.0" prefWidth="235.0" text="Ingresar" />
-      <PasswordField fx:id="txtPswd" layoutX="300.0" layoutY="168.0" prefHeight="25.0" prefWidth="235.0" />
+      <ComboBox fx:id="comboUsuario" layoutX="300.0" layoutY="72.0" prefHeight="25.0" prefWidth="235.0" style="-fx-background-color: #EBC759;" />
+      <Label layoutX="300.0" layoutY="47.0" text="Usuario">
+         <font>
+            <Font size="17.0" />
+         </font></Label>
+      <Label layoutX="300.0" layoutY="132.0" text="Contraseña">
+         <font>
+            <Font size="17.0" />
+         </font></Label>
+      <Button fx:id="btnIngresar" layoutX="304.0" layoutY="241.0" mnemonicParsing="false" onAction="#actionIngresar" prefHeight="25.0" prefWidth="235.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Ingresar">
+         <font>
+            <Font name="Consolas Bold" size="17.0" />
+         </font></Button>
+      <PasswordField fx:id="txtPswd" layoutX="300.0" layoutY="168.0" prefHeight="25.0" prefWidth="235.0" style="-fx-background-color: #EBC759;" />
    </children>
 </Pane>

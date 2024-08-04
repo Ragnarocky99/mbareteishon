@@ -9,8 +9,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<TabPane fx:id="tabPaneClientes" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0" prefWidth="761.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mbareteishon.VistaGestionClientesController">
+<TabPane fx:id="tabPaneClientes" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0" prefWidth="761.0" style="-fx-background-color: #FFFF9E;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mbareteishon.VistaGestionClientesController">
   <tabs>
     <Tab text="Buscar Cliente">
       <content>
@@ -20,14 +21,17 @@
                      <children>
                         <Label layoutX="14.0" layoutY="14.0" text="Buscar" />
                         <TextField fx:id="txtBuscarCliente" layoutX="69.0" layoutY="10.0" onKeyReleased="#buscar" prefHeight="25.0" prefWidth="641.0" />
-                        <TableView fx:id="tblCliente" layoutX="14.0" layoutY="44.0" onMouseClicked="#mostrarFila" onMouseReleased="#noMostrarFila" prefHeight="301.0" prefWidth="703.0">
+                        <TableView fx:id="tblCliente" layoutX="14.0" layoutY="44.0" onMouseClicked="#mostrarFila" onMouseReleased="#noMostrarFila" prefHeight="301.0" prefWidth="703.0" style="-fx-background-color: #F2AE27;">
                           <columns>
                             <TableColumn fx:id="colRucCliente" prefWidth="170.0" text="RUC/CI" />
                             <TableColumn fx:id="colNombreCliente" prefWidth="274.0" text="Nombre" />
                               <TableColumn fx:id="colApellidoCliente" prefWidth="258.0" text="Apellido" />
                           </columns>
                         </TableView>
-                        <Button fx:id="btnIrA" layoutX="14.0" layoutY="366.0" mnemonicParsing="false" onAction="#verInfoCliente" prefHeight="25.0" prefWidth="53.0" text="Ir a" />
+                        <Button fx:id="btnIrA" layoutX="14.0" layoutY="366.0" mnemonicParsing="false" onAction="#verInfoCliente" prefHeight="25.0" prefWidth="53.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Ir a">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></Button>
                      </children>
                   </Pane>
                </children></AnchorPane>
@@ -39,9 +43,18 @@
                <children>
                   <Pane layoutX="15.0" layoutY="15.0" prefHeight="412.0" prefWidth="731.0" style="-fx-border-style: solid;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                      <children>
-                        <Button fx:id="btnAgregarCliente" layoutX="14.0" layoutY="286.0" mnemonicParsing="false" onAction="#agregarCliente" prefHeight="70.0" prefWidth="70.0" text="Agregar" />
-                        <Button fx:id="btnModificarCliente" layoutX="113.0" layoutY="287.0" mnemonicParsing="false" onAction="#modificarCliente" prefHeight="70.0" prefWidth="70.0" text="Modificar" />
-                        <Button fx:id="btnEliminarCliente" layoutX="215.0" layoutY="287.0" mnemonicParsing="false" onAction="#eliminarCliente" prefHeight="70.0" prefWidth="70.0" text="Eliminar" />
+                        <Button fx:id="btnAgregarCliente" layoutX="14.0" layoutY="286.0" mnemonicParsing="false" onAction="#agregarCliente" prefHeight="70.0" prefWidth="78.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Agregar">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></Button>
+                        <Button fx:id="btnModificarCliente" layoutX="113.0" layoutY="287.0" mnemonicParsing="false" onAction="#modificarCliente" prefHeight="70.0" prefWidth="85.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Modificar">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></Button>
+                        <Button fx:id="btnEliminarCliente" layoutX="215.0" layoutY="287.0" mnemonicParsing="false" onAction="#eliminarCliente" prefHeight="70.0" prefWidth="86.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Eliminar">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></Button>
                         <Label layoutX="14.0" layoutY="34.0" text="Base ID" />
                         <Label layoutX="14.0" layoutY="69.0" text="Nombre" />
                         <Label layoutX="14.0" layoutY="108.0" text="Apellido" />
@@ -50,8 +63,14 @@
                         <TextField fx:id="txtNombreCliente" layoutX="73.0" layoutY="65.0" prefHeight="25.0" prefWidth="217.0" />
                         <TextField fx:id="txtApellidoCliente" layoutX="73.0" layoutY="104.0" prefHeight="25.0" prefWidth="219.0" />
                         <TextField fx:id="txtRucCliente" layoutX="73.0" layoutY="147.0" prefHeight="25.0" prefWidth="217.0" />
-                        <Button fx:id="btnAceptar" layoutX="73.0" layoutY="233.0" mnemonicParsing="false" onAction="#aceptar" text="Aceptar" />
-                        <Button fx:id="btnCancelar" layoutX="152.0" layoutY="233.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+                        <Button fx:id="btnAceptar" layoutX="73.0" layoutY="233.0" mnemonicParsing="false" onAction="#aceptar" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Aceptar">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></Button>
+                        <Button fx:id="btnCancelar" layoutX="152.0" layoutY="233.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Cancelar">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></Button>
                      </children>
                   </Pane>
                </children></AnchorPane>

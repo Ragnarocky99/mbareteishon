@@ -6,9 +6,9 @@ com\mycompany\mbareteishon\VistamMenuController.class
 com\mycompany\mbareteishon\App.class
 com\mycompany\mbareteishon\ValidadorString.class
 com\mycompany\mbareteishon\modelo\proveedor.class
-com\mycompany\mbareteishon\UserController.class
 module-info.class
 com\mycompany\mbareteishon\clases\sentencias.class
+com\mycompany\mbareteishon\modelo\usuario.class
 com\mycompany\mbareteishon\VistaGestionProveedorController.class
 com\mycompany\mbareteishon\modelo\cliente.class
 com\mycompany\mbareteishon\VistaGestionArticulosController.class
