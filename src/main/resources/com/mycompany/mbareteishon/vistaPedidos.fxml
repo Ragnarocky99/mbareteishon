@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="809.0" style="-fx-background-color: #FFFF9E;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane layoutX="14.0" layoutY="14.0" prefHeight="143.0" prefWidth="779.0" style="-fx-border-style: solid;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Fecha Emision" />
+            <Label layoutX="14.0" layoutY="56.0" text="ID Pedido" />
+            <Label layoutX="14.0" layoutY="100.0" text="Proveedor" />
+            <TextField fx:id="txtEmision" layoutX="105.0" layoutY="10.0" prefHeight="25.0" prefWidth="228.0" />
+            <TextField fx:id="txtIdPedido" layoutX="105.0" layoutY="52.0" prefHeight="25.0" prefWidth="228.0" />
+            <TextField fx:id="txtProveedor" layoutX="105.0" layoutY="96.0" prefHeight="25.0" prefWidth="189.0" />
+            <Button fx:id="btnBuscarProveedor" layoutX="298.0" layoutY="96.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="36.0" text="🔎" />
+         </children>
+      </Pane>
+      <Pane layoutX="15.0" layoutY="171.0" prefHeight="268.0" prefWidth="779.0" style="-fx-border-style: solid;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+         <children>
+            <TableView fx:id="tblDetallePedido" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="750.0">
+              <columns>
+                <TableColumn fx:id="colIdProducto" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="colNombreProducto" prefWidth="260.0" text="Detalle Producto" />
+                  <TableColumn fx:id="colCosto" prefWidth="142.0" text="Costo" />
+                  <TableColumn fx:id="colCantidad" prefWidth="87.0" text="Cantidad" />
+                  <TableColumn fx:id="colCostoTotal" prefWidth="185.0" text="Costo Total" />
+              </columns>
+            </TableView>
+            <Label layoutX="543.0" layoutY="227.0" text="Total" />
+            <TextField fx:id="txtTotal" layoutX="583.0" layoutY="223.0" prefHeight="25.0" prefWidth="181.0" />
+            <Button fx:id="btnModificarDetalle" layoutX="87.0" layoutY="223.0" mnemonicParsing="false" text="Modificar" />
+            <Button fx:id="btnEliminarDetalle" layoutX="166.0" layoutY="223.0" mnemonicParsing="false" text="Eliminar" />
+            <Button fx:id="btnAgregarDetalle" layoutX="14.0" layoutY="223.0" mnemonicParsing="false" text="Agregar" />
+         </children>
+      </Pane>
+      <Pane layoutX="15.0" layoutY="412.0" prefHeight="118.0" prefWidth="779.0" style="-fx-border-style: solid;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+         <children>
+            <Label layoutX="14.0" layoutY="21.0" text="Codigo" />
+            <Button fx:id="btnBuscarProducto" layoutX="192.0" layoutY="17.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="36.0" text="🔎" />
+            <TextField fx:id="txtCodigoProducto" layoutX="69.0" layoutY="17.0" prefHeight="25.0" prefWidth="120.0" />
+            <Label layoutX="242.0" layoutY="21.0" text="Cantidad" />
+            <TextField fx:id="txtCantidadProducto" layoutX="305.0" layoutY="17.0" prefHeight="25.0" prefWidth="104.0" />
+            <Label layoutX="427.0" layoutY="21.0" text="Costo" />
+            <TextField fx:id="txtCostoProducto" layoutX="466.0" layoutY="17.0" />
+            <Button fx:id="btnAceptarProducto" layoutX="628.0" layoutY="17.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="66.0" text="Aceptar" />
+            <Button fx:id="btnCancelarProducto" layoutX="704.0" layoutY="17.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="66.0" text="Cancelar" />
+            <Button fx:id="btnGuardarPedido" layoutX="159.0" layoutY="73.0" mnemonicParsing="false" text="Guardar" />
+            <Button fx:id="btnCancelarPedido" layoutX="290.0" layoutY="73.0" mnemonicParsing="false" text="Cancelar" />
+            <Button fx:id="btnNuevoPedido" layoutX="15.0" layoutY="73.0" mnemonicParsing="false" text="Nuevo" />
+            <Button fx:id="btnModificarPedido" layoutX="79.0" layoutY="73.0" mnemonicParsing="false" text="Modificar" />
+            <Button fx:id="btnAnularPedido" layoutX="231.0" layoutY="73.0" mnemonicParsing="false" text="Anular" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
