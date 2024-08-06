@@ -16,7 +16,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("VistaPedidos"));
+        scene = new Scene(loadFXML("vistaPedidos"));
         stage.setScene(scene);
 
         // Maximizar la ventana
