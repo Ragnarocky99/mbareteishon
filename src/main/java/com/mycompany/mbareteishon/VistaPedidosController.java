@@ -309,7 +309,7 @@ public class VistaPedidosController implements Initializable {
                 txtCantidadProducto.setDisable(true);
                 txtCostoProducto.setDisable(true);
                 btnBuscarProducto.setDisable(true);
-                det = new detallePedido(pro.getId(), pro.getDesc(), Integer.parseInt(txtCantidadProducto.getText()), Double.parseDouble(txtCostoProducto.getText()), total, det.getIdPed());
+                det = new detallePedido(det.getIdPro(), det.getDesc(), Integer.parseInt(txtCantidadProducto.getText()), Double.parseDouble(txtCostoProducto.getText()), total, det.getIdPed());
                 lista.remove(det.getIdPed() - 1);
                 lista.add(det.getIdPed() - 1, det);
                 tblDetallePedido.setItems(lista);
