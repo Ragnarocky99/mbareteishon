@@ -1,4 +1,5 @@
 com\mycompany\mbareteishon\VistaGestionClientesController.class
+com\mycompany\mbareteishon\VistaBuscarProveedoresController.class
 com\mycompany\mbareteishon\VistaLoginController.class
 com\mycompany\mbareteishon\VistamMenuController.class
 com\mycompany\mbareteishon\VistaPedidosController.class

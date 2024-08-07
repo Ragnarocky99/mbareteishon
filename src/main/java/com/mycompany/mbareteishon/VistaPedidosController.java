@@ -6,6 +6,7 @@ package com.mycompany.mbareteishon;
 
 import com.mycompany.mbareteishon.modelo.detallePedido;
 import com.mycompany.mbareteishon.modelo.producto;
+import com.mycompany.mbareteishon.modelo.proveedor;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -99,16 +100,29 @@ public class VistaPedidosController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    int totalPedido;
 
-    public producto pro = new producto();
+    producto pro = new producto();
+
+    proveedor prov = new proveedor();
+
+    boolean modificar;
 
     private Stage primaryStage;
 
     private int c = 0;
 
+    detallePedido det = new detallePedido();
+
+    ObservableList<detallePedido> lista = FXCollections.observableArrayList();
+    @FXML
+    private TextField txtRuc;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        totalPedido = 0;
+        modificar = false;
         c = 0;
 
         this.primaryStage = primaryStage;
@@ -131,6 +145,7 @@ public class VistaPedidosController implements Initializable {
         txtEmision.setDisable(true);
         txtIdPedido.setDisable(true);
         txtProveedor.setDisable(true);
+        txtRuc.setDisable(true);
         btnBuscarProveedor.setDisable(true);
         tblDetallePedido.setDisable(true);
         btnAgregarDetalle.setDisable(true);
@@ -154,22 +169,62 @@ public class VistaPedidosController implements Initializable {
     @FXML
     private void goToSearchProveedor(ActionEvent event) {
 
-        abrirFxmlModal("vistaBuscarProveedor.fxml", "Buscar Proveedor");
+        abrirFxmlModal("vistaBuscarProveedores.fxml", "Buscar Proveedor");
 
     }
 
     @FXML
     private void modificarProducto(ActionEvent event) {
+
+        modificar = true;
+        btnModificarDetalle.setDisable(true);
+        btnEliminarDetalle.setDisable(true);
+        btnBuscarProducto.setDisable(false);
+        btnBuscarProducto.requestFocus();
+        btnAgregarDetalle.setDisable(true);
+        txtCodigoProducto.setDisable(true);
+        txtCantidadProducto.setDisable(false);
+        txtCostoProducto.setDisable(false);
+        btnAceptarProducto.setDisable(false);
+        btnCancelarProducto.setDisable(false);
+        btnBuscarProducto.requestFocus();
+        det = tblDetallePedido.getSelectionModel().getSelectedItem();
+        txtCodigoProducto.setText(String.valueOf(det.getIdPro()));
+        txtCantidadProducto.setText(String.valueOf(det.getCantidad()));
+        txtCostoProducto.setText(String.valueOf(det.getCosto()));
+        btnBuscarProducto.requestFocus();
+
     }
 
     @FXML
     private void eliminarProducto(ActionEvent event) {
+
+        det = tblDetallePedido.getSelectionModel().getSelectedItem();
+        lista.remove(det);
+        c = 1;
+        for (detallePedido det : lista) {
+            det.setIdPed(c);
+            c += 1;
+        }
+        tblDetallePedido.setItems(lista);
+        c = 0;
+
     }
 
     @FXML
     private void agregarProducto(ActionEvent event) {
 
-        btnAgregarDetalle.requestFocus();
+        modificar = false;
+        btnModificarDetalle.setDisable(true);
+        btnEliminarDetalle.setDisable(true);
+        btnBuscarProducto.setDisable(false);
+        btnAgregarDetalle.setDisable(true);
+        txtCodigoProducto.setDisable(true);
+        txtCantidadProducto.setDisable(false);
+        txtCostoProducto.setDisable(false);
+        btnAceptarProducto.setDisable(false);
+        btnCancelarProducto.setDisable(false);
+        btnBuscarProducto.requestFocus();
 
     }
 
@@ -183,38 +238,107 @@ public class VistaPedidosController implements Initializable {
     @FXML
     private void aceptarProducto(ActionEvent event) {
 
-        if ("".equals(txtCodigoProducto.getText())) {
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("");
-            alerta.setHeaderText(null);
-            alerta.setContentText("No se ha seleccionado un producto");
-            alerta.showAndWait();
-        } else if (Integer.parseInt(txtCantidadProducto.getText()) < 0) {
+        if (!modificar) {
 
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("");
-            alerta.setHeaderText(null);
-            alerta.setContentText("Cantidad menor o igual a cero");
-            alerta.showAndWait();
+            if ("".equals(txtCodigoProducto.getText())) {
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setTitle("");
+                alerta.setHeaderText(null);
+                alerta.setContentText("No se ha seleccionado un producto");
+                alerta.showAndWait();
+            } else if (Integer.parseInt(txtCantidadProducto.getText()) < 0) {
+
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setTitle("");
+                alerta.setHeaderText(null);
+                alerta.setContentText("Cantidad menor o igual a cero");
+                alerta.showAndWait();
+
+            } else {
+
+                c = lista.size() + 1;
+                int cant = Integer.parseInt(txtCantidadProducto.getText());
+                double cost = Double.parseDouble(txtCostoProducto.getText());
+                double total = cant * cost;
+                btnAceptarProducto.setDisable(true);
+                btnCancelarProducto.setDisable(true);
+                btnModificarDetalle.setDisable(true);
+                btnAgregarDetalle.setDisable(false);
+                btnEliminarDetalle.setDisable(true);
+                txtCodigoProducto.setDisable(true);
+                txtCantidadProducto.setDisable(true);
+                txtCostoProducto.setDisable(true);
+                btnBuscarProducto.setDisable(true);
+                det = new detallePedido(pro.getId(), pro.getDesc(), Integer.parseInt(txtCantidadProducto.getText()), Double.parseDouble(txtCostoProducto.getText()), total, c);
+                lista.add(det);
+                tblDetallePedido.setItems(lista);
+                txtCantidadProducto.clear();
+                txtCodigoProducto.clear();
+                txtCostoProducto.clear();
+                btnAgregarDetalle.requestFocus();
+
+            }
 
         } else {
-            c += 1;
-            int cant = Integer.parseInt(txtCantidadProducto.getText());
-            double cost = Double.parseDouble(txtCostoProducto.getText());
-            double total = cant * cost;
-            detallePedido det = new detallePedido(pro.getId(), pro.getDesc(), Integer.parseInt(txtCantidadProducto.getText()), Double.parseDouble(txtCostoProducto.getText()), total, c);
-            tblDetallePedido.getItems().add(det);
-            txtCantidadProducto.clear();
-            txtCodigoProducto.clear();
-            txtCostoProducto.clear();
-            btnBuscarProducto.requestFocus();
+
+            if ("".equals(txtCodigoProducto.getText())) {
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setTitle("");
+                alerta.setHeaderText(null);
+                alerta.setContentText("No se ha seleccionado un producto");
+                alerta.showAndWait();
+            } else if (Integer.parseInt(txtCantidadProducto.getText()) < 0) {
+
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setTitle("");
+                alerta.setHeaderText(null);
+                alerta.setContentText("Cantidad menor o igual a cero");
+                alerta.showAndWait();
+
+            } else {
+
+                int cant = Integer.parseInt(txtCantidadProducto.getText());
+                double cost = Double.parseDouble(txtCostoProducto.getText());
+                double total = cant * cost;
+                btnAceptarProducto.setDisable(true);
+                btnCancelarProducto.setDisable(true);
+                btnModificarDetalle.setDisable(true);
+                btnAgregarDetalle.setDisable(false);
+                btnEliminarDetalle.setDisable(true);
+                txtCodigoProducto.setDisable(true);
+                txtCantidadProducto.setDisable(true);
+                txtCostoProducto.setDisable(true);
+                btnBuscarProducto.setDisable(true);
+                det = new detallePedido(pro.getId(), pro.getDesc(), Integer.parseInt(txtCantidadProducto.getText()), Double.parseDouble(txtCostoProducto.getText()), total, det.getIdPed());
+                lista.remove(det.getIdPed() - 1);
+                lista.add(det.getIdPed() - 1, det);
+                tblDetallePedido.setItems(lista);
+                txtCantidadProducto.clear();
+                txtCodigoProducto.clear();
+                txtCostoProducto.clear();
+                btnAgregarDetalle.requestFocus();
+            }
+
         }
+
+        totalPedido = 0;
+        for (detallePedido det : lista) {
+            totalPedido += det.getCostoTotal();
+        }
+        txtTotal.setText(String.valueOf(totalPedido));
 
     }
 
     @FXML
     private void cancelarProducto(ActionEvent event) {
 
+        btnAgregarDetalle.setDisable(false);
+        btnBuscarProducto.setDisable(true);
+        btnAceptarProducto.setDisable(true);
+        btnCancelarProducto.setDisable(true);
+        txtCodigoProducto.setDisable(true);
+        txtCantidadProducto.setDisable(true);
+        txtCostoProducto.setDisable(true);
         txtCantidadProducto.clear();
         txtCodigoProducto.clear();
         txtCostoProducto.clear();
@@ -227,6 +351,8 @@ public class VistaPedidosController implements Initializable {
 
     @FXML
     private void cancelarPedido(ActionEvent event) {
+
+        lista.clear();
 
         btnAgregarDetalle.setFocusTraversable(true);
 
@@ -275,11 +401,11 @@ public class VistaPedidosController implements Initializable {
         btnEliminarDetalle.setDisable(true);
         txtTotal.setDisable(true);
         txtCodigoProducto.setDisable(true);
-        btnBuscarProducto.setDisable(false);
-        txtCantidadProducto.setDisable(false);
+        btnBuscarProducto.setDisable(true);
+        txtCantidadProducto.setDisable(true);
         txtCostoProducto.setDisable(true);
-        btnAceptarProducto.setDisable(false);
-        btnCancelarProducto.setDisable(false);
+        btnAceptarProducto.setDisable(true);
+        btnCancelarProducto.setDisable(true);
         btnNuevoPedido.setDisable(true);
         btnModificarPedido.setDisable(true);
         btnGuardarPedido.setDisable(false);
@@ -294,6 +420,7 @@ public class VistaPedidosController implements Initializable {
 
     @FXML
     private void anularPedido(ActionEvent event) {
+
     }
 
     public void setProductoSeleccionado(producto pro) {
@@ -304,12 +431,21 @@ public class VistaPedidosController implements Initializable {
         }
     }
 
+    public void setProveedorSeleccionado(proveedor prov) {
+        this.prov = prov;
+        if (prov.getId() != -1) {
+            txtProveedor.setText(prov.getNombre());
+            txtRuc.setText(prov.getNombre());
+        }
+    }
+
     public void abrirFxmlModal(String fxml, String titulo) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Parent root = loader.load();
 
             // Obtener el controlador del destino
+            
             VistaBuscarArticulosController controladorDestino = loader.getController();
 
             Stage stage = new Stage();
@@ -346,5 +482,18 @@ public class VistaPedidosController implements Initializable {
 
     @FXML
     private void mostrarFila(MouseEvent event) {
+
+        btnModificarDetalle.setDisable(false);
+        btnEliminarDetalle.setDisable(false);
+
+    }
+
+    @FXML
+    private void noMostrarFila(MouseEvent event) {
+
+        det = new detallePedido();
+        btnModificarDetalle.setDisable(true);
+        btnEliminarDetalle.setDisable(true);
+
     }
 }

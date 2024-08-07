@@ -103,5 +103,12 @@ public class VistamMenuController implements Initializable {
         
     }
 
+    @FXML
+    private void goToPedidos(ActionEvent event) {
+        
+        abrirFxml("vistaPedidos.fxml", "Pedidos");
+        
+    }
+    
     
 }

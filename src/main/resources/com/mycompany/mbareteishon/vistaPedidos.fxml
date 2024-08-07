@@ -13,17 +13,19 @@
       <Pane layoutX="14.0" layoutY="14.0" prefHeight="143.0" prefWidth="779.0" style="-fx-border-style: solid;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
          <children>
             <Label layoutX="14.0" layoutY="14.0" text="Fecha Emision" />
-            <Label layoutX="14.0" layoutY="56.0" text="ID Pedido" />
-            <Label layoutX="14.0" layoutY="100.0" text="Proveedor" />
+            <Label layoutX="13.0" layoutY="44.0" text="ID Pedido" />
+            <Label layoutX="11.0" layoutY="72.0" text="Proveedor" />
             <TextField fx:id="txtEmision" layoutX="105.0" layoutY="10.0" prefHeight="25.0" prefWidth="228.0" />
-            <TextField fx:id="txtIdPedido" layoutX="105.0" layoutY="52.0" prefHeight="25.0" prefWidth="228.0" />
-            <TextField fx:id="txtProveedor" layoutX="105.0" layoutY="96.0" prefHeight="25.0" prefWidth="189.0" />
-            <Button fx:id="btnBuscarProveedor" layoutX="298.0" layoutY="96.0" mnemonicParsing="false" onAction="#goToSearchProveedor" prefHeight="25.0" prefWidth="36.0" text="🔎" />
+            <TextField fx:id="txtIdPedido" layoutX="105.0" layoutY="40.0" prefHeight="25.0" prefWidth="228.0" />
+            <TextField fx:id="txtProveedor" layoutX="105.0" layoutY="72.0" prefHeight="25.0" prefWidth="189.0" />
+            <Button fx:id="btnBuscarProveedor" layoutX="297.0" layoutY="72.0" mnemonicParsing="false" onAction="#goToSearchProveedor" prefHeight="25.0" prefWidth="36.0" text="🔎" />
+            <Label layoutX="11.0" layoutY="105.0" text="RUC/CI" />
+            <TextField fx:id="txtRuc" layoutX="105.0" layoutY="101.0" prefHeight="25.0" prefWidth="189.0" />
          </children>
       </Pane>
       <Pane layoutX="15.0" layoutY="171.0" prefHeight="268.0" prefWidth="779.0" style="-fx-border-style: solid;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <children>
-            <TableView fx:id="tblDetallePedido" layoutX="14.0" layoutY="14.0" onMouseClicked="#mostrarFila" prefHeight="200.0" prefWidth="752.0">
+            <TableView fx:id="tblDetallePedido" layoutX="14.0" layoutY="14.0" onMouseClicked="#mostrarFila" onMouseReleased="#noMostrarFila" prefHeight="200.0" prefWidth="752.0">
               <columns>
                   <TableColumn fx:id="colNo" prefWidth="44.0" text="N°" />
                 <TableColumn fx:id="colIdProducto" prefWidth="84.0" text="ID" />

@@ -17,6 +17,10 @@ public class detallePedido {
     private double costoTotal;
     private int idPed;
 
+    public detallePedido() {
+    
+    }
+
     public detallePedido(int idPro, String desc, int cantidad, double costo, double costoTotal, int idPed) {
         this.idPro = idPro;
         this.desc = desc;
