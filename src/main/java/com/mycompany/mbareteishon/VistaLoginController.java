@@ -66,12 +66,14 @@ public class VistaLoginController implements Initializable {
     private void actionIngresar(ActionEvent event) {
         usua = comboUsuario.getValue();
         pswd = txtPswd.getText();
+        // aca recibe el nombre y contraseña del combo y del textfield
 
         for (usuario nm : lista) {
             if (nm.getNombre().equals(usua) && nm.getPswd().equals(pswd)) {
                 String fxml = "";
                 String titulo = "";
                 switch (nm.getRol()) {
+                    //este compara los roles
                     case "root":
                         fxml = "VistamMenu.fxml";
                         titulo = "Admin. Mbarete";

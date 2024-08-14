@@ -36,7 +36,6 @@ public class VistaBuscarProveedoresController implements Initializable {
     private TableColumn<proveedor, String> colRuc;
     @FXML
     private TableColumn<proveedor, String> colNombre;
-    private TableColumn<proveedor, String> colApellido;
     @FXML
     private Button btnAceptar;
     @FXML
@@ -73,9 +72,8 @@ public class VistaBuscarProveedoresController implements Initializable {
     @FXML
     private void buscar(ActionEvent event) {
         lista = FXCollections.observableArrayList(new proveedor().consulta());
-        colApellido.setCellValueFactory(new PropertyValueFactory<>("desc"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colRuc.setCellValueFactory(new PropertyValueFactory<>(""));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colRuc.setCellValueFactory(new PropertyValueFactory<>("ruc"));
         tblProveedores.setItems(lista);
 
         listaFiltrada = FXCollections.observableArrayList();
@@ -101,6 +99,7 @@ public class VistaBuscarProveedoresController implements Initializable {
         proveedor pro = tblProveedores.getSelectionModel().getSelectedItem();
         if (pro != null && controladorPedidos != null) {
             controladorPedidos.setProveedorSeleccionado(pro);
+            
         }
         stage.close();
     }

@@ -114,6 +114,9 @@ public class VistaPedidosController implements Initializable {
 
     detallePedido det = new detallePedido();
 
+    VistaBuscarArticulosController controladorDestinoA;
+    VistaBuscarProveedoresController controladorDestinoP;
+
     ObservableList<detallePedido> lista = FXCollections.observableArrayList();
     @FXML
     private TextField txtRuc;
@@ -200,12 +203,18 @@ public class VistaPedidosController implements Initializable {
     private void eliminarProducto(ActionEvent event) {
 
         det = tblDetallePedido.getSelectionModel().getSelectedItem();
+        totalPedido = 0;
+
         lista.remove(det);
         c = 1;
         for (detallePedido det : lista) {
             det.setIdPed(c);
             c += 1;
         }
+        for (detallePedido det : lista) {
+            totalPedido += det.getCostoTotal();
+        }
+        txtTotal.setText(String.valueOf(totalPedido));
         tblDetallePedido.setItems(lista);
         c = 0;
 
@@ -353,6 +362,7 @@ public class VistaPedidosController implements Initializable {
     private void cancelarPedido(ActionEvent event) {
 
         lista.clear();
+        totalPedido = 0;
 
         btnAgregarDetalle.setFocusTraversable(true);
 
@@ -435,7 +445,7 @@ public class VistaPedidosController implements Initializable {
         this.prov = prov;
         if (prov.getId() != -1) {
             txtProveedor.setText(prov.getNombre());
-            txtRuc.setText(prov.getNombre());
+            txtRuc.setText(prov.getRuc());
         }
     }
 
@@ -445,8 +455,15 @@ public class VistaPedidosController implements Initializable {
             Parent root = loader.load();
 
             // Obtener el controlador del destino
-            
-            VistaBuscarArticulosController controladorDestino = loader.getController();
+            if (!titulo.equals("Buscar Proveedor")) {
+
+                controladorDestinoA = loader.getController();
+
+            } else {
+
+                controladorDestinoP = loader.getController();
+
+            }
 
             Stage stage = new Stage();
             stage.setTitle(titulo);
@@ -458,8 +475,17 @@ public class VistaPedidosController implements Initializable {
             stage.initOwner(primaryStage);
 
             // Pasar el Stage y el controlador de origen al controlador de destino
-            controladorDestino.setStage(stage);
-            controladorDestino.setControladorPedidos(this);
+            if (!titulo.equals("Buscar Proveedor")) {
+
+                controladorDestinoA.setStage(stage);
+                controladorDestinoA.setControladorPedidos(this);
+
+            } else {
+
+                controladorDestinoP.setStage(stage);
+                controladorDestinoP.setControladorPedidos(this);
+
+            }
 
             // Mostrar y esperar a que se cierre
             stage.showAndWait();
