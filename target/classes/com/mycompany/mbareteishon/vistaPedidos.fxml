@@ -27,12 +27,11 @@
          <children>
             <TableView fx:id="tblDetallePedido" layoutX="14.0" layoutY="14.0" onMouseClicked="#mostrarFila" onMouseReleased="#noMostrarFila" prefHeight="200.0" prefWidth="752.0">
               <columns>
-                  <TableColumn fx:id="colNo" prefWidth="44.0" text="N°" />
                 <TableColumn fx:id="colIdProducto" prefWidth="84.0" text="ID" />
-                <TableColumn fx:id="colNombreProducto" prefWidth="192.0" text="Detalle Producto" />
-                  <TableColumn fx:id="colCosto" prefWidth="163.0" text="Costo" />
-                  <TableColumn fx:id="colCantidad" prefWidth="89.0" text="Cantidad" />
-                  <TableColumn fx:id="colCostoTotal" minWidth="0.0" prefWidth="180.0" text="Costo Total" />
+                <TableColumn fx:id="colNombreProducto" prefWidth="223.0" text="Detalle Producto" />
+                  <TableColumn fx:id="colCosto" prefWidth="139.0" text="Costo" />
+                  <TableColumn fx:id="colCantidad" prefWidth="111.0" text="Cantidad" />
+                  <TableColumn fx:id="colCostoTotal" minWidth="0.0" prefWidth="194.0" text="Costo Total" />
               </columns>
             </TableView>
             <Label layoutX="543.0" layoutY="227.0" text="Total" />

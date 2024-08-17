@@ -14,5 +14,6 @@ com\mycompany\mbareteishon\modelo\cliente.class
 com\mycompany\mbareteishon\VistaGestionArticulosController.class
 com\mycompany\mbareteishon\clases\conexion.class
 com\mycompany\mbareteishon\modelo\producto.class
+com\mycompany\mbareteishon\modelo\pedido.class
 com\mycompany\mbareteishon\modelo\proveedor.class
 com\mycompany\mbareteishon\VistaGestionProveedorController.class

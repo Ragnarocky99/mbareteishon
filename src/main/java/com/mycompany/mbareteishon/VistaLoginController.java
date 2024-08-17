@@ -45,7 +45,6 @@ public class VistaLoginController implements Initializable {
     private String usua;
     private String pswd;
 
-    ArrayList<String> usrs = new ArrayList();
     ObservableList<usuario> lista;
 
     usuario usr = new usuario();

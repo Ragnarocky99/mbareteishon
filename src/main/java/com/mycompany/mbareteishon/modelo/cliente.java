@@ -105,7 +105,7 @@ public class cliente extends conexion implements sentencias {
     }
 
     @Override
-    public ArrayList consulta() {
+    public ArrayList consulta(){
         
         ArrayList<cliente> clientes = new ArrayList<>();
         String sql = "select * from cliente";

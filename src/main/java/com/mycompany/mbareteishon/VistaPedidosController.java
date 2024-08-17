@@ -5,6 +5,7 @@
 package com.mycompany.mbareteishon;
 
 import com.mycompany.mbareteishon.modelo.detallePedido;
+import com.mycompany.mbareteishon.modelo.pedido;
 import com.mycompany.mbareteishon.modelo.producto;
 import com.mycompany.mbareteishon.modelo.proveedor;
 import java.io.IOException;
@@ -12,6 +13,9 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +32,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -53,8 +58,6 @@ public class VistaPedidosController implements Initializable {
     private TextField txtProveedor;
     @FXML
     private Button btnBuscarProveedor;
-    @FXML
-    private TableColumn<detallePedido, Integer> colNo;
     @FXML
     private TableView<detallePedido> tblDetallePedido;
     @FXML
@@ -112,6 +115,8 @@ public class VistaPedidosController implements Initializable {
 
     private int c = 0;
 
+    pedido ped = new pedido();
+
     detallePedido det = new detallePedido();
 
     VistaBuscarArticulosController controladorDestinoA;
@@ -133,12 +138,11 @@ public class VistaPedidosController implements Initializable {
         // Obtener la fecha actual
         LocalDate currentDate = LocalDate.now();
         // Formatear la fecha
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDate = currentDate.format(formatter);
         // Mostrar la fecha en el label
         txtEmision.setText(formattedDate);
 
-        colNo.setCellValueFactory(new PropertyValueFactory<>("idPed"));
         colIdProducto.setCellValueFactory(new PropertyValueFactory<>("idPro"));
         colNombreProducto.setCellValueFactory(new PropertyValueFactory<>("desc"));
         colCosto.setCellValueFactory(new PropertyValueFactory<>("costo"));
@@ -224,6 +228,8 @@ public class VistaPedidosController implements Initializable {
     private void agregarProducto(ActionEvent event) {
 
         modificar = false;
+        //btnGuardarPedido.setDisable(true);
+        //btnAnularPedido.setDisable(true);
         btnModificarDetalle.setDisable(true);
         btnEliminarDetalle.setDisable(true);
         btnBuscarProducto.setDisable(false);
@@ -278,7 +284,7 @@ public class VistaPedidosController implements Initializable {
                 txtCantidadProducto.setDisable(true);
                 txtCostoProducto.setDisable(true);
                 btnBuscarProducto.setDisable(true);
-                det = new detallePedido(pro.getId(), pro.getDesc(), Integer.parseInt(txtCantidadProducto.getText()), Double.parseDouble(txtCostoProducto.getText()), total, c);
+                det = new detallePedido(pro.getId(), pro.getDesc(), Integer.parseInt(txtCantidadProducto.getText()), Double.parseDouble(txtCostoProducto.getText()), total, Integer.parseInt(txtIdPedido.getText()));
                 lista.add(det);
                 tblDetallePedido.setItems(lista);
                 txtCantidadProducto.clear();
@@ -356,6 +362,47 @@ public class VistaPedidosController implements Initializable {
 
     @FXML
     private void guardarPedido(ActionEvent event) {
+        
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("El sistema comunica;");
+        alerta.setHeaderText(null);
+        alerta.setContentText("¿Desea grabar el pedido?");
+        Optional<ButtonType> opcion = alerta.showAndWait();
+        if (opcion.get() == ButtonType.OK) {
+            
+            ped.setId(Integer.parseInt(txtIdPedido.getText()));
+            ped.setIdprov(prov.getId());
+            ped.setFechaEmision(String.valueOf(txtEmision.getText()));
+            if (ped.insertar()) {//insertado
+                for (detallePedido pedido : lista) {
+                    
+                    det.setCantidad(pedido.getCantidad());
+                    det.setCosto(pedido.getCosto());
+                    det.setCostoTotal(pedido.getCostoTotal());
+                    det.setDesc(pedido.getDesc());
+                    det.setIdPed(pedido.getIdPed());
+                    det.setIdPro(pedido.getIdPro());
+                    det.insertar();
+                    
+                }
+                Alert alertaIn = new Alert(Alert.AlertType.INFORMATION);
+                alertaIn.setTitle("El sistema comunica:");
+                alertaIn.setHeaderText(null);
+                alertaIn.setContentText("Insertado correctamente en la base de datos");
+                alertaIn.show();
+                //habilitar Imprimir
+                
+                
+                
+            } else {
+                Alert alertaIn = new Alert(Alert.AlertType.ERROR);
+                alertaIn.setTitle("El sistema comunica:");
+                alertaIn.setHeaderText(null);
+                alertaIn.setContentText("Error. Registro no insertado.");
+                alertaIn.show();
+            }
+        }
+
     }
 
     @FXML
@@ -400,6 +447,7 @@ public class VistaPedidosController implements Initializable {
     @FXML
     private void nuevoPedido(ActionEvent event) {
 
+        txtIdPedido.setText(String.valueOf(ped.getUltimoPedido() + 1));
         c = 0;
         txtEmision.setDisable(true);
         txtIdPedido.setDisable(true);
