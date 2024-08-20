@@ -63,7 +63,7 @@ public class VistaPedidosController implements Initializable {
     @FXML
     private TableColumn<detallePedido, Integer> colIdProducto;
     @FXML
-    private TableColumn<detallePedido, String> colNombreProducto;
+    private TableColumn<producto, String> colNombreProducto;
     @FXML
     private TableColumn<detallePedido, Double> colCosto;
     @FXML
@@ -228,8 +228,8 @@ public class VistaPedidosController implements Initializable {
     private void agregarProducto(ActionEvent event) {
 
         modificar = false;
-        //btnGuardarPedido.setDisable(true);
-        //btnAnularPedido.setDisable(true);
+        btnGuardarPedido.setDisable(true);
+        btnAnularPedido.setDisable(true);
         btnModificarDetalle.setDisable(true);
         btnEliminarDetalle.setDisable(true);
         btnBuscarProducto.setDisable(false);
@@ -261,7 +261,7 @@ public class VistaPedidosController implements Initializable {
                 alerta.setHeaderText(null);
                 alerta.setContentText("No se ha seleccionado un producto");
                 alerta.showAndWait();
-            } else if (Integer.parseInt(txtCantidadProducto.getText()) < 0) {
+            } else if (Integer.parseInt(txtCantidadProducto.getText()) <= 0) {
 
                 Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                 alerta.setTitle("");
@@ -284,25 +284,35 @@ public class VistaPedidosController implements Initializable {
                 txtCantidadProducto.setDisable(true);
                 txtCostoProducto.setDisable(true);
                 btnBuscarProducto.setDisable(true);
-                det = new detallePedido(pro.getId(), pro.getDesc(), Integer.parseInt(txtCantidadProducto.getText()), Double.parseDouble(txtCostoProducto.getText()), total, Integer.parseInt(txtIdPedido.getText()));
+                //detallePedido(int nro, int idPro, int cantidad, double costo, double costoTotal, int idPed, String desc) {
+                det = new detallePedido(lista.size()+1,pro.getId(),Integer.parseInt(txtCantidadProducto.getText()),Double.parseDouble(txtCostoProducto.getText()),total,Integer.parseInt(txtIdPedido.getText()),pro.getDesc());
+                //det = new detallePedido(lista.size()+1, pro.getId(), Integer.parseInt(txtCantidadProducto.getText()), Double.parseDouble(txtCostoProducto.getText()), total, Integer.parseInt(txtIdPedido.getText()));
                 lista.add(det);
+                System.out.println("Se agrego " + det.getNro()+ " " + det.getIdPro() + " " + det.getDesc());
                 tblDetallePedido.setItems(lista);
+                System.out.println("Lista:");
+                for (detallePedido pedido : lista) {
+                    System.out.println("Elem" + pedido.getNro()+ " " + pedido.getIdPro() + " " + pedido.getDesc());
+                }
                 txtCantidadProducto.clear();
                 txtCodigoProducto.clear();
                 txtCostoProducto.clear();
                 btnAgregarDetalle.requestFocus();
+                btnGuardarPedido.setDisable(false);
+                btnAnularPedido.setDisable(false);
 
             }
 
         } else {
-
+            
+            int sel;
             if ("".equals(txtCodigoProducto.getText())) {
                 Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                 alerta.setTitle("");
                 alerta.setHeaderText(null);
                 alerta.setContentText("No se ha seleccionado un producto");
                 alerta.showAndWait();
-            } else if (Integer.parseInt(txtCantidadProducto.getText()) < 0) {
+            } else if (Integer.parseInt(txtCantidadProducto.getText()) <= 0) {
 
                 Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                 alerta.setTitle("");
@@ -311,7 +321,8 @@ public class VistaPedidosController implements Initializable {
                 alerta.showAndWait();
 
             } else {
-
+                
+                
                 int cant = Integer.parseInt(txtCantidadProducto.getText());
                 double cost = Double.parseDouble(txtCostoProducto.getText());
                 double total = cant * cost;
@@ -324,14 +335,24 @@ public class VistaPedidosController implements Initializable {
                 txtCantidadProducto.setDisable(true);
                 txtCostoProducto.setDisable(true);
                 btnBuscarProducto.setDisable(true);
-                det = new detallePedido(det.getIdPro(), det.getDesc(), Integer.parseInt(txtCantidadProducto.getText()), Double.parseDouble(txtCostoProducto.getText()), total, det.getIdPed());
-                lista.remove(det.getIdPed() - 1);
-                lista.add(det.getIdPed() - 1, det);
+                //detallePedido(int nro, int idPro, int cantidad, double costo, double costoTotal, int idPed, String desc) {
+                //det = new detallePedido(lista.size()+1,pro.getId(),Integer.parseInt(txtCantidadProducto.getText()),Double.parseDouble(txtCostoProducto.getText()),total,Integer.parseInt(txtIdPedido.getText()),pro.getDesc());
+                //det = new detallePedido(lista.size()+1, pro.getId(), Integer.parseInt(txtCantidadProducto.getText()), Double.parseDouble(txtCostoProducto.getText()), total, Integer.parseInt(txtIdPedido.getText()))
+                lista.remove(det.getNro()-1);
+                det = new detallePedido(det.getNro(), pro.getId(), Integer.parseInt(txtCantidadProducto.getText()),Double.parseDouble(txtCostoProducto.getText()),total,Integer.parseInt(txtIdPedido.getText()),pro.getDesc());
+                lista.add(det.getNro()-1, det);
+                System.out.println("Se modifico " + det.getNro()+ " " + det.getIdPro() + " " + det.getDesc());
                 tblDetallePedido.setItems(lista);
+                System.out.println("Lista:");
+                for (detallePedido pedido : lista) {
+                    System.out.println("Elem" + pedido.getNro()+ " " + pedido.getIdPro() + " " + pedido.getDesc());
+                }
                 txtCantidadProducto.clear();
                 txtCodigoProducto.clear();
                 txtCostoProducto.clear();
                 btnAgregarDetalle.requestFocus();
+                btnGuardarPedido.setDisable(false);
+                btnCancelarPedido.setDisable(false);
             }
 
         }
@@ -347,6 +368,8 @@ public class VistaPedidosController implements Initializable {
     @FXML
     private void cancelarProducto(ActionEvent event) {
 
+        btnGuardarPedido.setDisable(false);
+        btnAnularPedido.setDisable(false);
         btnAgregarDetalle.setDisable(false);
         btnBuscarProducto.setDisable(true);
         btnAceptarProducto.setDisable(true);
@@ -362,45 +385,90 @@ public class VistaPedidosController implements Initializable {
 
     @FXML
     private void guardarPedido(ActionEvent event) {
-        
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle("El sistema comunica;");
-        alerta.setHeaderText(null);
-        alerta.setContentText("¿Desea grabar el pedido?");
-        Optional<ButtonType> opcion = alerta.showAndWait();
-        if (opcion.get() == ButtonType.OK) {
-            
-            ped.setId(Integer.parseInt(txtIdPedido.getText()));
-            ped.setIdprov(prov.getId());
-            ped.setFechaEmision(String.valueOf(txtEmision.getText()));
-            if (ped.insertar()) {//insertado
-                for (detallePedido pedido : lista) {
-                    
-                    det.setCantidad(pedido.getCantidad());
-                    det.setCosto(pedido.getCosto());
-                    det.setCostoTotal(pedido.getCostoTotal());
-                    det.setDesc(pedido.getDesc());
-                    det.setIdPed(pedido.getIdPed());
-                    det.setIdPro(pedido.getIdPro());
-                    det.insertar();
-                    
+
+        if (txtProveedor.getText().equals("")) {
+
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("");
+            alerta.setHeaderText(null);
+            alerta.setContentText("No se ha seleccionado un proveedor");
+            alerta.showAndWait();
+        } else if (lista.isEmpty()) {
+
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("");
+            alerta.setHeaderText(null);
+            alerta.setContentText("No se ha insertado ningun un producto");
+            alerta.showAndWait();
+
+        } else {
+
+            Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+            alerta.setTitle("El sistema comunica;");
+            alerta.setHeaderText(null);
+            alerta.setContentText("¿Desea grabar el pedido?");
+            Optional<ButtonType> opcion = alerta.showAndWait();
+            if (opcion.get() == ButtonType.OK) {
+
+                ped.setId(Integer.parseInt(txtIdPedido.getText()));
+                ped.setIdprov(prov.getId());
+                ped.setFechaEmision(String.valueOf(txtEmision.getText()));
+                if (ped.insertar()) {//insertado
+                    pro = new producto();
+                    for (detallePedido pedido : lista) {
+
+                        det.setCantidad(pedido.getCantidad());
+                        det.setCosto(pedido.getCosto());
+                        det.setCostoTotal(pedido.getCostoTotal());
+                        det.setIdPed(pedido.getIdPed());
+                        det.setIdPro(pedido.getIdPro());
+                        det.insertar();
+                        pro.setId(det.getIdPro());
+                        pro.setStock(det.getCantidad());
+                        pro.agregarStock();
+                        
+
+                    }
+                    Alert alertaIn = new Alert(Alert.AlertType.INFORMATION);
+                    alertaIn.setTitle("El sistema comunica:");
+                    alertaIn.setHeaderText(null);
+                    alertaIn.setContentText("Insertado correctamente en la base de datos");
+                    alertaIn.show();
+                    totalPedido = 0;
+                    modificar = false;
+                    c = 0;
+
+                    txtEmision.setDisable(true);
+                    txtIdPedido.setDisable(true);
+                    txtProveedor.setDisable(true);
+                    txtRuc.setDisable(true);
+                    btnBuscarProveedor.setDisable(true);
+                    tblDetallePedido.setDisable(true);
+                    btnAgregarDetalle.setDisable(true);
+                    btnModificarDetalle.setDisable(true);
+                    btnEliminarDetalle.setDisable(true);
+                    txtTotal.setDisable(true);
+                    txtCodigoProducto.setDisable(true);
+                    btnBuscarProducto.setDisable(true);
+                    txtCantidadProducto.setDisable(true);
+                    txtCostoProducto.setDisable(true);
+                    btnAceptarProducto.setDisable(true);
+                    btnCancelarProducto.setDisable(true);
+                    btnNuevoPedido.setDisable(false);
+                    btnModificarPedido.setDisable(true);
+                    btnGuardarPedido.setDisable(true);
+                    btnAnularPedido.setDisable(true);
+                    btnCancelarPedido.setDisable(true);
+
+                } else {
+                    Alert alertaIn = new Alert(Alert.AlertType.ERROR);
+                    alertaIn.setTitle("El sistema comunica:");
+                    alertaIn.setHeaderText(null);
+                    alertaIn.setContentText("Error. Registro no insertado.");
+                    alertaIn.show();
                 }
-                Alert alertaIn = new Alert(Alert.AlertType.INFORMATION);
-                alertaIn.setTitle("El sistema comunica:");
-                alertaIn.setHeaderText(null);
-                alertaIn.setContentText("Insertado correctamente en la base de datos");
-                alertaIn.show();
-                //habilitar Imprimir
-                
-                
-                
-            } else {
-                Alert alertaIn = new Alert(Alert.AlertType.ERROR);
-                alertaIn.setTitle("El sistema comunica:");
-                alertaIn.setHeaderText(null);
-                alertaIn.setContentText("Error. Registro no insertado.");
-                alertaIn.show();
             }
+
         }
 
     }
@@ -413,6 +481,7 @@ public class VistaPedidosController implements Initializable {
 
         btnAgregarDetalle.setFocusTraversable(true);
 
+        txtRuc.clear();
         txtIdPedido.clear();
         txtProveedor.clear();
         tblDetallePedido.setItems(FXCollections.observableArrayList());
@@ -447,6 +516,10 @@ public class VistaPedidosController implements Initializable {
     @FXML
     private void nuevoPedido(ActionEvent event) {
 
+        lista.clear();
+        tblDetallePedido.setItems(lista);
+        txtProveedor.clear();
+        txtRuc.clear();
         txtIdPedido.setText(String.valueOf(ped.getUltimoPedido() + 1));
         c = 0;
         txtEmision.setDisable(true);

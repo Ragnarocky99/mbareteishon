@@ -21,24 +21,36 @@ import java.util.logging.Logger;
  */
 public class detallePedido extends conexion implements sentencias {
 
+    private int nro;
     private int idPro;
-    private String desc;
     private int cantidad;
     private double costo;
     private double costoTotal;
     private int idPed;
+    private String desc;
 
     public detallePedido() {
 
     }
 
-    public detallePedido(int idPro, String desc, int cantidad, double costo, double costoTotal, int idPed) {
+    public detallePedido(int nro, int idPro, int cantidad, double costo, double costoTotal, int idPed, String desc) {
+        this.nro = nro;
         this.idPro = idPro;
-        this.desc = desc;
         this.cantidad = cantidad;
         this.costo = costo;
         this.costoTotal = costoTotal;
         this.idPed = idPed;
+        this.desc = desc;
+    }
+
+    
+
+    public int getNro() {
+        return nro;
+    }
+
+    public void setNro(int nro) {
+        this.nro = nro;
     }
 
     public int getIdPro() {
@@ -47,14 +59,6 @@ public class detallePedido extends conexion implements sentencias {
 
     public void setIdPro(int idPro) {
         this.idPro = idPro;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
     }
 
     public int getCantidad() {
@@ -87,6 +91,14 @@ public class detallePedido extends conexion implements sentencias {
 
     public void setIdPed(int idPed) {
         this.idPed = idPed;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     @Override
@@ -176,13 +188,16 @@ public class detallePedido extends conexion implements sentencias {
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) {
                     
-                    /*
                     int idped = rs.getInt("id_pedidos");
-                    int idprove = rs.getInt("id_proveedor");
-                    String fecha = rs.getString("fechaEmision");
-                    pedido p = new pedido(idped, idprove, fecha);
-                    pedidos.add(p);
-                    */
+                    int idpro = rs.getInt("id_producto");
+                    String des = consultaNombre(idpro);
+                    int cant = rs.getInt("cantidad");
+                    double cost = rs.getDouble("precio");
+                    double costT = rs.getDouble("precio_total");
+
+                    detallePedido d = new detallePedido();
+                    detalles.add(d);
+
                 }
             }
 
@@ -190,8 +205,34 @@ public class detallePedido extends conexion implements sentencias {
             Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return pedidos;
+        return detalles;
 
+    }
+    
+    public String consultaNombre(int id){
+        
+        String nombre = new String();
+        String sql = "select * as nombre from producto where id_producto = ?";
+
+        try (
+                Connection con = getCon(); PreparedStatement pst = con.prepareStatement(sql);) {
+
+            pst.setInt(1, id);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    
+                    nombre = rs.getString("nombre");
+                    
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return nombre;
+        
     }
 
 }

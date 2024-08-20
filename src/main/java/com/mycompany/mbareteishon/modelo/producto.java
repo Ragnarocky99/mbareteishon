@@ -164,6 +164,39 @@ public class producto extends conexion implements sentencias{
         }
         
     }
+    
+    public boolean agregarStock(){
+        
+        String sql = "Update producto set Stock = Stock + ? "
+                + "where id_producto = ?";
+        
+        try(Connection con = getCon();
+            PreparedStatement stm = con.prepareStatement(sql))
+            
+        {
+            
+            stm.setInt(1,this.stock);
+            stm.setInt(2, this.idPro);
+            
+            int rowsUpdated = stm.executeUpdate();
+           
+            // Verificar si se ha actualizado al menos una fila
+            if (rowsUpdated > 0) {
+                return true;  // La modificación fue exitosa
+            } else {
+                return false; // No se realizó ninguna modificación
+            }
+            
+        } 
+        catch (SQLException ex){
+            
+            Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+            
+        }
+     
+        
+    }
 
     public int getId() {
         return idPro;
