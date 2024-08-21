@@ -125,13 +125,25 @@ public class VistaPedidosController implements Initializable {
     ObservableList<detallePedido> lista = FXCollections.observableArrayList();
     @FXML
     private TextField txtRuc;
+    @FXML
+    private Button btnAtras;
+    @FXML
+    private Button btnBuscarPedido;
+    @FXML
+    private Button btnSgte;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        lista.clear();
         totalPedido = 0;
         modificar = false;
         c = 0;
+
+        ped = new pedido();
+        ped.setId(ped.getUltimoPedido());
+        ped = ped.getPedido(ped.getId());
+        mostrarPedido();
 
         this.primaryStage = primaryStage;
 
@@ -149,6 +161,9 @@ public class VistaPedidosController implements Initializable {
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         colCostoTotal.setCellValueFactory(new PropertyValueFactory<>("costoTotal"));
 
+        btnAtras.setDisable(false);
+        btnBuscarPedido.setDisable(false);
+        btnSgte.setDisable(false);
         txtEmision.setDisable(true);
         txtIdPedido.setDisable(true);
         txtProveedor.setDisable(true);
@@ -170,6 +185,19 @@ public class VistaPedidosController implements Initializable {
         btnGuardarPedido.setDisable(true);
         btnAnularPedido.setDisable(true);
         btnCancelarPedido.setDisable(true);
+
+    }
+
+    public void mostrarPedido() {
+
+        txtEmision.setText(ped.getFechaEmision());
+        txtIdPedido.setText(String.valueOf(ped.getId()));
+        txtProveedor.setText(String.valueOf(ped.getIdprov()));
+        prov = prov.getProv(ped.getIdprov());
+        txtRuc.setText(prov.getRuc());
+        det.setIdPed(Integer.parseInt(txtIdPedido.getText()));
+        lista = FXCollections.observableArrayList(det.consulta());
+        tblDetallePedido.setItems(lista);
 
     }
 
@@ -285,14 +313,14 @@ public class VistaPedidosController implements Initializable {
                 txtCostoProducto.setDisable(true);
                 btnBuscarProducto.setDisable(true);
                 //detallePedido(int nro, int idPro, int cantidad, double costo, double costoTotal, int idPed, String desc) {
-                det = new detallePedido(lista.size()+1,pro.getId(),Integer.parseInt(txtCantidadProducto.getText()),Double.parseDouble(txtCostoProducto.getText()),total,Integer.parseInt(txtIdPedido.getText()),pro.getDesc());
+                det = new detallePedido(lista.size() + 1, pro.getId(), Integer.parseInt(txtCantidadProducto.getText()), Double.parseDouble(txtCostoProducto.getText()), total, Integer.parseInt(txtIdPedido.getText()), pro.getDesc());
                 //det = new detallePedido(lista.size()+1, pro.getId(), Integer.parseInt(txtCantidadProducto.getText()), Double.parseDouble(txtCostoProducto.getText()), total, Integer.parseInt(txtIdPedido.getText()));
                 lista.add(det);
-                System.out.println("Se agrego " + det.getNro()+ " " + det.getIdPro() + " " + det.getDesc());
+                System.out.println("Se agrego " + det.getNro() + " " + det.getIdPro() + " " + det.getDesc());
                 tblDetallePedido.setItems(lista);
                 System.out.println("Lista:");
                 for (detallePedido pedido : lista) {
-                    System.out.println("Elem" + pedido.getNro()+ " " + pedido.getIdPro() + " " + pedido.getDesc());
+                    System.out.println("Elem" + pedido.getNro() + " " + pedido.getIdPro() + " " + pedido.getDesc());
                 }
                 txtCantidadProducto.clear();
                 txtCodigoProducto.clear();
@@ -304,7 +332,7 @@ public class VistaPedidosController implements Initializable {
             }
 
         } else {
-            
+
             int sel;
             if ("".equals(txtCodigoProducto.getText())) {
                 Alert alerta = new Alert(Alert.AlertType.INFORMATION);
@@ -321,8 +349,7 @@ public class VistaPedidosController implements Initializable {
                 alerta.showAndWait();
 
             } else {
-                
-                
+
                 int cant = Integer.parseInt(txtCantidadProducto.getText());
                 double cost = Double.parseDouble(txtCostoProducto.getText());
                 double total = cant * cost;
@@ -338,14 +365,14 @@ public class VistaPedidosController implements Initializable {
                 //detallePedido(int nro, int idPro, int cantidad, double costo, double costoTotal, int idPed, String desc) {
                 //det = new detallePedido(lista.size()+1,pro.getId(),Integer.parseInt(txtCantidadProducto.getText()),Double.parseDouble(txtCostoProducto.getText()),total,Integer.parseInt(txtIdPedido.getText()),pro.getDesc());
                 //det = new detallePedido(lista.size()+1, pro.getId(), Integer.parseInt(txtCantidadProducto.getText()), Double.parseDouble(txtCostoProducto.getText()), total, Integer.parseInt(txtIdPedido.getText()))
-                lista.remove(det.getNro()-1);
-                det = new detallePedido(det.getNro(), pro.getId(), Integer.parseInt(txtCantidadProducto.getText()),Double.parseDouble(txtCostoProducto.getText()),total,Integer.parseInt(txtIdPedido.getText()),pro.getDesc());
-                lista.add(det.getNro()-1, det);
-                System.out.println("Se modifico " + det.getNro()+ " " + det.getIdPro() + " " + det.getDesc());
+                lista.remove(det.getNro() - 1);
+                det = new detallePedido(det.getNro(), pro.getId(), Integer.parseInt(txtCantidadProducto.getText()), Double.parseDouble(txtCostoProducto.getText()), total, Integer.parseInt(txtIdPedido.getText()), pro.getDesc());
+                lista.add(det.getNro() - 1, det);
+                System.out.println("Se modifico " + det.getNro() + " " + det.getIdPro() + " " + det.getDesc());
                 tblDetallePedido.setItems(lista);
                 System.out.println("Lista:");
                 for (detallePedido pedido : lista) {
-                    System.out.println("Elem" + pedido.getNro()+ " " + pedido.getIdPro() + " " + pedido.getDesc());
+                    System.out.println("Elem" + pedido.getNro() + " " + pedido.getIdPro() + " " + pedido.getDesc());
                 }
                 txtCantidadProducto.clear();
                 txtCodigoProducto.clear();
@@ -426,7 +453,6 @@ public class VistaPedidosController implements Initializable {
                         pro.setId(det.getIdPro());
                         pro.setStock(det.getCantidad());
                         pro.agregarStock();
-                        
 
                     }
                     Alert alertaIn = new Alert(Alert.AlertType.INFORMATION);
@@ -438,6 +464,9 @@ public class VistaPedidosController implements Initializable {
                     modificar = false;
                     c = 0;
 
+                    btnAtras.setDisable(false);
+                    btnBuscarPedido.setDisable(false);
+                    btnSgte.setDisable(false);
                     txtEmision.setDisable(true);
                     txtIdPedido.setDisable(true);
                     txtProveedor.setDisable(true);
@@ -490,6 +519,9 @@ public class VistaPedidosController implements Initializable {
         txtCantidadProducto.clear();
         txtCostoProducto.clear();
 
+        btnAtras.setDisable(false);
+        btnBuscarPedido.setDisable(false);
+        btnSgte.setDisable(false);
         txtEmision.setDisable(true);
         txtIdPedido.setDisable(true);
         txtProveedor.setDisable(true);
@@ -522,6 +554,9 @@ public class VistaPedidosController implements Initializable {
         txtRuc.clear();
         txtIdPedido.setText(String.valueOf(ped.getUltimoPedido() + 1));
         c = 0;
+        btnAtras.setDisable(true);
+        btnBuscarPedido.setDisable(true);
+        btnSgte.setDisable(true);
         txtEmision.setDisable(true);
         txtIdPedido.setDisable(true);
         txtProveedor.setDisable(true);
@@ -642,5 +677,50 @@ public class VistaPedidosController implements Initializable {
         btnModificarDetalle.setDisable(true);
         btnEliminarDetalle.setDisable(true);
 
+    }
+
+    @FXML
+    private void atrasPedido(ActionEvent event) {
+        pedido pedVacio = new pedido();
+        if (!pedVacio.equals(ped.getPedido(ped.getId() - 1))) {
+            
+            ped = ped.getPedido(ped.getId()-1);
+            mostrarPedido();
+
+        } else if (ped.getId() == pedVacio.getId()) {
+
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("");
+            alerta.setHeaderText(null);
+            alerta.setContentText("No hay pedido");
+            alerta.showAndWait();
+
+        } 
+
+    }
+
+    @FXML
+    private void buscarPedido(ActionEvent event) {
+    }
+
+    @FXML
+    private void sgtePedido(ActionEvent event) {
+        
+        pedido pedVacio = new pedido();
+        if (!pedVacio.equals(ped.getPedido(ped.getId() + 1))) {
+            
+            ped = ped.getPedido(ped.getId()+1);
+            mostrarPedido();
+
+        } else if (ped.getId() == pedVacio.getId()) {
+
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("");
+            alerta.setHeaderText(null);
+            alerta.setContentText("No hay pedido");
+            alerta.showAndWait();
+
+        }
+        
     }
 }
