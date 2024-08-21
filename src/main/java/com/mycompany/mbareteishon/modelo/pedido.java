@@ -78,12 +78,12 @@ public class pedido extends conexion implements sentencias {
         }
 
     }
-    
-    public int getUltimoPedido(){
-        
+
+    public int getUltimoPedido() {
+
         int mayor = 0;
         String sql = "select MAX(id_pedidos) as ultimo_pedido from pedidos";
-        
+
         try (
                 Connection con = getCon(); Statement stm = con.createStatement(); ResultSet rs = stm.executeQuery(sql);) {
 
@@ -100,7 +100,40 @@ public class pedido extends conexion implements sentencias {
         }
 
         return mayor;
-        
+
+    }
+
+    public pedido getPedido(int paramId) {
+
+        pedido ped = new pedido();
+
+        if (paramId != 0) {
+
+            String sql = "select * from pedidos where id_pedidos = ?";
+
+            try (
+                    Connection con = getCon(); PreparedStatement pst = con.prepareStatement(sql);) {
+
+                pst.setInt(1, paramId);
+
+                try (ResultSet rs = pst.executeQuery()) {
+                    while (rs.next()) {
+
+                        int idped = rs.getInt("id_pedidos");
+                        int idprove = rs.getInt("id_proveedor");
+                        String fecha = rs.getString("fechaEmision");
+                        ped = new pedido(idped, idprove, fecha);
+
+                    }
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return ped;
+
     }
 
     @Override

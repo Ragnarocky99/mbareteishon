@@ -12,6 +12,9 @@
    <children>
       <Pane layoutX="14.0" layoutY="14.0" prefHeight="143.0" prefWidth="779.0" style="-fx-border-style: solid;" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
          <children>
+            <Button fx:id="btnAtras" layoutX="592.0" layoutY="101.0" mnemonicParsing="false" onAction="#atrasPedido" text="&lt;-" />
+            <Button fx:id="btnBuscarPedido" layoutX="633.0" layoutY="101.0" mnemonicParsing="false" onAction="#buscarPedido" text="Buscar Pedido" />
+            <Button fx:id="btnSgte" layoutX="735.0" layoutY="101.0" mnemonicParsing="false" onAction="#sgtePedido" text="-&gt;" />
             <Label layoutX="14.0" layoutY="14.0" text="Fecha Emision" />
             <Label layoutX="13.0" layoutY="44.0" text="ID Pedido" />
             <Label layoutX="11.0" layoutY="72.0" text="Proveedor" />

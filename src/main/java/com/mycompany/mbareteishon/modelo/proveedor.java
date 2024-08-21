@@ -174,4 +174,33 @@ public class proveedor extends conexion implements sentencias {
         
     }
     
+    public proveedor getProv(int paramId){
+        
+        proveedor prov = new proveedor();
+        
+        String sql = "select * from proveedor where id_proveedor = ?";
+
+        try (
+                Connection con = getCon(); PreparedStatement pst = con.prepareStatement(sql);) {
+
+            pst.setInt(1,paramId);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    
+                    int cod = rs.getInt("id_proveedor");
+                    String ruc = rs.getString("ruc");
+                    String nom = rs.getString("nombre");
+                    prov = new proveedor(cod, nom, ruc);
+
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return prov;
+        
+    }
 }

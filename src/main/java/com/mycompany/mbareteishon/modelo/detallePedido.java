@@ -177,6 +177,8 @@ public class detallePedido extends conexion implements sentencias {
     @Override
     public ArrayList consulta() {
 
+        int c = 1;
+        detallePedido d = new detallePedido();
         ArrayList<detallePedido> detalles = new ArrayList<>();
         String sql = "select * from detalle_pedido where id_pedidos = ?";
 
@@ -194,8 +196,10 @@ public class detallePedido extends conexion implements sentencias {
                     int cant = rs.getInt("cantidad");
                     double cost = rs.getDouble("precio");
                     double costT = rs.getDouble("precio_total");
-
-                    detallePedido d = new detallePedido();
+                    int nro = c;
+                    c += 1;
+                    String desc = d.consultaNombre(idpro);
+                    d = new detallePedido(nro, idpro, cant, cost, costT, idped, desc);
                     detalles.add(d);
 
                 }
@@ -212,7 +216,7 @@ public class detallePedido extends conexion implements sentencias {
     public String consultaNombre(int id){
         
         String nombre = new String();
-        String sql = "select * as nombre from producto where id_producto = ?";
+        String sql = "select descripcion as nombre from producto where id_producto = ?";
 
         try (
                 Connection con = getCon(); PreparedStatement pst = con.prepareStatement(sql);) {
