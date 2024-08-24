@@ -32,7 +32,6 @@ public class conexion {
         try {
             String url = ("jdbc:mysql://"+host+":3306/"+bdNombre);
             con = DriverManager.getConnection(url,usuario,pswd);
-            System.out.println("Conectado");
             return con;
         } catch (SQLException ex) {
             Logger.getLogger(conexion.class.getName()).log(Level.SEVERE, null, ex);
