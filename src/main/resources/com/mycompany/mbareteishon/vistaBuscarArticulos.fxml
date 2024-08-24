@@ -12,8 +12,9 @@
       <TextField fx:id="txtBuscar" layoutX="77.0" layoutY="23.0" prefHeight="25.0" prefWidth="422.0" />
       <TableView fx:id="tblProductos" layoutX="14.0" layoutY="63.0" onMouseEntered="#mostrarFila" onMouseExited="#noMostrarFila" prefHeight="253.0" prefWidth="570.0">
         <columns>
-          <TableColumn fx:id="colIdProducto" prefWidth="236.0" text="ID" />
-          <TableColumn fx:id="colDescripcion" prefWidth="333.0" text="Descripcion" />
+          <TableColumn fx:id="colIdProducto" prefWidth="122.0" text="ID" />
+          <TableColumn fx:id="colNombre" prefWidth="151.0" text="Nombre" />
+            <TableColumn fx:id="colDesc" prefWidth="296.0" text="Descripcion" />
         </columns>
       </TableView>
       <Button fx:id="btnAceptar" layoutX="14.0" layoutY="328.0" mnemonicParsing="false" onAction="#aceptar" prefHeight="25.0" prefWidth="246.0" text="Aceptar" />

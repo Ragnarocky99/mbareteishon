@@ -24,14 +24,16 @@ public class pedido extends conexion implements sentencias {
     private int id;
     private int idprov;
     private String fechaEmision;
+    private int estado;
 
     public pedido() {
     }
 
-    public pedido(int id, int idprov, String fechaEmision) {
+    public pedido(int id, int idprov, String fechaEmision, int estado) {
         this.id = id;
         this.idprov = idprov;
         this.fechaEmision = fechaEmision;
+        this.estado = estado;
     }
 
     public int getId() {
@@ -58,15 +60,26 @@ public class pedido extends conexion implements sentencias {
         this.fechaEmision = fechaEmision;
     }
 
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+    
+    
+
     @Override
     public boolean insertar() {
 
-        String sql = "insert into pedidos(id_pedidos,id_proveedor,fechaEmision) values(?, ?, ?)";
+        String sql = "insert into pedidos(id_pedidos,id_proveedor,fechaEmision, estado) values(?, ?, ?, ?)";
 
         try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
             stm.setInt(1, this.id);
             stm.setInt(2, this.idprov);
             stm.setString(3, this.fechaEmision);
+            stm.setInt(4,this.estado);
             stm.executeUpdate();
             return true;
 
@@ -122,7 +135,8 @@ public class pedido extends conexion implements sentencias {
                         int idped = rs.getInt("id_pedidos");
                         int idprove = rs.getInt("id_proveedor");
                         String fecha = rs.getString("fechaEmision");
-                        ped = new pedido(idped, idprove, fecha);
+                        int est = rs.getInt("estado");
+                        ped = new pedido(idped, idprove, fecha, est);
 
                     }
                 }
@@ -150,7 +164,8 @@ public class pedido extends conexion implements sentencias {
                 int idped = rs.getInt("id_pedidos");
                 int idprove = rs.getInt("id_proveedor");
                 String fecha = rs.getString("fechaEmision");
-                pedido p = new pedido(idped, idprove, fecha);
+                int est = rs.getInt("estado");
+                pedido p = new pedido(idped, idprove, fecha, est);
                 pedidos.add(p);
 
             }

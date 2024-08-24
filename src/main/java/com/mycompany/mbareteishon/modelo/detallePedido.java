@@ -27,20 +27,20 @@ public class detallePedido extends conexion implements sentencias {
     private double costo;
     private double costoTotal;
     private int idPed;
-    private String desc;
+    private String nombre;
 
     public detallePedido() {
 
     }
 
-    public detallePedido(int nro, int idPro, int cantidad, double costo, double costoTotal, int idPed, String desc) {
+    public detallePedido(int nro, int idPro, int cantidad, double costo, double costoTotal, int idPed, String nombre) {
         this.nro = nro;
         this.idPro = idPro;
         this.cantidad = cantidad;
         this.costo = costo;
         this.costoTotal = costoTotal;
         this.idPed = idPed;
-        this.desc = desc;
+        this.nombre = nombre;
     }
 
     
@@ -93,13 +93,15 @@ public class detallePedido extends conexion implements sentencias {
         this.idPed = idPed;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
+
+    
 
     @Override
     public boolean insertar() {
@@ -216,7 +218,7 @@ public class detallePedido extends conexion implements sentencias {
     public String consultaNombre(int id){
         
         String nombre = new String();
-        String sql = "select descripcion as nombre from producto where id_producto = ?";
+        String sql = "select nombre as nombre from producto where id_producto = ?";
 
         try (
                 Connection con = getCon(); PreparedStatement pst = con.prepareStatement(sql);) {

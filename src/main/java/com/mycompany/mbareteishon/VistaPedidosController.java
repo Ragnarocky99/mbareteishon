@@ -112,7 +112,7 @@ public class VistaPedidosController implements Initializable {
     int pos;
 
     int c = 0;
-    
+
     int totalPedido;
 
     boolean modificarPedido;
@@ -140,7 +140,7 @@ public class VistaPedidosController implements Initializable {
         this.primaryStage = primaryStage;
 
         colIdProducto.setCellValueFactory(new PropertyValueFactory<>("idPro"));
-        colNombreProducto.setCellValueFactory(new PropertyValueFactory<>("desc"));
+        colNombreProducto.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colCosto.setCellValueFactory(new PropertyValueFactory<>("costo"));
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         colCostoTotal.setCellValueFactory(new PropertyValueFactory<>("costoTotal"));
@@ -223,26 +223,26 @@ public class VistaPedidosController implements Initializable {
                 int cant = Integer.parseInt(txtCantidadProducto.getText());
                 double cost = Double.parseDouble(txtCostoProducto.getText());
                 double total = cant * cost;
-                det = new detallePedido(c + 1, pro.getId(), cant, cost, total, Integer.parseInt(txtIdPedido.getText()), pro.getDesc());
+                det = new detallePedido(c + 1, pro.getId(), cant, cost, total, Integer.parseInt(txtIdPedido.getText()), pro.getNombre());
                 if (comprobarProdRepetido()) {
 
                     Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
                     alerta.setTitle("El sistema comunica;");
                     alerta.setHeaderText(null);
                     alerta.setContentText("Se detecto una repeticion de productos en \n"
-                            + "ID : " + det.getIdPro() + " Nombre : " + det.getDesc() + "\n"
+                            + "ID : " + det.getIdPro() + " Nombre : " + det.getNombre() + "\n"
                             + "Desea combinar sus cantidades?");
                     Optional<ButtonType> opcion = alerta.showAndWait();
                     if (opcion.get() == ButtonType.OK) {
 
-                        System.out.println("Elemento a modificar : " + det.getNro() + " ID" + det.getDesc());
+                        System.out.println("Elemento a modificar : " + det.getNro() + " ID" + det.getIdPro());
                         System.out.println("En el array " + (det.getNro() - 1));
                         System.out.println("Tamaño del array " + lista.size());
                         System.out.println("------------------Array--------------------");
                         c = 0;
                         for (detallePedido pedido : lista) {
-                            
-                            pedido.setNro(c+1);
+
+                            pedido.setNro(c + 1);
                             c += 1;
                             System.out.println("Elemento " + (pedido.getNro() - 1) + " ID" + pedido.getIdPro());
 
@@ -299,12 +299,12 @@ public class VistaPedidosController implements Initializable {
                     alerta.setTitle("El sistema comunica;");
                     alerta.setHeaderText(null);
                     alerta.setContentText("Se detecto una repeticion de productos en \n"
-                            + "ID : " + det.getIdPro() + " Nombre : " + det.getDesc() + "\n"
+                            + "ID : " + det.getIdPro() + " Nombre : " + det.getNombre() + "\n"
                             + "Desea combinar sus cantidades?");
                     Optional<ButtonType> opcion = alerta.showAndWait();
                     if (opcion.get() == ButtonType.OK) {
 
-                        System.out.println("Elemento a modificar : " + det.getNro() + " ID" + det.getDesc());
+                        System.out.println("Elemento a modificar : " + det.getNro() + " ID" + det.getIdPro());
                         System.out.println("Elemento a eliminar : " + (pos - 1));
                         System.out.println("En el array " + (det.getNro() - 1));
                         System.out.println("Tamaño del array " + lista.size());
@@ -323,8 +323,8 @@ public class VistaPedidosController implements Initializable {
                         System.out.println("------------------Nuevo Array--------------------");
                         c = 0;
                         for (detallePedido pedido : lista) {
-                            
-                            pedido.setNro(c+1);
+
+                            pedido.setNro(c + 1);
                             c += 1;
                             System.out.println("Elemento " + (pedido.getNro() - 1) + " ID" + pedido.getIdPro());
 
@@ -366,7 +366,7 @@ public class VistaPedidosController implements Initializable {
                 double cost = detalle.getCosto();
                 double total = cant * cost;
 
-                det = new detallePedido(detalle.getNro(), detalle.getIdPro(), cant, cost, total, detalle.getIdPed(), detalle.getDesc());
+                det = new detallePedido(detalle.getNro(), detalle.getIdPro(), cant, cost, total, detalle.getIdPed(), detalle.getNombre());
 
                 return true;
 
@@ -417,11 +417,9 @@ public class VistaPedidosController implements Initializable {
                 Optional<ButtonType> opcion = alerta.showAndWait();
                 if (opcion.get() == ButtonType.OK) {
 
-                    ped.setId(Integer.parseInt(txtIdPedido.getText()));
-                    ped.setIdprov(prov.getId());
-                    ped.setFechaEmision(String.valueOf(txtEmision.getText()));
+                    ped = new pedido(Integer.parseInt(txtIdPedido.getText()), prov.getId(), String.valueOf(txtEmision.getText()), 1);
                     if (ped.insertar()) {//insertado
-                        pro = new producto();
+
                         for (detallePedido pedido : lista) {
 
                             det.setCantidad(pedido.getCantidad());
@@ -430,9 +428,6 @@ public class VistaPedidosController implements Initializable {
                             det.setIdPed(pedido.getIdPed());
                             det.setIdPro(pedido.getIdPro());
                             det.insertar();
-                            pro.setId(det.getIdPro());
-                            pro.setStock(det.getCantidad());
-                            pro.agregarStock();
 
                         }
                         Alert alertaIn = new Alert(Alert.AlertType.INFORMATION);
@@ -485,12 +480,9 @@ public class VistaPedidosController implements Initializable {
                 Optional<ButtonType> opcion = alerta.showAndWait();
                 if (opcion.get() == ButtonType.OK) {
 
-                    ped.setId(Integer.parseInt(txtIdPedido.getText()));
-                    ped.setIdprov(prov.getId());
-                    ped.setFechaEmision(String.valueOf(txtEmision.getText()));
-
+                    ped = new pedido(Integer.parseInt(txtIdPedido.getText()),prov.getId() , String.valueOf(txtEmision.getText()),1);
+                    
                     if (ped.modificar()) {//modificado
-                        pro = new producto();
 
                         eliminarDetalles();
 
@@ -502,9 +494,6 @@ public class VistaPedidosController implements Initializable {
                             det.setIdPed(pedido.getIdPed());
                             det.setIdPro(pedido.getIdPro());
                             det.insertar();
-                            pro.setId(det.getIdPro());
-                            pro.setStock(det.getCantidad());
-                            pro.agregarStock();
 
                         }
                         Alert alertaIn = new Alert(Alert.AlertType.INFORMATION);
@@ -702,8 +691,8 @@ public class VistaPedidosController implements Initializable {
         btnModificarPedido.setDisable(!modificarPedido);
         txtEmision.setText(ped.getFechaEmision());
         txtIdPedido.setText(String.valueOf(ped.getId()));
-        txtProveedor.setText(String.valueOf(ped.getIdprov()));
         prov = prov.getProv(ped.getIdprov());
+        txtProveedor.setText(String.valueOf(prov.getNombre()));
         txtRuc.setText(prov.getRuc());
         det.setIdPed(Integer.parseInt(txtIdPedido.getText()));
         lista = FXCollections.observableArrayList(det.consulta());

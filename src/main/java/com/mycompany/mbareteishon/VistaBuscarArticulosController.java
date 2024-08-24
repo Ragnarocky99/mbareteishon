@@ -23,8 +23,6 @@ public class VistaBuscarArticulosController implements Initializable {
     @FXML
     private TableColumn<producto, Integer> colIdProducto;
     @FXML
-    private TableColumn<producto, String> colDescripcion;
-    @FXML
     private Button btnAceptar;
     @FXML
     private Button btnCancelar;
@@ -38,6 +36,10 @@ public class VistaBuscarArticulosController implements Initializable {
 
     ObservableList<producto> lista;
     ObservableList<producto> listaFiltrada;
+    @FXML
+    private TableColumn<producto, String> colNombre;
+    @FXML
+    private TableColumn<producto, String> colDesc;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -62,7 +64,8 @@ public class VistaBuscarArticulosController implements Initializable {
     @FXML
     private void buscar(ActionEvent event) {
         lista = FXCollections.observableArrayList(new producto().consulta());
-        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("desc"));
+        colDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colIdProducto.setCellValueFactory(new PropertyValueFactory<>("id"));    
         tblProductos.setItems(lista);
 

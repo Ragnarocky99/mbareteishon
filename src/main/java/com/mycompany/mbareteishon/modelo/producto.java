@@ -19,183 +19,161 @@ import java.util.logging.Logger;
  *
  * @author nahue
  */
-public class producto extends conexion implements sentencias{
- 
+public class producto extends conexion implements sentencias {
+
     private int idPro;
+    private String nombre;
     private String desc;
     private int stock;
     private double precio;
     private double costo;
 
     public producto() {
-        this.idPro = -1;
-        this.desc = "vacio";
-        this.stock = 0;
-        this.precio = 0;
-        this.costo = 0;
+
     }
-    
-    
-    
-    public producto(int id, String desc, int stock, double precio, double costo) {
+
+    public producto(int id, String nombre, String desc, int stock, double precio, double costo) {
         this.idPro = id;
+        this.nombre = nombre;
         this.desc = desc;
         this.stock = stock;
         this.precio = precio;
         this.costo = costo;
     }
-    
+
     @Override
     public boolean insertar() {
-        
-        String sql = "insert into producto (descripcion, Stock, precio, costo)  values(?, ?, ?, ?)";
-        
-        try(Connection con = getCon();
-            PreparedStatement stm = con.prepareStatement(sql))
-            
-        {
-            stm.setString(1, this.desc);
-            stm.setInt(2, this.stock);
-            stm.setDouble(3, this.precio);
-            stm.setDouble(4, this.costo);
-            
+
+        String sql = "insert into producto (nombre ,descripcion, Stock, precio, costo)  values(?, ?, ?, ?, ?)";
+
+        try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
+            stm.setString(1, this.nombre);
+            stm.setString(2, this.desc);
+            stm.setInt(3, this.stock);
+            stm.setDouble(4, this.precio);
+            stm.setDouble(5, this.costo);
+
             stm.executeUpdate();
             return true;
-            
-        } 
-        catch (SQLException ex){
-            
+
+        } catch (SQLException ex) {
+
             Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-            
+
         }
-        
+
     }
 
     @Override
     public ArrayList consulta() {
-        
+
         ArrayList<producto> productos = new ArrayList<>();
         String sql = "select * from producto";
-        
-        try(
 
-            Connection con = getCon();
-            Statement stm = con.createStatement();
-            ResultSet rs = stm.executeQuery(sql);){
-            
-            while(rs.next()){
-                
+        try (
+                Connection con = getCon(); Statement stm = con.createStatement(); ResultSet rs = stm.executeQuery(sql);) {
+
+            while (rs.next()) {
+
                 int id = rs.getInt("id_producto");
+                String nom = rs.getString("nombre");
                 String desc = rs.getString("descripcion");
                 int stck = rs.getInt("Stock");
                 int pr = rs.getInt("precio");
                 int co = rs.getInt("costo");
-                producto c = new producto(id,desc,stck,pr,co);
+                producto c = new producto(id, nom, desc, stck, pr, co);
                 productos.add(c);
-                
+
             }
-            
-        } 
-        catch (SQLException ex){
+
+        } catch (SQLException ex) {
             System.out.println("lol");
             Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }
-        
+
         return productos;
-        
+
     }
 
     @Override
     public boolean modificar() {
-        
-        String sql = "Update producto set descripcion = ?, Stock = ?, precio = ?, costo = ? "
+
+        String sql = "Update producto set nombre = ?, descripcion = ?, Stock = ?, precio = ?, costo = ? "
                 + "where id_producto = ?";
-        
-        try(Connection con = getCon();
-            PreparedStatement stm = con.prepareStatement(sql))
-            
-        {
-            stm.setString(1, this.desc);
-            stm.setInt(2,this.stock);
-            stm.setDouble(3,this.precio);
-            stm.setDouble(4,this.costo);
-            stm.setInt(5, this.idPro);
-            
+
+        try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
+            stm.setString(1, this.nombre);
+            stm.setString(2, this.desc);
+            stm.setInt(3, this.stock);
+            stm.setDouble(4, this.precio);
+            stm.setDouble(5, this.costo);
+            stm.setInt(6, this.idPro);
+
             int rowsUpdated = stm.executeUpdate();
-           
+
             // Verificar si se ha actualizado al menos una fila
             if (rowsUpdated > 0) {
                 return true;  // La modificación fue exitosa
             } else {
                 return false; // No se realizó ninguna modificación
             }
-            
-        } 
-        catch (SQLException ex){
-            
+
+        } catch (SQLException ex) {
+
             Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-            
+
         }
-        
+
     }
 
     @Override
     public boolean eliminar() {
-        
+
         String sql = "Delete from producto where id_producto = ?";
-        
-        try(Connection con = getCon();
-            PreparedStatement stm = con.prepareStatement(sql))
-            
-        {
+
+        try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
             stm.setInt(1, this.idPro);
             stm.executeUpdate();
             return true;
-            
-        } 
-        catch (SQLException ex){
-            
+
+        } catch (SQLException ex) {
+
             Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-            
+
         }
-        
+
     }
-    
-    public boolean agregarStock(){
-        
+
+    public boolean agregarStock() {
+
         String sql = "Update producto set Stock = Stock + ? "
                 + "where id_producto = ?";
-        
-        try(Connection con = getCon();
-            PreparedStatement stm = con.prepareStatement(sql))
-            
-        {
-            
-            stm.setInt(1,this.stock);
+
+        try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
+
+            stm.setInt(1, this.stock);
             stm.setInt(2, this.idPro);
-            
+
             int rowsUpdated = stm.executeUpdate();
-           
+
             // Verificar si se ha actualizado al menos una fila
             if (rowsUpdated > 0) {
                 return true;  // La modificación fue exitosa
             } else {
                 return false; // No se realizó ninguna modificación
             }
-            
-        } 
-        catch (SQLException ex){
-            
+
+        } catch (SQLException ex) {
+
             Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-            
+
         }
-     
-        
+
     }
 
     public int getId() {
@@ -238,8 +216,20 @@ public class producto extends conexion implements sentencias{
         this.costo = costo;
     }
 
-    
-    
-    
-    
+    public int getIdPro() {
+        return idPro;
+    }
+
+    public void setIdPro(int idPro) {
+        this.idPro = idPro;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
 }
