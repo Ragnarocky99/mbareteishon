@@ -25,17 +25,23 @@ public class pedido extends conexion implements sentencias {
     private int idprov;
     private String fechaEmision;
     private int estado;
+    private double montoTotal;
+    
+    
 
     public pedido() {
     }
 
-    public pedido(int id, int idprov, String fechaEmision, int estado) {
+    public pedido(int id, int idprov, String fechaEmision, int estado, double montoTotal) {
         this.id = id;
         this.idprov = idprov;
         this.fechaEmision = fechaEmision;
         this.estado = estado;
+        this.montoTotal = montoTotal;
     }
 
+    
+    
     public int getId() {
         return id;
     }
@@ -73,13 +79,14 @@ public class pedido extends conexion implements sentencias {
     @Override
     public boolean insertar() {
 
-        String sql = "insert into pedidos(id_pedidos,id_proveedor,fechaEmision, estado) values(?, ?, ?, ?)";
+        String sql = "insert into pedidos(id_pedidos,id_proveedor,fechaEmision, estado, montoTotal) values(?, ?, ?, ?, ?)";
 
         try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
             stm.setInt(1, this.id);
             stm.setInt(2, this.idprov);
             stm.setString(3, this.fechaEmision);
             stm.setInt(4,this.estado);
+            stm.setDouble(5,this.montoTotal);
             stm.executeUpdate();
             return true;
 
@@ -136,7 +143,8 @@ public class pedido extends conexion implements sentencias {
                         int idprove = rs.getInt("id_proveedor");
                         String fecha = rs.getString("fechaEmision");
                         int est = rs.getInt("estado");
-                        ped = new pedido(idped, idprove, fecha, est);
+                        double mT = rs.getDouble("montoTotal");
+                        ped = new pedido(idped, idprove, fecha, est, mT);
 
                     }
                 }
@@ -165,7 +173,8 @@ public class pedido extends conexion implements sentencias {
                 int idprove = rs.getInt("id_proveedor");
                 String fecha = rs.getString("fechaEmision");
                 int est = rs.getInt("estado");
-                pedido p = new pedido(idped, idprove, fecha, est);
+                double mT = rs.getDouble("montoTotal");
+                pedido p = new pedido(idped, idprove, fecha, est, mT);
                 pedidos.add(p);
 
             }
@@ -183,13 +192,15 @@ public class pedido extends conexion implements sentencias {
     @Override
     public boolean modificar() {
 
-        String sql = "Update pedidos set id_proveedor = ? , fechaEmision = ? "
+        String sql = "Update pedidos set id_proveedor = ? , fechaEmision = ?, montoTotal = ? "
                 + "where id_pedidos = ?";
 
         try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
             stm.setInt(1, this.idprov);
             stm.setString(2, this.fechaEmision);
-            stm.setInt(3, this.id);
+            stm.setDouble(3, this.montoTotal);
+            stm.setInt(4, this.id);
+            
 
             int rowsUpdated = stm.executeUpdate();
 
@@ -226,6 +237,14 @@ public class pedido extends conexion implements sentencias {
 
         }
 
+    }
+
+    public double getMontoTotal() {
+        return montoTotal;
+    }
+
+    public void setMontoTotal(double montoTotal) {
+        this.montoTotal = montoTotal;
     }
 
 }

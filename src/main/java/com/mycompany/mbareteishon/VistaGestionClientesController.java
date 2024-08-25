@@ -144,62 +144,75 @@ public class VistaGestionClientesController implements Initializable {
 
     @FXML
     private void eliminarCliente(ActionEvent event) {
-        // Obtener el ID del cliente desde el campo correspondiente
-        int idCliente = Integer.parseInt(txtIdCliente.getText());
 
-        // Crear una alerta de confirmación
-        Alert alertaConfirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        alertaConfirmacion.setTitle("Confirmar Eliminación");
-        alertaConfirmacion.setHeaderText(null);
-        alertaConfirmacion.setContentText("¿Estás seguro de eliminar este cliente? Esta acción no se puede deshacer.");
+        if (txtIdCliente.getText() == "1" && "Cliente Mostrador".equals(txtNombreCliente.getText())) {
 
-        // Mostrar la alerta de confirmación y esperar a que el usuario elija una opción
-        Optional<ButtonType> resultado = alertaConfirmacion.showAndWait();
-        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            // El usuario ha confirmado la eliminación, proceder con la operación
-            one.setIdCliente(idCliente);
+            Alert alertaError = new Alert(Alert.AlertType.ERROR);
+            alertaError.setTitle("Error");
+            alertaError.setHeaderText(null);
+            alertaError.setContentText("No se puede eliminar el cliente.");
+            alertaError.showAndWait();
 
-            if (one.eliminar()) {
-                // Mostrar mensaje de eliminación exitosa
-                Alert alertaExito = new Alert(Alert.AlertType.INFORMATION);
-                alertaExito.setTitle("Eliminación Exitosa");
-                alertaExito.setHeaderText(null);
-                alertaExito.setContentText("Cliente eliminado correctamente.");
-                alertaExito.showAndWait();
+        } else {
 
-                txtNombreCliente.clear();
-                txtIdCliente.clear();
-                txtRucCliente.clear();
-                txtApellidoCliente.clear();
+            // Obtener el ID del cliente desde el campo correspondiente
+            int idCliente = Integer.parseInt(txtIdCliente.getText());
 
-            } else {
-                // Mostrar mensaje de error
-                Alert alertaError = new Alert(Alert.AlertType.ERROR);
-                alertaError.setTitle("Error");
-                alertaError.setHeaderText(null);
-                alertaError.setContentText("No se pudo eliminar el cliente.");
-                alertaError.showAndWait();
+            // Crear una alerta de confirmación
+            Alert alertaConfirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+            alertaConfirmacion.setTitle("Confirmar Eliminación");
+            alertaConfirmacion.setHeaderText(null);
+            alertaConfirmacion.setContentText("¿Estás seguro de eliminar este cliente? Esta acción no se puede deshacer.");
 
-                txtNombreCliente.setText(one.getNombreCliente());
-                txtIdCliente.setText(String.valueOf(one.getIdCliente()));
-                txtRucCliente.setText(one.getRucCiCliente());
-                txtApellidoCliente.setText(one.getApellidoCliente());
+            // Mostrar la alerta de confirmación y esperar a que el usuario elija una opción
+            Optional<ButtonType> resultado = alertaConfirmacion.showAndWait();
+            if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+                // El usuario ha confirmado la eliminación, proceder con la operación
+                one.setIdCliente(idCliente);
 
+                if (one.eliminar()) {
+                    // Mostrar mensaje de eliminación exitosa
+                    Alert alertaExito = new Alert(Alert.AlertType.INFORMATION);
+                    alertaExito.setTitle("Eliminación Exitosa");
+                    alertaExito.setHeaderText(null);
+                    alertaExito.setContentText("Cliente eliminado correctamente.");
+                    alertaExito.showAndWait();
+
+                    txtNombreCliente.clear();
+                    txtIdCliente.clear();
+                    txtRucCliente.clear();
+                    txtApellidoCliente.clear();
+
+                } else {
+                    // Mostrar mensaje de error
+                    Alert alertaError = new Alert(Alert.AlertType.ERROR);
+                    alertaError.setTitle("Error");
+                    alertaError.setHeaderText(null);
+                    alertaError.setContentText("No se pudo eliminar el cliente.");
+                    alertaError.showAndWait();
+
+                    txtNombreCliente.setText(one.getNombreCliente());
+                    txtIdCliente.setText(String.valueOf(one.getIdCliente()));
+                    txtRucCliente.setText(one.getRucCiCliente());
+                    txtApellidoCliente.setText(one.getApellidoCliente());
+
+                }
+
+                // Deshabilitar controles y actualizar datos
+                btnAgregarCliente.setDisable(false);
+                txtNombreCliente.setDisable(true);
+                txtApellidoCliente.setDisable(true);
+                txtRucCliente.setDisable(true);
+                btnAceptar.setDisable(true);
+                btnCancelar.setDisable(true);
+                btnModificarCliente.setDisable(true);
+                btnEliminarCliente.setDisable(true);
+                btnIrA.setDisable(true);
+
+                mostrarDatos();
             }
-
-            // Deshabilitar controles y actualizar datos
-            btnAgregarCliente.setDisable(false);
-            txtNombreCliente.setDisable(true);
-            txtApellidoCliente.setDisable(true);
-            txtRucCliente.setDisable(true);
-            btnAceptar.setDisable(true);
-            btnCancelar.setDisable(true);
-            btnModificarCliente.setDisable(true);
-            btnEliminarCliente.setDisable(true);
-            btnIrA.setDisable(true);
-
-            mostrarDatos();
         }
+
     }
 
     private void mostrarDatos() {

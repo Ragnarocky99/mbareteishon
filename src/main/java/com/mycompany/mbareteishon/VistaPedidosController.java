@@ -148,6 +148,9 @@ public class VistaPedidosController implements Initializable {
         ped = new pedido();
         ped.setId(ped.getUltimoPedido());
         ped = ped.getPedido(ped.getId());
+
+        modificarPedido = false;
+        btnModificarPedido.setDisable(true);
         mostrarPedido();
 
         setControllerNew();
@@ -417,7 +420,7 @@ public class VistaPedidosController implements Initializable {
                 Optional<ButtonType> opcion = alerta.showAndWait();
                 if (opcion.get() == ButtonType.OK) {
 
-                    ped = new pedido(Integer.parseInt(txtIdPedido.getText()), prov.getId(), String.valueOf(txtEmision.getText()), 1);
+                    ped = new pedido(Integer.parseInt(txtIdPedido.getText()), prov.getId(), String.valueOf(txtEmision.getText()), 1, Double.parseDouble(txtTotal.getText()));
                     if (ped.insertar()) {//insertado
 
                         for (detallePedido pedido : lista) {
@@ -438,6 +441,9 @@ public class VistaPedidosController implements Initializable {
                         totalPedido = 0;
                         modificar = false;
                         c = 0;
+
+                        modificarPedido = false;
+                        btnModificarPedido.setDisable(true);
 
                         modificarPedido = false;
                         btnModificarPedido.setDisable(!modificarPedido);
@@ -480,8 +486,8 @@ public class VistaPedidosController implements Initializable {
                 Optional<ButtonType> opcion = alerta.showAndWait();
                 if (opcion.get() == ButtonType.OK) {
 
-                    ped = new pedido(Integer.parseInt(txtIdPedido.getText()),prov.getId() , String.valueOf(txtEmision.getText()),1);
-                    
+                    ped = new pedido(Integer.parseInt(txtIdPedido.getText()), prov.getId(), String.valueOf(txtEmision.getText()), 1, Double.parseDouble(txtTotal.getText()));
+
                     if (ped.modificar()) {//modificado
 
                         eliminarDetalles();
@@ -687,7 +693,6 @@ public class VistaPedidosController implements Initializable {
 
     public void mostrarPedido() {
 
-        modificarPedido = true;
         btnModificarPedido.setDisable(!modificarPedido);
         txtEmision.setText(ped.getFechaEmision());
         txtIdPedido.setText(String.valueOf(ped.getId()));
@@ -697,6 +702,18 @@ public class VistaPedidosController implements Initializable {
         det.setIdPed(Integer.parseInt(txtIdPedido.getText()));
         lista = FXCollections.observableArrayList(det.consulta());
         tblDetallePedido.setItems(lista);
+
+        if (prov.getId() == 0) {
+
+            modificarPedido = false;
+            btnModificarPedido.setDisable(true);
+
+        } else {
+
+            modificarPedido = true;
+            btnModificarPedido.setDisable(false);
+
+        }
 
     }
 
