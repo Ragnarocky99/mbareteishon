@@ -182,7 +182,6 @@ public class VistaGestionArticulosController implements Initializable {
         
     }
 
-
     @FXML
     private void actionAceptar(ActionEvent event) {
         
@@ -290,7 +289,6 @@ public class VistaGestionArticulosController implements Initializable {
         txtStock.clear();
         
     }
-    
 
     @FXML
     private void actionAgregar(ActionEvent event) {

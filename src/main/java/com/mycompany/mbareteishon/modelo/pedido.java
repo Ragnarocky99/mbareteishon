@@ -4,6 +4,7 @@
  */
 package com.mycompany.mbareteishon.modelo;
 
+import com.mycompany.mbareteishon.VistaBuscarPedidosController;
 import com.mycompany.mbareteishon.clases.conexion;
 import com.mycompany.mbareteishon.clases.sentencias;
 import java.sql.Connection;
@@ -11,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,8 +29,6 @@ public class pedido extends conexion implements sentencias {
     private String fechaEmision;
     private int estado;
     private double montoTotal;
-    
-    
 
     public pedido() {
     }
@@ -40,8 +41,6 @@ public class pedido extends conexion implements sentencias {
         this.montoTotal = montoTotal;
     }
 
-    
-    
     public int getId() {
         return id;
     }
@@ -73,8 +72,14 @@ public class pedido extends conexion implements sentencias {
     public void setEstado(int estado) {
         this.estado = estado;
     }
-    
-    
+
+    public double getMontoTotal() {
+        return montoTotal;
+    }
+
+    public void setMontoTotal(double montoTotal) {
+        this.montoTotal = montoTotal;
+    }
 
     @Override
     public boolean insertar() {
@@ -85,8 +90,8 @@ public class pedido extends conexion implements sentencias {
             stm.setInt(1, this.id);
             stm.setInt(2, this.idprov);
             stm.setString(3, this.fechaEmision);
-            stm.setInt(4,this.estado);
-            stm.setDouble(5,this.montoTotal);
+            stm.setInt(4, this.estado);
+            stm.setDouble(5, this.montoTotal);
             stm.executeUpdate();
             return true;
 
@@ -120,6 +125,30 @@ public class pedido extends conexion implements sentencias {
         }
 
         return mayor;
+
+    }
+
+    public int getPrimerPedido() {
+
+        int menor = 0;
+        String sql = "select MIN(id_pedidos) as primer_pedido from pedidos";
+
+        try (
+                Connection con = getCon(); Statement stm = con.createStatement(); ResultSet rs = stm.executeQuery(sql);) {
+
+            while (rs.next()) {
+
+                menor = rs.getInt("primer_pedido");
+
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("lol");
+            Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+
+        return menor;
 
     }
 
@@ -192,15 +221,15 @@ public class pedido extends conexion implements sentencias {
     @Override
     public boolean modificar() {
 
-        String sql = "Update pedidos set id_proveedor = ? , fechaEmision = ?, montoTotal = ? "
+        String sql = "Update pedidos set id_proveedor = ? , fechaEmision = ?, montoTotal = ?, estado = ? "
                 + "where id_pedidos = ?";
 
         try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
             stm.setInt(1, this.idprov);
             stm.setString(2, this.fechaEmision);
             stm.setDouble(3, this.montoTotal);
-            stm.setInt(4, this.id);
-            
+            stm.setInt(4, this.estado);
+            stm.setInt(5, this.id);
 
             int rowsUpdated = stm.executeUpdate();
 
@@ -239,12 +268,53 @@ public class pedido extends conexion implements sentencias {
 
     }
 
-    public double getMontoTotal() {
-        return montoTotal;
-    }
+    public ArrayList Filtrar(VistaBuscarPedidosController ct) {
+        ArrayList<pedido> pedidos = new ArrayList<>();
+        String sql = String.valueOf(ct.query);
+        pedido ped = new pedido();
+        int c = 1;
+        System.out.println(sql);
+        try (
+                Connection con = getCon(); PreparedStatement pst = con.prepareStatement(sql);) {
+                System.out.println(sql);
+            if (ct.k1) {
+                pst.setInt(c, ct.desdeIdParse);
+                c += 1;
+                pst.setInt(c, ct.hastaIdParse);
+                c += 1;
+            }
+            
+            if (ct.k2) {
+                pst.setString(c, ct.desdeFechaParse);
+                c += 1;
+                pst.setString(c, ct.hastaFechaParse);
+                c += 1;
+            }
+            
+            if (ct.k3) {
+                pst.setInt(c, ct.idProvParse);
+                c += 1;
+            }
 
-    public void setMontoTotal(double montoTotal) {
-        this.montoTotal = montoTotal;
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+
+                    int idped = rs.getInt("id_pedidos");
+                    int idprove = rs.getInt("id_proveedor");
+                    String fecha = rs.getString("fechaEmision");
+                    int est = rs.getInt("estado");
+                    double mT = rs.getDouble("montoTotal");
+                    ped = new pedido(idped, idprove, fecha, est, mT);
+                    pedidos.add(ped);
+
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return pedidos;
     }
 
 }

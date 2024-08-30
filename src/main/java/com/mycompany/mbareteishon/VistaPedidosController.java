@@ -33,6 +33,7 @@ import javafx.scene.control.Alert;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -129,10 +130,13 @@ public class VistaPedidosController implements Initializable {
 
     detallePedido det = new detallePedido();
 
+    VistaBuscarPedidosController controladorDestinoPed;
     VistaBuscarArticulosController controladorDestinoA;
     VistaBuscarProveedoresController controladorDestinoP;
 
     ObservableList<detallePedido> lista = FXCollections.observableArrayList();
+    @FXML
+    private CheckBox chkActivo;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -150,10 +154,90 @@ public class VistaPedidosController implements Initializable {
         ped = ped.getPedido(ped.getId());
 
         modificarPedido = false;
-        btnModificarPedido.setDisable(true);
+        
         mostrarPedido();
+        inicializarPedido();
+    }
 
-        setControllerNew();
+    public void inicializarPedido() {
+        //Siempre Disable
+        txtEmision.setDisable(true);
+        txtIdPedido.setDisable(true);
+        txtProveedor.setDisable(true);
+        txtRuc.setDisable(true);
+        chkActivo.setDisable(true);
+        txtCodigoProducto.setDisable(true);
+        txtCostoProducto.setDisable(true);
+        txtTotal.setDisable(true);
+        //
+        tblDetallePedido.setDisable(true);
+        btnBuscarProveedor.setDisable(true);
+        btnAgregarDetalle.setDisable(true);
+        btnModificarDetalle.setDisable(true);
+        btnEliminarDetalle.setDisable(true);
+        btnBuscarProducto.setDisable(true);
+        txtCantidadProducto.setDisable(true);
+        btnAceptarProducto.setDisable(true);
+        btnCancelarProducto.setDisable(true);
+        btnNuevoPedido.setDisable(false);
+        btnGuardarPedido.setDisable(true);
+        btnCancelarPedido.setDisable(true);
+        btnAtras.setDisable(false);
+        btnSgte.setDisable(false);
+        btnBuscarPedido.setDisable(false);
+
+        if (ped.getId() == 0 || ped.getEstado() == 0) {
+
+            btnModificarPedido.setDisable(true);
+            btnAnularPedido.setDisable(true);
+
+        } else if (ped.getId() != 0 || ped.getEstado() != 0) {
+
+            btnModificarPedido.setDisable(false);
+            btnAnularPedido.setDisable(false);
+
+        }
+
+    }
+
+    public void ejecutarPedido() {
+
+        tblDetallePedido.setDisable(false);
+        btnBuscarProveedor.setDisable(false);
+        btnAgregarDetalle.setDisable(false);
+        btnModificarDetalle.setDisable(true);
+        btnEliminarDetalle.setDisable(true);
+        btnBuscarProducto.setDisable(true);
+        txtCantidadProducto.setDisable(true);
+        btnAceptarProducto.setDisable(true);
+        btnCancelarProducto.setDisable(true);
+        btnNuevoPedido.setDisable(true);
+        btnGuardarPedido.setDisable(false);
+        btnCancelarPedido.setDisable(false);
+        btnAnularPedido.setDisable(true);
+        btnAtras.setDisable(true);
+        btnSgte.setDisable(true);
+        btnBuscarPedido.setDisable(true);
+
+    }
+
+    public void aggPro() {
+
+        tblDetallePedido.setDisable(true);
+        btnBuscarProveedor.setDisable(true);
+        btnAgregarDetalle.setDisable(true);
+        btnModificarDetalle.setDisable(true);
+        btnEliminarDetalle.setDisable(true);
+        btnBuscarProducto.setDisable(false);
+
+        btnBuscarProducto.requestFocus();
+
+        txtCantidadProducto.setDisable(false);
+        btnAceptarProducto.setDisable(false);
+        btnCancelarProducto.setDisable(false);
+        btnNuevoPedido.setDisable(true);
+        btnGuardarPedido.setDisable(true);
+        btnCancelarPedido.setDisable(true);
 
     }
 
@@ -166,8 +250,7 @@ public class VistaPedidosController implements Initializable {
         txtCodigoProducto.setText(String.valueOf(det.getIdPro()));
         txtCantidadProducto.setText(String.valueOf(det.getCantidad()));
         txtCostoProducto.setText(String.valueOf(det.getCosto()));
-        setConPro();
-        btnBuscarProducto.requestFocus();
+        aggPro();
 
     }
 
@@ -189,6 +272,7 @@ public class VistaPedidosController implements Initializable {
         txtTotal.setText(String.valueOf(totalPedido));
         tblDetallePedido.setItems(lista);
         c = 0;
+        ejecutarPedido();
 
     }
 
@@ -196,7 +280,7 @@ public class VistaPedidosController implements Initializable {
     private void agregarProducto(ActionEvent event) {
 
         modificar = false;
-        setConPro();
+        aggPro();
 
     }
 
@@ -352,7 +436,10 @@ public class VistaPedidosController implements Initializable {
         }
         txtTotal.setText(String.valueOf(totalPedido));
 
-        setNewPro();
+        txtCodigoProducto.clear();
+        txtCantidadProducto.clear();
+        txtCostoProducto.clear();
+        ejecutarPedido();
 
     }
 
@@ -387,13 +474,22 @@ public class VistaPedidosController implements Initializable {
     @FXML
     private void cancelarProducto(ActionEvent event) {
 
-        setNewPro();
+        txtCodigoProducto.clear();
+        txtCantidadProducto.clear();
+        txtCostoProducto.clear();
+        ejecutarPedido();
 
     }
 
     @FXML
     private void guardarPedido(ActionEvent event) {
 
+        for (detallePedido pedido : lista) {
+            System.out.println(pedido.getNro() + " " + pedido.getIdPro());
+        }
+        
+        System.out.println("modificar pedido = " + modificarPedido);
+        
         if (!modificarPedido) {
 
             if (txtProveedor.getText().equals("")) {
@@ -425,12 +521,17 @@ public class VistaPedidosController implements Initializable {
 
                         for (detallePedido pedido : lista) {
 
+                            det = new detallePedido();
+                            det.setIdPed(ped.getId());
+                            det.setIdPro(pedido.getIdPro());
                             det.setCantidad(pedido.getCantidad());
                             det.setCosto(pedido.getCosto());
                             det.setCostoTotal(pedido.getCostoTotal());
-                            det.setIdPed(pedido.getIdPed());
-                            det.setIdPro(pedido.getIdPro());
-                            det.insertar();
+                            if (det.insertar()) {
+                                System.out.println("se inserto " + det.getIdPro());
+                            } else {
+                                System.out.println("no se inserto " + det.getIdPro());
+                            }
 
                         }
                         Alert alertaIn = new Alert(Alert.AlertType.INFORMATION);
@@ -447,7 +548,8 @@ public class VistaPedidosController implements Initializable {
 
                         modificarPedido = false;
                         btnModificarPedido.setDisable(!modificarPedido);
-                        setControllerNew();
+                        inicializarPedido();
+                        mostrarPedido();
 
                     } else {
                         Alert alertaIn = new Alert(Alert.AlertType.ERROR);
@@ -487,19 +589,24 @@ public class VistaPedidosController implements Initializable {
                 if (opcion.get() == ButtonType.OK) {
 
                     ped = new pedido(Integer.parseInt(txtIdPedido.getText()), prov.getId(), String.valueOf(txtEmision.getText()), 1, Double.parseDouble(txtTotal.getText()));
+                    det.setIdPed(ped.getId());
+                    det.eliminar();
 
                     if (ped.modificar()) {//modificado
 
-                        eliminarDetalles();
-
                         for (detallePedido pedido : lista) {
 
+                            det = new detallePedido();
+                            det.setIdPed(ped.getId());
+                            det.setIdPro(pedido.getIdPro());
                             det.setCantidad(pedido.getCantidad());
                             det.setCosto(pedido.getCosto());
                             det.setCostoTotal(pedido.getCostoTotal());
-                            det.setIdPed(pedido.getIdPed());
-                            det.setIdPro(pedido.getIdPro());
-                            det.insertar();
+                            if (det.insertar()) {
+                                System.out.println("se inserto " + det.getIdPro());
+                            } else {
+                                System.out.println("no se inserto " + det.getIdPro());
+                            }
 
                         }
                         Alert alertaIn = new Alert(Alert.AlertType.INFORMATION);
@@ -511,9 +618,9 @@ public class VistaPedidosController implements Initializable {
                         modificar = false;
                         c = 0;
                         modificarPedido = false;
+                        inicializarPedido();
                         btnModificarPedido.setDisable(!modificarPedido);
-
-                        setControllerNew();
+                        mostrarPedido();
 
                     } else {
                         Alert alertaIn = new Alert(Alert.AlertType.ERROR);
@@ -527,62 +634,72 @@ public class VistaPedidosController implements Initializable {
             }
 
         }
+
     }
 
     @FXML
     private void cancelarPedido(ActionEvent event) {
 
-        if (!modificarPedido) {
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("El sistema comunica;");
+        alerta.setHeaderText(null);
+        alerta.setContentText("¿Desea cancelar el pedido?");
+        Optional<ButtonType> opcion = alerta.showAndWait();
+        if (opcion.get() == ButtonType.OK) {
 
-            modificarPedido = false;
-            btnModificarPedido.setDisable(!modificarPedido);
-            lista.clear();
-            totalPedido = 0;
+            if (!modificarPedido) {
 
-            btnAgregarDetalle.setFocusTraversable(true);
+                modificarPedido = false;
+                btnModificarPedido.setDisable(!modificarPedido);
+                lista.clear();
+                totalPedido = 0;
 
-            txtRuc.clear();
-            txtIdPedido.clear();
-            txtProveedor.clear();
-            tblDetallePedido.setItems(FXCollections.observableArrayList());
-            txtTotal.clear();
-            txtCodigoProducto.clear();
-            txtCantidadProducto.clear();
-            txtCostoProducto.clear();
+                btnAgregarDetalle.setFocusTraversable(true);
 
-            setControllerNew();
+                txtRuc.clear();
+                txtIdPedido.clear();
+                txtProveedor.clear();
+                tblDetallePedido.setItems(FXCollections.observableArrayList());
+                txtTotal.clear();
+                txtCodigoProducto.clear();
+                txtCantidadProducto.clear();
+                txtCostoProducto.clear();
 
-        } else {
+                inicializarPedido();
 
-            modificarPedido = false;
-            btnModificarPedido.setDisable(!modificarPedido);
+            } else {
 
-            btnAgregarDetalle.setFocusTraversable(true);
+                modificarPedido = false;
+                btnModificarPedido.setDisable(!modificarPedido);
 
-            mostrarPedido();
-            btnAtras.setDisable(false);
-            btnBuscarPedido.setDisable(false);
-            btnSgte.setDisable(false);
-            txtEmision.setDisable(true);
-            txtIdPedido.setDisable(true);
-            txtProveedor.setDisable(true);
-            btnBuscarProveedor.setDisable(true);
-            tblDetallePedido.setDisable(true);
-            btnAgregarDetalle.setDisable(true);
-            btnModificarDetalle.setDisable(true);
-            btnEliminarDetalle.setDisable(true);
-            txtTotal.setDisable(true);
-            txtCodigoProducto.setDisable(true);
-            btnBuscarProducto.setDisable(true);
-            txtCantidadProducto.setDisable(true);
-            txtCostoProducto.setDisable(true);
-            btnAceptarProducto.setDisable(true);
-            btnCancelarProducto.setDisable(true);
-            btnNuevoPedido.setDisable(false);
-            btnModificarPedido.setDisable(true);
-            btnGuardarPedido.setDisable(true);
-            btnAnularPedido.setDisable(true);
-            btnCancelarPedido.setDisable(true);
+                btnAgregarDetalle.setFocusTraversable(true);
+
+                mostrarPedido();
+                btnAtras.setDisable(false);
+                btnBuscarPedido.setDisable(false);
+                btnSgte.setDisable(false);
+                txtEmision.setDisable(true);
+                txtIdPedido.setDisable(true);
+                txtProveedor.setDisable(true);
+                btnBuscarProveedor.setDisable(true);
+                tblDetallePedido.setDisable(true);
+                btnAgregarDetalle.setDisable(true);
+                btnModificarDetalle.setDisable(true);
+                btnEliminarDetalle.setDisable(true);
+                txtTotal.setDisable(true);
+                txtCodigoProducto.setDisable(true);
+                btnBuscarProducto.setDisable(true);
+                txtCantidadProducto.setDisable(true);
+                txtCostoProducto.setDisable(true);
+                btnAceptarProducto.setDisable(true);
+                btnCancelarProducto.setDisable(true);
+                btnNuevoPedido.setDisable(false);
+                btnModificarPedido.setDisable(true);
+                btnGuardarPedido.setDisable(true);
+                btnAnularPedido.setDisable(true);
+                btnCancelarPedido.setDisable(true);
+
+            }
 
         }
 
@@ -608,7 +725,7 @@ public class VistaPedidosController implements Initializable {
         txtIdPedido.setText(String.valueOf(ped.getUltimoPedido() + 1));
         c = 0;
 
-        setNewPed();
+        ejecutarPedido();
 
     }
 
@@ -620,12 +737,25 @@ public class VistaPedidosController implements Initializable {
         tblDetallePedido.setItems(lista);
         c = lista.size();
 
-        setModPed();
+        ejecutarPedido();
 
     }
 
     @FXML
     private void anularPedido(ActionEvent event) {
+
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("El sistema comunica;");
+        alerta.setHeaderText(null);
+        alerta.setContentText("Realmente desea anular este pedido?");
+        Optional<ButtonType> opcion = alerta.showAndWait();
+        if (opcion.get() == ButtonType.OK) {
+
+            ped.setEstado(0);
+            ped.modificar();
+
+        }
+        mostrarPedido();
 
     }
 
@@ -648,26 +778,26 @@ public class VistaPedidosController implements Initializable {
 
     @FXML
     private void atrasPedido(ActionEvent event) {
+
         pedido pedVacio = new pedido();
         if (!pedVacio.equals(ped.getPedido(ped.getId() - 1))) {
 
             ped = ped.getPedido(ped.getId() - 1);
             mostrarPedido();
 
-        } else if (ped.getId() == pedVacio.getId()) {
-
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("");
-            alerta.setHeaderText(null);
-            alerta.setContentText("No hay pedido");
-            alerta.showAndWait();
-
         }
+        if (txtIdPedido.getText().equals("0")) {
 
+            ped = ped.getPedido(ped.getUltimoPedido());
+            mostrarPedido();
+        }
     }
 
     @FXML
     private void buscarPedido(ActionEvent event) {
+
+        abrirFxmlModal("vistaBuscarPedidos.fxml", "Buscar Pedidos");
+
     }
 
     @FXML
@@ -679,14 +809,11 @@ public class VistaPedidosController implements Initializable {
             ped = ped.getPedido(ped.getId() + 1);
             mostrarPedido();
 
-        } else if (ped.getId() == pedVacio.getId()) {
+        }
+        if (txtIdPedido.getText().equals("0")) {
 
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("");
-            alerta.setHeaderText(null);
-            alerta.setContentText("No hay pedido");
-            alerta.showAndWait();
-
+            ped = ped.getPedido(ped.getPrimerPedido());
+            mostrarPedido();
         }
 
     }
@@ -699,162 +826,32 @@ public class VistaPedidosController implements Initializable {
         prov = prov.getProv(ped.getIdprov());
         txtProveedor.setText(String.valueOf(prov.getNombre()));
         txtRuc.setText(prov.getRuc());
-        det.setIdPed(Integer.parseInt(txtIdPedido.getText()));
+        det.setIdPed(ped.getId());
+        if (ped.getEstado() > 0) {
+
+            chkActivo.setSelected(true);
+
+        } else {
+
+            chkActivo.setSelected(false);
+
+        }
         lista = FXCollections.observableArrayList(det.consulta());
         tblDetallePedido.setItems(lista);
 
-        if (prov.getId() == 0) {
+        if (ped.getId() == 0 || chkActivo.isSelected() == false) {
 
             modificarPedido = false;
             btnModificarPedido.setDisable(true);
+            btnAnularPedido.setDisable(true);
 
-        } else {
+        } else if (ped.getId() != 0 || chkActivo.isSelected() == true) {
 
             modificarPedido = true;
             btnModificarPedido.setDisable(false);
+            btnAnularPedido.setDisable(false);
 
         }
-
-    }
-
-    public void eliminarDetalles() {
-
-        if (det.eliminar()) {
-
-        } else {
-            // Mostrar mensaje de error
-            Alert alertaError = new Alert(Alert.AlertType.ERROR);
-            alertaError.setTitle("Error");
-            alertaError.setHeaderText(null);
-            alertaError.setContentText("No se pudo modificar los detalles");
-            alertaError.showAndWait();
-
-        }
-
-    }
-
-    public void setControllerNew() {
-
-        modificarPedido = false;
-        btnModificarPedido.setDisable(!modificarPedido);
-        lista.clear();
-        totalPedido = 0;
-        modificar = false;
-        c = 0;
-
-        btnAtras.setDisable(false);
-        btnBuscarPedido.setDisable(false);
-        btnSgte.setDisable(false);
-        txtEmision.setDisable(true);
-        txtIdPedido.setDisable(true);
-        txtProveedor.setDisable(true);
-        txtRuc.setDisable(true);
-        btnBuscarProveedor.setDisable(true);
-        tblDetallePedido.setDisable(true);
-        btnAgregarDetalle.setDisable(true);
-        btnModificarDetalle.setDisable(true);
-        btnEliminarDetalle.setDisable(true);
-        txtTotal.setDisable(true);
-        txtCodigoProducto.setDisable(true);
-        btnBuscarProducto.setDisable(true);
-        txtCantidadProducto.setDisable(true);
-        txtCostoProducto.setDisable(true);
-        btnAceptarProducto.setDisable(true);
-        btnCancelarProducto.setDisable(true);
-        btnNuevoPedido.setDisable(false);
-        btnGuardarPedido.setDisable(true);
-        btnAnularPedido.setDisable(true);
-        btnCancelarPedido.setDisable(true);
-
-    }
-
-    public void setNewPed() {
-
-        btnAtras.setDisable(true);
-        btnBuscarPedido.setDisable(true);
-        btnSgte.setDisable(true);
-        txtEmision.setDisable(true);
-        txtIdPedido.setDisable(true);
-        txtProveedor.setDisable(true);
-        btnBuscarProveedor.setDisable(false);
-        tblDetallePedido.setDisable(false);
-        btnAgregarDetalle.setDisable(false);
-        btnModificarDetalle.setDisable(true);
-        btnEliminarDetalle.setDisable(true);
-        txtTotal.setDisable(true);
-        txtCodigoProducto.setDisable(true);
-        btnBuscarProducto.setDisable(true);
-        txtCantidadProducto.setDisable(true);
-        txtCostoProducto.setDisable(true);
-        btnAceptarProducto.setDisable(true);
-        btnCancelarProducto.setDisable(true);
-        btnNuevoPedido.setDisable(true);
-        btnModificarPedido.setDisable(true);
-        btnGuardarPedido.setDisable(false);
-        btnAnularPedido.setDisable(true);
-        btnCancelarPedido.setDisable(false);
-
-    }
-
-    public void setModPed() {
-
-        btnAtras.setDisable(true);
-        btnBuscarPedido.setDisable(true);
-        btnSgte.setDisable(true);
-        txtEmision.setDisable(true);
-        txtIdPedido.setDisable(true);
-        txtProveedor.setDisable(true);
-        btnBuscarProveedor.setDisable(false);
-        tblDetallePedido.setDisable(false);
-        btnAgregarDetalle.setDisable(false);
-        btnModificarDetalle.setDisable(true);
-        btnEliminarDetalle.setDisable(true);
-        txtTotal.setDisable(true);
-        txtCodigoProducto.setDisable(true);
-        btnBuscarProducto.setDisable(true);
-        txtCantidadProducto.setDisable(true);
-        txtCostoProducto.setDisable(true);
-        btnAceptarProducto.setDisable(true);
-        btnCancelarProducto.setDisable(true);
-        btnNuevoPedido.setDisable(true);
-        btnModificarPedido.setDisable(true);
-        btnGuardarPedido.setDisable(false);
-        btnAnularPedido.setDisable(true);
-        btnCancelarPedido.setDisable(false);
-
-    }
-
-    public void setNewPro() {
-
-        btnGuardarPedido.setDisable(false);
-        btnAnularPedido.setDisable(false);
-        btnAgregarDetalle.setDisable(false);
-        btnBuscarProducto.setDisable(true);
-        btnAceptarProducto.setDisable(true);
-        btnCancelarProducto.setDisable(true);
-        txtCodigoProducto.setDisable(true);
-        txtCantidadProducto.setDisable(true);
-        txtCostoProducto.setDisable(true);
-        txtCantidadProducto.clear();
-        txtCodigoProducto.clear();
-        txtCostoProducto.clear();
-
-    }
-
-    public void setConPro() {
-
-        btnGuardarPedido.setDisable(true);
-        btnAnularPedido.setDisable(true);
-        btnModificarDetalle.setDisable(true);
-        btnEliminarDetalle.setDisable(true);
-        btnBuscarProducto.setDisable(false);
-        btnAgregarDetalle.setDisable(true);
-        txtCodigoProducto.setDisable(true);
-        txtCantidadProducto.setDisable(false);
-        txtCostoProducto.setDisable(true);
-        btnAceptarProducto.setDisable(false);
-        btnCancelarProducto.setDisable(false);
-        btnBuscarProducto.requestFocus();
 
     }
 
@@ -873,6 +870,13 @@ public class VistaPedidosController implements Initializable {
             txtRuc.setText(prov.getRuc());
         }
     }
+    
+    public void setPedidoSeleccionado(pedido ped){
+        this.ped = ped;
+        if (ped.getId() != -1) {
+            mostrarPedido();
+        }
+    }
 
     public void abrirFxmlModal(String fxml, String titulo) {
         try {
@@ -880,13 +884,17 @@ public class VistaPedidosController implements Initializable {
             Parent root = loader.load();
 
             // Obtener el controlador del destino
-            if (!titulo.equals("Buscar Proveedor")) {
+            if (titulo.equals("Buscar Proveedor")) {
+
+                controladorDestinoP = loader.getController();
+
+            } else if (titulo.equals("Buscar Producto")) {
 
                 controladorDestinoA = loader.getController();
 
             } else {
 
-                controladorDestinoP = loader.getController();
+                controladorDestinoPed = loader.getController();
 
             }
 
@@ -900,15 +908,20 @@ public class VistaPedidosController implements Initializable {
             stage.initOwner(primaryStage);
 
             // Pasar el Stage y el controlador de origen al controlador de destino
-            if (!titulo.equals("Buscar Proveedor")) {
+            if (titulo.equals("Buscar Producto")) {
 
                 controladorDestinoA.setStage(stage);
                 controladorDestinoA.setControladorPedidos(this);
 
-            } else {
+            } else if (titulo.equals("Buscar Proveedor")) {
 
                 controladorDestinoP.setStage(stage);
                 controladorDestinoP.setControladorPedidos(this);
+
+            } else {
+
+                controladorDestinoPed.setStage(stage);
+                controladorDestinoPed.setControladorPedidos(this);
 
             }
 
