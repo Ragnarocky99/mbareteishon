@@ -58,11 +58,10 @@
             <TextField fx:id="txtCostoProducto" layoutX="466.0" layoutY="17.0" />
             <Button fx:id="btnAceptarProducto" layoutX="628.0" layoutY="17.0" mnemonicParsing="false" onAction="#aceptarProducto" prefHeight="59.0" prefWidth="66.0" text="Aceptar" />
             <Button fx:id="btnCancelarProducto" layoutX="704.0" layoutY="17.0" mnemonicParsing="false" onAction="#cancelarProducto" prefHeight="59.0" prefWidth="66.0" text="Cancelar" />
-            <Button fx:id="btnGuardarPedido" layoutX="159.0" layoutY="73.0" mnemonicParsing="false" onAction="#guardarPedido" text="Guardar" />
-            <Button fx:id="btnCancelarPedido" layoutX="290.0" layoutY="73.0" mnemonicParsing="false" onAction="#cancelarPedido" text="Cancelar" />
+            <Button fx:id="btnGuardarPedido" layoutX="79.0" layoutY="73.0" mnemonicParsing="false" onAction="#guardarPedido" text="Guardar" />
+            <Button fx:id="btnCancelarPedido" layoutX="211.0" layoutY="73.0" mnemonicParsing="false" onAction="#cancelarPedido" text="Cancelar" />
             <Button fx:id="btnNuevoPedido" layoutX="15.0" layoutY="73.0" mnemonicParsing="false" onAction="#nuevoPedido" text="Nuevo" />
-            <Button fx:id="btnModificarPedido" layoutX="79.0" layoutY="73.0" mnemonicParsing="false" onAction="#modificarPedido" text="Modificar" />
-            <Button fx:id="btnAnularPedido" layoutX="231.0" layoutY="73.0" mnemonicParsing="false" onAction="#anularPedido" text="Anular" />
+            <Button fx:id="btnAnularPedido" layoutX="149.0" layoutY="73.0" mnemonicParsing="false" onAction="#anularPedido" text="Anular" />
          </children>
       </Pane>
    </children>

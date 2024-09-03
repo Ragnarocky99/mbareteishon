@@ -33,6 +33,7 @@ public class VistaBuscarArticulosController implements Initializable {
 
     private Stage stage;
     private VistaPedidosController controladorPedidos;
+    private VistaVentasController controladorVentas;
 
     ObservableList<producto> lista;
     ObservableList<producto> listaFiltrada;
@@ -53,6 +54,9 @@ public class VistaBuscarArticulosController implements Initializable {
 
     public void setControladorPedidos(VistaPedidosController controladorPedidos) {
         this.controladorPedidos = controladorPedidos;
+    }
+    public void setControladorVentas(VistaVentasController controladorVentas){
+        this.controladorVentas = controladorVentas;
     }
 
     @FXML
@@ -92,6 +96,9 @@ public class VistaBuscarArticulosController implements Initializable {
         producto pro = tblProductos.getSelectionModel().getSelectedItem();
         if (pro != null && controladorPedidos != null) {
             controladorPedidos.setProductoSeleccionado(pro);
+        }
+        if(pro != null && controladorVentas != null){
+            controladorVentas.setProductoSeleccionado(pro);
         }
         stage.close();
     }

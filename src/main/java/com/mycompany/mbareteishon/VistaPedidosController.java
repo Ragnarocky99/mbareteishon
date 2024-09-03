@@ -98,8 +98,6 @@ public class VistaPedidosController implements Initializable {
     @FXML
     private Button btnNuevoPedido;
     @FXML
-    private Button btnModificarPedido;
-    @FXML
     private Button btnAnularPedido;
     @FXML
     private TextField txtRuc;
@@ -115,8 +113,6 @@ public class VistaPedidosController implements Initializable {
     int c = 0;
 
     int totalPedido;
-
-    boolean modificarPedido;
 
     boolean modificar;
 
@@ -135,6 +131,7 @@ public class VistaPedidosController implements Initializable {
     VistaBuscarProveedoresController controladorDestinoP;
 
     ObservableList<detallePedido> lista = FXCollections.observableArrayList();
+    ObservableList<detallePedido> listaAux = FXCollections.observableArrayList();
     @FXML
     private CheckBox chkActivo;
 
@@ -153,8 +150,6 @@ public class VistaPedidosController implements Initializable {
         ped.setId(ped.getUltimoPedido());
         ped = ped.getPedido(ped.getId());
 
-        modificarPedido = false;
-        
         mostrarPedido();
         inicializarPedido();
     }
@@ -188,12 +183,10 @@ public class VistaPedidosController implements Initializable {
 
         if (ped.getId() == 0 || ped.getEstado() == 0) {
 
-            btnModificarPedido.setDisable(true);
             btnAnularPedido.setDisable(true);
 
         } else if (ped.getId() != 0 || ped.getEstado() != 0) {
 
-            btnModificarPedido.setDisable(false);
             btnAnularPedido.setDisable(false);
 
         }
@@ -488,11 +481,7 @@ public class VistaPedidosController implements Initializable {
             System.out.println(pedido.getNro() + " " + pedido.getIdPro());
         }
         
-        System.out.println("modificar pedido = " + modificarPedido);
-        
-        if (!modificarPedido) {
-
-            if (txtProveedor.getText().equals("")) {
+        if (txtProveedor.getText().equals("")) {
 
                 Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                 alerta.setTitle("");
@@ -527,6 +516,7 @@ public class VistaPedidosController implements Initializable {
                             det.setCantidad(pedido.getCantidad());
                             det.setCosto(pedido.getCosto());
                             det.setCostoTotal(pedido.getCostoTotal());
+                            pro.setId(det.getIdPro());
                             if (det.insertar()) {
                                 System.out.println("se inserto " + det.getIdPro());
                             } else {
@@ -543,11 +533,7 @@ public class VistaPedidosController implements Initializable {
                         modificar = false;
                         c = 0;
 
-                        modificarPedido = false;
-                        btnModificarPedido.setDisable(true);
 
-                        modificarPedido = false;
-                        btnModificarPedido.setDisable(!modificarPedido);
                         inicializarPedido();
                         mostrarPedido();
 
@@ -561,79 +547,6 @@ public class VistaPedidosController implements Initializable {
                 }
 
             }
-
-        } else {
-
-            if (txtProveedor.getText().equals("")) {
-
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("");
-                alerta.setHeaderText(null);
-                alerta.setContentText("No se ha seleccionado un proveedor");
-                alerta.showAndWait();
-            } else if (lista.isEmpty()) {
-
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("");
-                alerta.setHeaderText(null);
-                alerta.setContentText("No se ha insertado ningun producto");
-                alerta.showAndWait();
-
-            } else {
-
-                Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-                alerta.setTitle("El sistema comunica;");
-                alerta.setHeaderText(null);
-                alerta.setContentText("¿Desea grabar el pedido a modificar?");
-                Optional<ButtonType> opcion = alerta.showAndWait();
-                if (opcion.get() == ButtonType.OK) {
-
-                    ped = new pedido(Integer.parseInt(txtIdPedido.getText()), prov.getId(), String.valueOf(txtEmision.getText()), 1, Double.parseDouble(txtTotal.getText()));
-                    det.setIdPed(ped.getId());
-                    det.eliminar();
-
-                    if (ped.modificar()) {//modificado
-
-                        for (detallePedido pedido : lista) {
-
-                            det = new detallePedido();
-                            det.setIdPed(ped.getId());
-                            det.setIdPro(pedido.getIdPro());
-                            det.setCantidad(pedido.getCantidad());
-                            det.setCosto(pedido.getCosto());
-                            det.setCostoTotal(pedido.getCostoTotal());
-                            if (det.insertar()) {
-                                System.out.println("se inserto " + det.getIdPro());
-                            } else {
-                                System.out.println("no se inserto " + det.getIdPro());
-                            }
-
-                        }
-                        Alert alertaIn = new Alert(Alert.AlertType.INFORMATION);
-                        alertaIn.setTitle("El sistema comunica:");
-                        alertaIn.setHeaderText(null);
-                        alertaIn.setContentText("Modificado correctamente en la base de datos");
-                        alertaIn.show();
-                        totalPedido = 0;
-                        modificar = false;
-                        c = 0;
-                        modificarPedido = false;
-                        inicializarPedido();
-                        btnModificarPedido.setDisable(!modificarPedido);
-                        mostrarPedido();
-
-                    } else {
-                        Alert alertaIn = new Alert(Alert.AlertType.ERROR);
-                        alertaIn.setTitle("El sistema comunica:");
-                        alertaIn.setHeaderText(null);
-                        alertaIn.setContentText("Error. Registro no insertado.");
-                        alertaIn.show();
-                    }
-                }
-
-            }
-
-        }
 
     }
 
@@ -647,11 +560,7 @@ public class VistaPedidosController implements Initializable {
         Optional<ButtonType> opcion = alerta.showAndWait();
         if (opcion.get() == ButtonType.OK) {
 
-            if (!modificarPedido) {
-
-                modificarPedido = false;
-                btnModificarPedido.setDisable(!modificarPedido);
-                lista.clear();
+            lista.clear();
                 totalPedido = 0;
 
                 btnAgregarDetalle.setFocusTraversable(true);
@@ -666,41 +575,7 @@ public class VistaPedidosController implements Initializable {
                 txtCostoProducto.clear();
 
                 inicializarPedido();
-
-            } else {
-
-                modificarPedido = false;
-                btnModificarPedido.setDisable(!modificarPedido);
-
-                btnAgregarDetalle.setFocusTraversable(true);
-
-                mostrarPedido();
-                btnAtras.setDisable(false);
-                btnBuscarPedido.setDisable(false);
-                btnSgte.setDisable(false);
-                txtEmision.setDisable(true);
-                txtIdPedido.setDisable(true);
-                txtProveedor.setDisable(true);
-                btnBuscarProveedor.setDisable(true);
-                tblDetallePedido.setDisable(true);
-                btnAgregarDetalle.setDisable(true);
-                btnModificarDetalle.setDisable(true);
-                btnEliminarDetalle.setDisable(true);
-                txtTotal.setDisable(true);
-                txtCodigoProducto.setDisable(true);
-                btnBuscarProducto.setDisable(true);
-                txtCantidadProducto.setDisable(true);
-                txtCostoProducto.setDisable(true);
-                btnAceptarProducto.setDisable(true);
-                btnCancelarProducto.setDisable(true);
-                btnNuevoPedido.setDisable(false);
-                btnModificarPedido.setDisable(true);
-                btnGuardarPedido.setDisable(true);
-                btnAnularPedido.setDisable(true);
-                btnCancelarPedido.setDisable(true);
-
-            }
-
+            
         }
 
     }
@@ -716,26 +591,12 @@ public class VistaPedidosController implements Initializable {
         // Mostrar la fecha en el label
         txtEmision.setText(formattedDate);
 
-        modificarPedido = false;
-        btnModificarPedido.setDisable(!modificarPedido);
         lista.clear();
         tblDetallePedido.setItems(lista);
         txtProveedor.clear();
         txtRuc.clear();
         txtIdPedido.setText(String.valueOf(ped.getUltimoPedido() + 1));
         c = 0;
-
-        ejecutarPedido();
-
-    }
-
-    @FXML
-    private void modificarPedido(ActionEvent event) {
-
-        modificarPedido = true;
-        btnModificarPedido.setDisable(modificarPedido);
-        tblDetallePedido.setItems(lista);
-        c = lista.size();
 
         ejecutarPedido();
 
@@ -820,9 +681,9 @@ public class VistaPedidosController implements Initializable {
 
     public void mostrarPedido() {
 
-        btnModificarPedido.setDisable(!modificarPedido);
         txtEmision.setText(ped.getFechaEmision());
         txtIdPedido.setText(String.valueOf(ped.getId()));
+        txtTotal.setText(String.valueOf(ped.getMontoTotal()));
         prov = prov.getProv(ped.getIdprov());
         txtProveedor.setText(String.valueOf(prov.getNombre()));
         txtRuc.setText(prov.getRuc());
@@ -841,14 +702,10 @@ public class VistaPedidosController implements Initializable {
 
         if (ped.getId() == 0 || chkActivo.isSelected() == false) {
 
-            modificarPedido = false;
-            btnModificarPedido.setDisable(true);
             btnAnularPedido.setDisable(true);
 
         } else if (ped.getId() != 0 || chkActivo.isSelected() == true) {
 
-            modificarPedido = true;
-            btnModificarPedido.setDisable(false);
             btnAnularPedido.setDisable(false);
 
         }

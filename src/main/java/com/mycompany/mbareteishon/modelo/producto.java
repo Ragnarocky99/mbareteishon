@@ -148,10 +148,10 @@ public class producto extends conexion implements sentencias {
 
     }
 
-    public boolean agregarStock() {
+    public boolean agregarStock(int a) {
+        this.stock += a;
 
-        String sql = "Update producto set Stock = Stock + ? "
-                + "where id_producto = ?";
+        String sql = "Update producto set Stock = ? where id_producto = ?";
 
         try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
 
@@ -174,6 +174,61 @@ public class producto extends conexion implements sentencias {
 
         }
 
+    }
+
+    public boolean eliminarStock(int a) {
+        this.stock -= a;
+
+        String sql = "Update producto set Stock = ? where id_producto = ?";
+
+        try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
+
+            stm.setInt(1, this.stock);
+            stm.setInt(2, this.idPro);
+
+            int rowsUpdated = stm.executeUpdate();
+
+            // Verificar si se ha actualizado al menos una fila
+            if (rowsUpdated > 0) {
+                System.out.println("Se elimino " + a + "De Stock para " + this.idPro);
+                System.out.println("Quedando " + this.stock);
+                return true;  // La modificación fue exitosa
+            } else {
+                return false; // No se realizó ninguna modificación
+            }
+
+        } catch (SQLException ex) {
+
+            Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+
+        }
+
+    }
+    
+    public int getStockById(int id){
+        int stck = -1;
+        
+        String sql = "select Stock as stck from producto where id_producto = ?";
+
+        try (
+                Connection con = getCon(); PreparedStatement pst = con.prepareStatement(sql);) {
+
+            pst.setInt(1, id);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    
+                    stck = rs.getInt("stck");
+                    
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return stck;
     }
 
     public int getId() {

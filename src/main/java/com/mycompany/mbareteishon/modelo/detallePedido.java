@@ -240,5 +240,7 @@ public class detallePedido extends conexion implements sentencias {
         return nombre;
         
     }
+    
+    
 
 }
