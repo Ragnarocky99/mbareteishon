@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package com.mycompany.mbareteishon;
 
 import com.mycompany.mbareteishon.modelo.cliente;
@@ -42,11 +38,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author nahue
- */
 public class VistaVentasController implements Initializable {
 
     @FXML
@@ -140,16 +131,17 @@ public class VistaVentasController implements Initializable {
 
     ObservableList<factura> totales = FXCollections.observableArrayList();
 
-    factura fac = new factura();
+    public factura fac = new factura();
 
     producto pro = new producto();
 
     cliente cl = new cliente();
-    
+
     empleado emp = new empleado();
 
     usuario usr = new usuario();
 
+    VistaBuscarFacturaController controladorDestinoF;
     VistaBuscarClientesController controladorDestinoC;
     VistaBuscarArticulosController controladorDestinoP;
 
@@ -163,7 +155,7 @@ public class VistaVentasController implements Initializable {
 
         usr = usr.getUserFromDb(5);
         txtEmpleado.setText(usr.getNombre());
-        
+
         fac.setNumeroFactura(fac.getUltimaFactura());
 
         colCantidadProducto.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
@@ -175,7 +167,7 @@ public class VistaVentasController implements Initializable {
 
         colTotal10.setCellValueFactory(new PropertyValueFactory<>("iva10"));
         colTotalGral.setCellValueFactory(new PropertyValueFactory<>("totalGral"));
-        
+
         mostrarFactura();
 
     }
@@ -260,42 +252,58 @@ public class VistaVentasController implements Initializable {
 
     public void mostrarFactura() {
 
-        fac = fac.getFacturaFromDb(fac.getNumeroFactura());
-        txtFechaEmision.setText(String.valueOf(fac.getFechaEmision()));
-        txtNroFactura.setText(String.valueOf(fac.getNumeroFactura()));
-        txtEmpleado.setText(usr.getUserFromDb(fac.getIdEmpleado()).getNombre());
-        cl = cl.getClienteFromDb(fac.getIdCliente());
-        txtRucCliente.setText(cl.getRucCiCliente());
-        txtNombreCliente.setText(cl.getNombreCliente());
-        lista = FXCollections.observableArrayList(det.consulta());
-        
-        if(fac.getActivo() != 0){
-            boxActivo.setSelected(true);
+        if (fac.getNumeroFactura() != -1) {
+            fac = fac.getFacturaFromDb(fac.getNumeroFactura());
+            txtFechaEmision.setText(String.valueOf(fac.getFechaEmision()));
+            txtNroFactura.setText(String.valueOf(fac.getNumeroFactura()));
+            txtEmpleado.setText(usr.getUserFromDb(fac.getIdEmpleado()).getNombre());
+            cl = cl.getClienteFromDb(fac.getIdCliente());
+            txtRucCliente.setText(cl.getRucCiCliente());
+            txtNombreCliente.setText(cl.getNombreCliente());
+            det.setIdProducto(fac.getNumeroFactura());
+            lista = FXCollections.observableArrayList(det.consulta());
+
+            for (detalleFactura deta : lista) {
+                deta.setNombre(deta.getNombre(deta.getIdProducto()));
+            }
+
+            totales = FXCollections.observableArrayList(fac.getFacturaFromDb(fac.getNumeroFactura()));
+
+            tblTotales.setItems(totales);
+            tblDetalleFactura.setItems(lista);
+            btnAnularFactura.setDisable(false);
+
+            if (fac.getActivo() == 0) {
+                boxActivo.setSelected(false);
+                btnAnularFactura.setDisable(true);
+                btnImprimirFactura.setDisable(true);
+            } else {
+                boxActivo.setSelected(true);
+                btnAnularFactura.setDisable(false);
+                btnImprimirFactura.setDisable(false);
+            }
+
+            if (fac.getTipoVenta().equals(cmbFormaPago.getItems().get(0))) {
+                cmbTipoVenta.setValue("Mostrador");
+            } else {
+                cmbTipoVenta.setValue("Delivery");
+            }
+
+            if (fac.getFormaPago().equals(cmbFormaPago.getItems().get(0))) {
+                cmbFormaPago.setValue("Efectivo");
+            } else {
+                cmbFormaPago.setValue("Credito");
+            }
         }
-        else{
-            boxActivo.setSelected(false);
-        }
-        
-        if(fac.getTipoVenta().equals(cmbFormaPago.getItems().get(0))){
-            cmbTipoVenta.setValue("Mostrador");
-        }else{
-            cmbTipoVenta.setValue("Delivery");
-        }
-        
-        if(fac.getFormaPago().equals(cmbFormaPago.getItems().get(0))){
-            cmbFormaPago.setValue("Efectivo");
-        }
-        else{
-            cmbFormaPago.setValue("Credito");
-        }
-         
+
     }
 
     public void setClienteSeleccionado(cliente cl) {
         this.cl = cl;
         if (cl.getIdCliente() != -1) {
             txtRucCliente.setText(cl.getRucCiCliente());
-            txtNombreCliente.setText(cl.getNombreCliente());
+            txtNombreCliente.setText(cl.getNombreCliente() + " " + cl.getApellidoCliente());
+
         }
     }
 
@@ -304,6 +312,15 @@ public class VistaVentasController implements Initializable {
         if (pro.getId() != -1) {
             txtCodProducto.setText(String.valueOf(pro.getId()));
             txtPrecioProducto.setText(String.valueOf(pro.getPrecio()));
+        }
+    }
+
+    public void setFacturaSeleccionada(factura fac) {
+        this.fac = fac;
+        if (fac.getNumeroFactura() != -1) {
+
+            mostrarFactura();
+
         }
     }
 
@@ -316,14 +333,44 @@ public class VistaVentasController implements Initializable {
 
     @FXML
     private void atras(ActionEvent event) {
+
+        factura facVacio = new factura();
+        if (fac.getFacturaFromDb(fac.getNumeroFactura() - 1).getNumeroFactura() != 0) {
+
+            fac = fac.getFacturaFromDb(fac.getNumeroFactura() - 1);
+            mostrarFactura();
+
+        } else {
+
+            fac = fac.getFacturaFromDb(fac.getUltimaFactura());
+            mostrarFactura();
+        }
+
     }
 
     @FXML
     private void buscarFactura(ActionEvent event) {
+
+        abrirFxmlModal("vistaBuscarFactura.fxml", "Buscar Ventas");
+
     }
 
     @FXML
     private void siguiente(ActionEvent event) {
+
+        factura facVacio = new factura();
+        if (fac.getFacturaFromDb(fac.getNumeroFactura() + 1).getNumeroFactura() != 0) {
+
+            fac = fac.getFacturaFromDb(fac.getNumeroFactura() + 1);
+            mostrarFactura();
+
+        }
+        if (txtNroFactura.getText().equals("0")) {
+
+            fac = fac.getFacturaFromDb(fac.getPrimeraFactura());
+            mostrarFactura();
+        }
+
     }
 
     @FXML
@@ -391,6 +438,17 @@ public class VistaVentasController implements Initializable {
     private void nuevo(ActionEvent event) {
 
         consFactura();
+        txtNroFactura.clear();
+        txtRucCliente.clear();
+        txtNombreCliente.clear();
+        cmbFormaPago.getSelectionModel().clearSelection();
+        cmbTipoVenta.getSelectionModel().clearSelection();
+        lista = FXCollections.observableArrayList();
+        tblDetalleFactura.setItems(lista);
+        totales = FXCollections.observableArrayList();
+        txtFechaEmision.clear();
+        tblTotales.setItems(totales);
+
         fac = new factura();
         fac.setNumeroFactura(fac.getUltimaFactura() + 1);
         txtNroFactura.setText(String.valueOf(fac.getNumeroFactura()));
@@ -445,9 +503,7 @@ public class VistaVentasController implements Initializable {
             Optional<ButtonType> opcion = alerta.showAndWait();
             if (opcion.get() == ButtonType.OK) {
 
-                //public factura(String fechaEmision, int numeroFactura, int idCliente, int idEmpleado, double totalGral, String formaPago, String tipoVenta, int activo, double iva10) {
-                //a
-                fac = new factura(Timestamp.valueOf(currentDate) , Integer.parseInt(txtNroFactura.getText()), cl.getIdCliente(), 1, totalGral, cmbFormaPago.getValue(), cmbTipoVenta.getValue(), 1, totalIva);
+                fac = new factura(Timestamp.valueOf(currentDate), Integer.parseInt(txtNroFactura.getText()), cl.getIdCliente(), 1, totalGral, cmbFormaPago.getValue(), cmbTipoVenta.getValue(), 1, totalIva);
                 if (fac.insertar()) {
                     c = 0;
                     for (detalleFactura detalle : lista) {
@@ -464,6 +520,7 @@ public class VistaVentasController implements Initializable {
                     totalGral = 0;
                     modificar = false;
                     c = 0;
+                    mostrarFactura();
                     initFactura();
 
                 } else {
@@ -481,18 +538,15 @@ public class VistaVentasController implements Initializable {
 
     @FXML
     private void anular(ActionEvent event) {
-        
-        
+
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle("El sistema comunica;");
         alerta.setHeaderText(null);
         alerta.setContentText("Realmente desea anular esta factura?");
         Optional<ButtonType> opcion = alerta.showAndWait();
         if (opcion.get() == ButtonType.OK) {
-
             fac.setActivo(0);
-            fac.modificar();
-
+            System.out.println(fac.modificar());
         }
         mostrarFactura();
     }
@@ -523,8 +577,7 @@ public class VistaVentasController implements Initializable {
 
     @FXML
     private void aceptarProducto(ActionEvent event) {
-        System.out.println(cmbTipoVenta.getValue());
-        System.out.println(cmbFormaPago.getValue());
+
         totalGral = 0;
         if (!modificar) {
 
@@ -544,12 +597,10 @@ public class VistaVentasController implements Initializable {
 
             } else {
 
-                System.out.println("Seleccionado para agregar : " + pro.getId());
                 int cant = Integer.parseInt(txtCantidadProducto.getText());
                 double precio = Double.parseDouble(txtPrecioProducto.getText());
                 double total = cant * precio;
-                //detalleFactura(int cantidad, int idProducto, int numeroFactura, double montoTotal, double monto, double iva10)
-                det = new detalleFactura(lista.size() + 1, cant, Integer.parseInt(txtCodProducto.getText()), fac.getNumeroFactura(), total, precio, precio * 0.1);
+                det = new detalleFactura(lista.size() + 1, cant, Integer.parseInt(txtCodProducto.getText()), fac.getNumeroFactura(), total, precio, total * 0.10);
                 det.setNombre(pro.getNombre());
                 if (comprobarProdRepetido()) {
 
@@ -567,13 +618,11 @@ public class VistaVentasController implements Initializable {
 
                             df.setNro(c + 1);
                             c += 1;
-                            System.out.println("Elemento " + (df.getNro() - 1) + " ID" + df.getIdProducto());
 
                         }
 
                         lista.set(det.getNro() - 1, det);
                         tblDetalleFactura.setItems(lista);
-                        
 
                     }
 
@@ -581,13 +630,6 @@ public class VistaVentasController implements Initializable {
 
                     lista.add(det);
                     tblDetalleFactura.setItems(lista);
-
-                }
-
-                System.out.println("------------------Nuevo Array--------------------");
-                for (detalleFactura df : lista) {
-
-                    System.out.println("Elemento " + (df.getNro() - 1) + " ID" + df.getIdProducto());
 
                 }
 
@@ -617,7 +659,7 @@ public class VistaVentasController implements Initializable {
                 double total = cant * precio;
 
                 //det = new detalleFactura(pos, pro.getId(), cant, cost, total, Integer.parseInt(txtIdPedido.getText()), det.consultaNombre(pro.getId()));
-                det = new detalleFactura(pos, cant, Integer.parseInt(txtCodProducto.getText()), fac.getNumeroFactura(), total, precio, precio * 0.1);
+                det = new detalleFactura(pos, cant, Integer.parseInt(txtCodProducto.getText()), fac.getNumeroFactura(), total, precio, total * 0.10);
                 det.setNombre(pro.getNombre());
                 if (comprobarProdRepetido()) {
 
@@ -629,76 +671,56 @@ public class VistaVentasController implements Initializable {
                             + "Desea combinar sus cantidades?");
                     Optional<ButtonType> opcion = alerta.showAndWait();
                     if (opcion.get() == ButtonType.OK) {
-                        System.out.println("hola");
-
-                        System.out.println("Elemento a modificar : " + det.getNro() + " ID" + det.getIdProducto());
-                        System.out.println("Elemento a eliminar : " + (pos - 1));
-                        System.out.println("En el array " + (det.getNro() - 1));
-                        System.out.println("Tamaño del array " + lista.size());
-                        System.out.println("Tamaño del array " + lista.size());
-                        System.out.println("------------------Array--------------------");
-                        for (detalleFactura df : lista) {
-
-                            System.out.println("Elemento " + (df.getNro() - 1) + " ID" + df.getIdProducto());
-
-                        }
 
                         lista.set(det.getNro() - 1, det);
-                        System.out.println("se seteo " + (det.getNro() - 1) + " " + det.getIdProducto());
-                        System.out.println(pos - 1);
                         lista.remove(pos - 1);
                         tblDetalleFactura.setItems(lista);
 
-                        System.out.println("------------------Nuevo Array--------------------");
                         c = 0;
                         for (detalleFactura df : lista) {
 
                             df.setNro(c + 1);
                             c += 1;
-                            System.out.println("Elemento " + (df.getNro() - 1) + " ID" + df.getIdProducto());
 
                         }
 
                     }
 
                 } else {
-                    System.out.println("w");
                     lista.set(det.getNro() - 1, det);
                     tblDetalleFactura.setItems(lista);
 
                 }
 
             }
-            
-            
 
         }
 
+        totalGral = 0;
+        totalIva = 0;
         for (detalleFactura det : lista) {
             totalGral += det.getMontoTotal();
             totalIva += det.getIva10();
+            System.out.println(det.getIva10());
         }
 
         fac.setTotalGral(totalGral);
         fac.setIva10(totalIva);
-        totales.set(0, fac);
+        totales.clear();
+        totales.add(fac);
         tblTotales.setItems(totales);
 
-        
         txtCodProducto.clear();
         txtCantidadProducto.clear();
         txtPrecioProducto.clear();
-        
+
         consFactura();
 
     }
 
     public boolean comprobarProdRepetido() {
 
-        System.out.println("Comprobacion");
         for (detalleFactura detalle : lista) {
-
-            System.out.println("Elemento " + detalle.getNro() + " ID " + detalle.getIdProducto());
 
             if ((det.getIdProducto() == detalle.getIdProducto()) && (det.getNro() != detalle.getNro())) {
 
@@ -712,8 +734,6 @@ public class VistaVentasController implements Initializable {
                 return true;
 
             } else {
-
-                System.out.println("No coincide con " + det.getNro() + " ID " + det.getIdProducto());
 
             }
         }
@@ -757,6 +777,10 @@ public class VistaVentasController implements Initializable {
 
                 controladorDestinoP = loader.getController();
 
+            } else if (titulo.equals("Buscar Ventas")) {
+
+                controladorDestinoF = loader.getController();
+
             }
 
             Stage stage = new Stage();
@@ -778,6 +802,11 @@ public class VistaVentasController implements Initializable {
 
                 controladorDestinoP.setStage(stage);
                 controladorDestinoP.setControladorVentas(this);
+
+            } else if (titulo.equals("Buscar Ventas")) {
+
+                controladorDestinoF.setPrimaryStage(stage);
+                controladorDestinoF.setControladorVentas(this);
 
             }
 

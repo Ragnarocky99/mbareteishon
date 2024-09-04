@@ -43,15 +43,15 @@
                <children>
                   <Pane layoutX="15.0" layoutY="15.0" prefHeight="412.0" prefWidth="731.0" style="-fx-border-style: solid;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                      <children>
-                        <Button fx:id="btnAgregarCliente" layoutX="14.0" layoutY="286.0" mnemonicParsing="false" onAction="#agregarCliente" prefHeight="70.0" prefWidth="78.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Agregar">
+                        <Button fx:id="btnAgregarCliente" layoutX="14.0" layoutY="335.0" mnemonicParsing="false" onAction="#agregarCliente" prefHeight="70.0" prefWidth="78.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Agregar">
                            <font>
                               <Font name="Consolas" size="13.0" />
                            </font></Button>
-                        <Button fx:id="btnModificarCliente" layoutX="113.0" layoutY="287.0" mnemonicParsing="false" onAction="#modificarCliente" prefHeight="70.0" prefWidth="85.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Modificar">
+                        <Button fx:id="btnModificarCliente" layoutX="113.0" layoutY="336.0" mnemonicParsing="false" onAction="#modificarCliente" prefHeight="70.0" prefWidth="85.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Modificar">
                            <font>
                               <Font name="Consolas" size="13.0" />
                            </font></Button>
-                        <Button fx:id="btnEliminarCliente" layoutX="215.0" layoutY="287.0" mnemonicParsing="false" onAction="#eliminarCliente" prefHeight="70.0" prefWidth="86.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Eliminar">
+                        <Button fx:id="btnEliminarCliente" layoutX="215.0" layoutY="336.0" mnemonicParsing="false" onAction="#eliminarCliente" prefHeight="70.0" prefWidth="86.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Eliminar">
                            <font>
                               <Font name="Consolas" size="13.0" />
                            </font></Button>
@@ -64,15 +64,17 @@
                         <TextField fx:id="txtApellidoCliente" layoutX="73.0" layoutY="104.0" prefHeight="25.0" prefWidth="216.0" />
                         <TextField fx:id="txtRucCliente" layoutX="73.0" layoutY="147.0" prefHeight="25.0" prefWidth="217.0" />
                         <TextField fx:id="txtTelefono" layoutX="73.0" layoutY="189.0" prefHeight="25.0" prefWidth="217.0" />
-                        <Button fx:id="btnAceptar" layoutX="73.0" layoutY="233.0" mnemonicParsing="false" onAction="#aceptar" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Aceptar">
+                        <Button fx:id="btnAceptar" layoutX="73.0" layoutY="282.0" mnemonicParsing="false" onAction="#aceptar" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Aceptar">
                            <font>
                               <Font name="Consolas" size="13.0" />
                            </font></Button>
-                        <Button fx:id="btnCancelar" layoutX="152.0" layoutY="233.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Cancelar">
+                        <Button fx:id="btnCancelar" layoutX="152.0" layoutY="282.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Cancelar">
                            <font>
                               <Font name="Consolas" size="13.0" />
                            </font></Button>
                         <Label layoutX="14.0" layoutY="193.0" text="Telefono" />
+                        <Label layoutX="14.0" layoutY="238.0" text="Direccion" />
+                        <TextField fx:id="txtDireccion" layoutX="73.0" layoutY="234.0" prefHeight="25.0" prefWidth="217.0" />
                      </children>
                   </Pane>
                </children></AnchorPane>

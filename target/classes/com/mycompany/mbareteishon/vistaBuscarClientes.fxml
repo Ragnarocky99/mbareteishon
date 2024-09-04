@@ -12,8 +12,9 @@
       <Label layoutX="32.0" layoutY="23.0" text="Buscar" />
       <TableView fx:id="tblClientes" layoutX="19.0" layoutY="52.0" onDragEntered="#mostrarFila" onDragExited="#noMostrarFila" prefHeight="293.0" prefWidth="567.0">
         <columns>
-          <TableColumn fx:id="colRuc" prefWidth="280.0" text="RUC/CI" />
-          <TableColumn fx:id="colNombre" prefWidth="291.0" text="Nombre/Razon" />
+          <TableColumn fx:id="colRuc" prefWidth="204.0" text="RUC/CI" />
+          <TableColumn fx:id="colNombre" prefWidth="197.0" text="Nombre/Razon" />
+            <TableColumn fx:id="colApellido" prefWidth="165.0" text="Apellido" />
         </columns>
       </TableView>
       <TextField fx:id="txtBuscar" layoutX="98.0" layoutY="19.0" prefHeight="25.0" prefWidth="410.0" />

@@ -163,6 +163,7 @@ public class VistaBuscarPedidosController implements Initializable {
 
     @FXML
     private void checkAllProv(ActionEvent event) {
+        
         if (boxAllProv.isSelected()) {
             btnBuscarProv.setDisable(true);
         } else {

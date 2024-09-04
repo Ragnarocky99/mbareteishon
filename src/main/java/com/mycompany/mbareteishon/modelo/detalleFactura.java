@@ -68,6 +68,31 @@ public class detalleFactura extends conexion implements sentencias {
 
     }
 
+    public String getNombre(int id){
+        
+        String nombre = new String();
+        String sql = "select nombre as nombre from producto where id_producto = ?";
+
+        try (
+                Connection con = getCon(); PreparedStatement pst = con.prepareStatement(sql);) {
+
+            pst.setInt(1, id);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    
+                    nombre = rs.getString("nombre");
+                    
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return nombre;
+    }
+    
     @Override
     public ArrayList consulta() {
 

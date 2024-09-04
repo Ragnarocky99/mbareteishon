@@ -4,6 +4,8 @@
  */
 package com.mycompany.mbareteishon.modelo;
 
+import com.mycompany.mbareteishon.VistaBuscarFacturaController;
+import com.mycompany.mbareteishon.VistaBuscarPedidosController;
 import com.mycompany.mbareteishon.clases.conexion;
 import com.mycompany.mbareteishon.clases.sentencias;
 import java.sql.Connection;
@@ -73,6 +75,28 @@ public class factura extends conexion implements sentencias {
 
         }
 
+    }
+
+    public int getPrimeraFactura() {
+        int menor = 0;
+        String sql = "select MIN(numero_factura) as primera_factura from factura";
+
+        try (
+                Connection con = getCon(); Statement stm = con.createStatement(); ResultSet rs = stm.executeQuery(sql);) {
+
+            while (rs.next()) {
+
+                menor = rs.getInt("primera_factura");
+
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("lol");
+            Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+
+        return menor;
     }
 
     public int getUltimaFactura() {
@@ -184,14 +208,14 @@ public class factura extends conexion implements sentencias {
         try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
 
             stm.setTimestamp(1, this.fechaEmision);
-            stm.setInt(2, this.numeroFactura);
-            stm.setInt(3, this.idCliente);
-            stm.setInt(4, this.idEmpleado);
-            stm.setDouble(5, this.totalGral);
-            stm.setString(6, this.formaPago);
-            stm.setString(7, this.tipoVenta);
-            stm.setInt(8, this.activo);
-            stm.setDouble(9, this.iva10);
+            stm.setInt(2, this.idCliente);
+            stm.setInt(3, this.idEmpleado);
+            stm.setDouble(4, this.totalGral);
+            stm.setString(5, this.formaPago);
+            stm.setString(6, this.tipoVenta);
+            stm.setInt(7, this.activo);
+            stm.setDouble(8, this.iva10);
+            stm.setInt(9, this.numeroFactura);
             stm.executeUpdate();
 
             int rowsUpdated = stm.executeUpdate();
@@ -206,6 +230,7 @@ public class factura extends conexion implements sentencias {
         } catch (SQLException ex) {
 
             Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("bruh");
             return false;
 
         }
@@ -229,6 +254,65 @@ public class factura extends conexion implements sentencias {
 
         }
 
+    }
+
+    public ArrayList Filtrar(VistaBuscarFacturaController ct) {
+        ArrayList<factura> facturas = new ArrayList<>();
+        String sql = String.valueOf(ct.query);
+        factura fac = new factura();
+        int c = 1;
+        System.out.println(sql);
+        try (
+            Connection con = getCon(); PreparedStatement pst = con.prepareStatement(sql);) {
+            System.out.println(sql);
+            if (ct.k1) {
+                pst.setInt(c, ct.desdeIdParse);
+                c += 1;
+                pst.setInt(c, ct.hastaIdParse);
+                c += 1;
+            }
+
+            if (ct.k2) {
+                pst.setString(c, ct.desdeFechaParse);
+                c += 1;
+                pst.setString(c, ct.hastaFechaParse);
+                c += 1;
+            }
+
+            if (ct.k3) {
+                pst.setInt(c, ct.idClParse);
+                c += 1;
+            }
+
+            if (ct.k4) {
+                pst.setInt(c, ct.idEmpParse);
+                c += 1;
+            }
+
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+
+                    Timestamp fa = rs.getTimestamp("fecha_emision");
+                    int n = rs.getInt("numero_factura");
+                    int ic = rs.getInt("id_cliente");
+                    int ie = rs.getInt("id_empleado");
+                    double tg = rs.getDouble("total_gral");
+                    String fp = rs.getString("forma_pago");
+                    String tp = rs.getString("tipo_venta");
+                    int a = rs.getInt("activo");
+                    double i10 = rs.getDouble("iva_10");
+
+                    fac = new factura(fa, n, ic, ie, tg, fp, tp, a, i10);
+                    facturas.add(fac);
+
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return facturas;
     }
 
     public Timestamp getFechaEmision() {

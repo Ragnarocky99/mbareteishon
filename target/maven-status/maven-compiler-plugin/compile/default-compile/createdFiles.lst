@@ -5,10 +5,12 @@ com\mycompany\mbareteishon\VistamMenuController.class
 com\mycompany\mbareteishon\VistaPedidosController.class
 com\mycompany\mbareteishon\App.class
 com\mycompany\mbareteishon\ValidadorString.class
+com\mycompany\mbareteishon\modelo\empleado.class
 com\mycompany\mbareteishon\VistaBuscarArticulosController.class
 module-info.class
 com\mycompany\mbareteishon\modelo\detallePedido.class
 com\mycompany\mbareteishon\clases\sentencias.class
+com\mycompany\mbareteishon\VistaBuscarFacturaController.class
 com\mycompany\mbareteishon\modelo\usuario.class
 com\mycompany\mbareteishon\modelo\cliente.class
 com\mycompany\mbareteishon\modelo\detalleFactura.class

@@ -43,6 +43,7 @@ public class VistaBuscarClientesController implements Initializable {
     
     private Stage stage;
     private VistaVentasController controladorVentas;
+    private VistaBuscarFacturaController controladorBuscarFactura;
 
     ObservableList<cliente> lista;
     ObservableList<cliente> listaFiltrada;
@@ -50,6 +51,8 @@ public class VistaBuscarClientesController implements Initializable {
     private TableColumn<cliente, String> colRuc;
     @FXML
     private TableColumn<cliente, String> colNombre;
+    @FXML
+    private TableColumn<cliente, String> colApellido;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -63,15 +66,19 @@ public class VistaBuscarClientesController implements Initializable {
         this.stage = stage;
     }
 
+    public void setControladorBuscarFactura(VistaBuscarFacturaController controladorBuscarFactura) {
+        this.controladorBuscarFactura = controladorBuscarFactura;
+    }
+    
+
     public void setControladorVentas(VistaVentasController controladorVentas) {
         this.controladorVentas = controladorVentas;
     }
     
     @FXML
     private void mostrarFila(DragEvent event) {
-        cliente cl = tblClientes.getSelectionModel().getSelectedItem();;
+        cliente cl = tblClientes.getSelectionModel().getSelectedItem();
         btnAceptar.setDisable(false);
-        System.out.println("s");
     }
 
     @FXML
@@ -86,6 +93,10 @@ public class VistaBuscarClientesController implements Initializable {
         cliente cl = tblClientes.getSelectionModel().getSelectedItem();
         if (cl != null && controladorVentas != null) {
             controladorVentas.setClienteSeleccionado(cl);
+        }
+        if (cl != null && controladorBuscarFactura != null ){
+            controladorBuscarFactura.setClienteSeleccionado(cl);
+            controladorBuscarFactura.mostrarCliente();
         }
         stage.close();
         
@@ -108,6 +119,7 @@ public class VistaBuscarClientesController implements Initializable {
         lista = FXCollections.observableArrayList(new cliente().consulta());
         colRuc.setCellValueFactory(new PropertyValueFactory<>("rucCiCliente"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
+        colApellido.setCellValueFactory(new PropertyValueFactory<>("apellidoCliente"));
         tblClientes.setItems(lista);
 
         listaFiltrada = FXCollections.observableArrayList();
@@ -121,6 +133,9 @@ public class VistaBuscarClientesController implements Initializable {
                     listaFiltrada.add(listas);
                 }
                 if (String.valueOf(listas.getRucCiCliente()).contains(buscar)) {
+                    listaFiltrada.add(listas);
+                }
+                if (String.valueOf(listas.getApellidoCliente()).contains(buscar.toLowerCase())){
                     listaFiltrada.add(listas);
                 }
             }

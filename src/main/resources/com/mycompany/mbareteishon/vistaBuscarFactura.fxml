@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="636.0" prefWidth="1272.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mbareteishon.VistaBuscarFacturaController">
+   <children>
+      <Pane layoutX="14.0" layoutY="14.0" prefHeight="608.0" prefWidth="216.0" style="-fx-border-style: solid;">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Numero de Factura" />
+            <CheckBox fx:id="boxAllId" layoutX="14.0" layoutY="31.0" mnemonicParsing="false" onAction="#checkAllId" text="Todos los Numeros" />
+            <Label layoutX="12.0" layoutY="58.0" text="Desde" />
+            <Label layoutX="12.0" layoutY="87.0" prefHeight="17.0" prefWidth="33.0" text="Hasta" />
+            <TextField fx:id="txtDesdeId" layoutX="53.0" layoutY="54.0" />
+            <TextField fx:id="txtHastaId" layoutX="53.0" layoutY="83.0" />
+            <Label layoutX="16.0" layoutY="130.0" text="Fecha" />
+            <CheckBox fx:id="boxAllFecha" layoutX="16.0" layoutY="147.0" mnemonicParsing="false" onAction="#checkAllFecha" text="Todas las Fechas" />
+            <Label layoutX="14.0" layoutY="174.0" text="Desde" />
+            <Label layoutX="14.0" layoutY="203.0" prefHeight="17.0" prefWidth="33.0" text="Hasta" />
+            <DatePicker fx:id="dPDesde" layoutX="53.0" layoutY="170.0" prefHeight="25.0" prefWidth="149.0" />
+            <DatePicker fx:id="dPHasta" layoutX="53.0" layoutY="199.0" prefHeight="25.0" prefWidth="149.0" />
+            <Label layoutX="15.0" layoutY="242.0" text="Cliente" />
+            <CheckBox fx:id="boxAllCl" layoutX="15.0" layoutY="259.0" mnemonicParsing="false" onAction="#checkAllCl" text="Todos los Clientes" />
+            <TextField fx:id="txtCl" layoutX="54.0" layoutY="282.0" prefHeight="25.0" prefWidth="124.0" />
+            <Label layoutX="17.0" layoutY="286.0" text="Clien." />
+            <CheckBox fx:id="boxActivo" layoutX="16.0" layoutY="484.0" mnemonicParsing="false" onAction="#checkActivo" text="Activo" />
+            <CheckBox fx:id="boxAnulado" layoutX="15.0" layoutY="509.0" mnemonicParsing="false" onAction="#checkAnulado" text="Anulado" />
+            <Button fx:id="btnAceptar" layoutX="14.0" layoutY="555.0" mnemonicParsing="false" onAction="#aceptar" prefHeight="40.0" prefWidth="81.0" text="Aceptar" />
+            <Button fx:id="btnCancelar" layoutX="116.0" layoutY="555.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="40.0" prefWidth="81.0" text="Cancelar" />
+            <Button fx:id="btnBuscarCl" layoutX="178.0" layoutY="282.0" mnemonicParsing="false" onAction="#buscarCl" prefHeight="25.0" prefWidth="19.0" text="Button" />
+            <Label layoutX="13.0" layoutY="467.0" text="Estado" />
+            <Label layoutX="15.0" layoutY="390.0" text="Condicion / Tipo Venta" />
+            <CheckBox fx:id="boxEfectivo" layoutX="14.0" layoutY="407.0" mnemonicParsing="false" onAction="#checkEfectivo" text="Efectivo" />
+            <CheckBox fx:id="boxCredito" layoutX="14.0" layoutY="432.0" mnemonicParsing="false" onAction="#checkCredito" text="Credito" />
+            <CheckBox fx:id="boxMostrador" layoutX="93.0" layoutY="409.0" mnemonicParsing="false" onAction="#checkMostrador" text="Mostrador" />
+            <CheckBox fx:id="boxDelivery" layoutX="93.0" layoutY="434.0" mnemonicParsing="false" onAction="#checkDelivery" text="Delivery" />
+            <Label layoutX="15.0" layoutY="316.0" text="Empleado" />
+            <Label layoutX="15.0" layoutY="357.0" text="Emp." />
+            <TextField fx:id="txtEmp" layoutX="54.0" layoutY="353.0" prefHeight="25.0" prefWidth="124.0" />
+            <Button fx:id="btnBuscarEmp" layoutX="178.0" layoutY="353.0" mnemonicParsing="false" onAction="#buscarEmp" prefHeight="25.0" prefWidth="19.0" text="Button" />
+            <CheckBox fx:id="boxAllEmp" layoutX="15.0" layoutY="333.0" mnemonicParsing="false" onAction="#checkAllEmp" text="Todos los Empleados" />
+            <Button layoutX="142.0" layoutY="505.0" mnemonicParsing="false" onAction="#limpiar" text="Limpiar" />
+         </children>
+      </Pane>
+      <TableView fx:id="tblFactura" layoutX="239.0" layoutY="14.0" onMouseClicked="#mostrarFila" prefHeight="545.0" prefWidth="1015.0">
+         <columns>
+            <TableColumn fx:id="colNro" prefWidth="110.0" text="N°" />
+            <TableColumn fx:id="colEmision" prefWidth="196.0" text="Emision" />
+            <TableColumn fx:id="colCliente" prefWidth="146.0" text="Cliente" />
+            <TableColumn fx:id="colVendedor" prefWidth="139.0" text="Vendedor" />
+            <TableColumn fx:id="colFP" prefWidth="86.0" text="Form. Pago" />
+            <TableColumn fx:id="colTV" prefWidth="82.0" text="Tipo Venta" />
+            <TableColumn fx:id="colMonto" prefWidth="155.0" text="Monto" />
+            <TableColumn fx:id="colActivo" minWidth="7.0" prefWidth="100.0" text="Activo" />
+         </columns>
+      </TableView>
+      <Button fx:id="btnEnviar" layoutX="239.0" layoutY="568.0" mnemonicParsing="false" onAction="#enviar" prefHeight="48.0" prefWidth="156.0" text="Seleccionar" />
+   </children>
+</AnchorPane>

@@ -77,6 +77,8 @@ public class VistaGestionClientesController implements Initializable {
     private TabPane tabPaneClientes;
     @FXML
     private TextField txtTelefono;
+    @FXML
+    private TextField txtDireccion;
 
     /**
      * Initializes the controller class.
@@ -86,6 +88,7 @@ public class VistaGestionClientesController implements Initializable {
 
         btnAgregarCliente.setDisable(false);
         txtNombreCliente.setDisable(true);
+        txtDireccion.setDisable(true);
         txtTelefono.setDisable(true);
         txtApellidoCliente.setDisable(true);
         txtRucCliente.setDisable(true);
@@ -113,6 +116,7 @@ public class VistaGestionClientesController implements Initializable {
 
         btnAgregarCliente.setDisable(true);
         txtNombreCliente.setDisable(false);
+        txtDireccion.setDisable(true);
         txtTelefono.setDisable(false);
         txtApellidoCliente.setDisable(false);
         txtRucCliente.setDisable(false);
@@ -122,6 +126,7 @@ public class VistaGestionClientesController implements Initializable {
         btnEliminarCliente.setDisable(true);
 
         txtNombreCliente.clear();
+        txtDireccion.clear();
         txtIdCliente.clear();
         txtRucCliente.clear();
         txtApellidoCliente.clear();
@@ -137,6 +142,7 @@ public class VistaGestionClientesController implements Initializable {
 
         btnAgregarCliente.setDisable(true);
         txtNombreCliente.setDisable(false);
+        txtDireccion.setDisable(false);
         txtTelefono.setDisable(false);
         txtApellidoCliente.setDisable(false);
         txtRucCliente.setDisable(false);
@@ -185,6 +191,7 @@ public class VistaGestionClientesController implements Initializable {
 
                     txtTelefono.clear();
                     txtNombreCliente.clear();
+                    txtDireccion.clear();
                     txtIdCliente.clear();
                     txtRucCliente.clear();
                     txtApellidoCliente.clear();
@@ -202,12 +209,14 @@ public class VistaGestionClientesController implements Initializable {
                     txtIdCliente.setText(String.valueOf(one.getIdCliente()));
                     txtRucCliente.setText(one.getRucCiCliente());
                     txtApellidoCliente.setText(one.getApellidoCliente());
+                    txtDireccion.setText(one.getDireccion());
 
                 }
 
                 // Deshabilitar controles y actualizar datos
                 btnAgregarCliente.setDisable(false);
                 txtNombreCliente.setDisable(true);
+                txtDireccion.setDisable(true);
                 txtTelefono.setDisable(true);
                 txtApellidoCliente.setDisable(true);
                 txtRucCliente.setDisable(true);
@@ -242,10 +251,27 @@ public class VistaGestionClientesController implements Initializable {
         if (ValidadorString.isValid(rucCliente)) {
             one.setRucCiCliente(rucCliente);
             System.out.println("RUC Cliente válido: " + rucCliente);  // Mensaje de depuración
+            if(txtApellidoCliente.getText().isEmpty()){
+                one.setApellidoCliente("");
+            }
+            else{
+                one.setApellidoCliente(txtApellidoCliente.getText());
+            }
+            if(txtTelefono.getText().isEmpty()){
+                one.setTelefono("");
+            }
+            else{
+                one.setApellidoCliente(txtTelefono.getText());
+            }
+            if(txtDireccion.getText().isEmpty()){
+                one.setDireccion("");
+            }
+            else{
+                one.setDireccion(txtDireccion.getText());
+            }
             one.setNombreCliente(txtNombreCliente.getText());
-            one.setApellidoCliente(txtApellidoCliente.getText());
-            one.setTelefono(txtTelefono.getText());
-
+            
+           
             if (modificar) {
                 if (one.modificar()) {
                     Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
@@ -263,6 +289,7 @@ public class VistaGestionClientesController implements Initializable {
                     txtIdCliente.setText(String.valueOf(one.getIdCliente()));
                     txtRucCliente.setText(one.getRucCiCliente());
                     txtApellidoCliente.setText(one.getApellidoCliente());
+                    txtDireccion.setText(one.getDireccion());
 
                 }
             } else {
@@ -288,6 +315,7 @@ public class VistaGestionClientesController implements Initializable {
 
         btnAgregarCliente.setDisable(false);
         txtNombreCliente.setDisable(true);
+        txtDireccion.setDisable(true);
         txtTelefono.setDisable(true);
         txtApellidoCliente.setDisable(true);
         txtRucCliente.setDisable(true);
@@ -306,6 +334,7 @@ public class VistaGestionClientesController implements Initializable {
         btnIrA.setDisable(true);
 
         txtNombreCliente.clear();
+        txtDireccion.clear();
         txtTelefono.clear();
         txtIdCliente.clear();
         txtRucCliente.clear();
@@ -313,6 +342,7 @@ public class VistaGestionClientesController implements Initializable {
 
         btnAgregarCliente.setDisable(false);
         txtNombreCliente.setDisable(true);
+        txtDireccion.setDisable(true);
         txtApellidoCliente.setDisable(true);
         txtRucCliente.setDisable(true);
         btnAceptar.setDisable(true);
@@ -367,6 +397,7 @@ public class VistaGestionClientesController implements Initializable {
         btnIrA.setDisable(false);
 
         txtNombreCliente.setText(String.valueOf(one.getNombreCliente()));
+        txtDireccion.setText(String.valueOf(one.getDireccion()));
         txtTelefono.setText(String.valueOf(one.getTelefono()));
         txtIdCliente.setText(String.valueOf(one.getIdCliente()));
         txtRucCliente.setText(String.valueOf(one.getRucCiCliente()));
