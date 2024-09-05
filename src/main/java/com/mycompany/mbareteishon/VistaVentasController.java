@@ -137,10 +137,8 @@ public class VistaVentasController implements Initializable {
 
     cliente cl = new cliente();
 
-    empleado emp = new empleado();
-
-    usuario usr = new usuario();
-
+    private empleado emp = new empleado();
+    
     VistaBuscarFacturaController controladorDestinoF;
     VistaBuscarClientesController controladorDestinoC;
     VistaBuscarArticulosController controladorDestinoP;
@@ -153,10 +151,9 @@ public class VistaVentasController implements Initializable {
         cmbTipoVenta.getItems().addAll("Mostrador", "Delivery");
         cmbFormaPago.getItems().addAll("Efectivo", "Credito");
 
-        usr = usr.getUserFromDb(5);
-        txtEmpleado.setText(usr.getNombre());
-
+        
         fac.setNumeroFactura(fac.getUltimaFactura());
+        //txtEmpleado.setText(emp.getNombre() + " " + emp.getApellido());
 
         colCantidadProducto.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         colGrav10.setCellValueFactory(new PropertyValueFactory<>("iva10"));
@@ -170,6 +167,14 @@ public class VistaVentasController implements Initializable {
 
         mostrarFactura();
 
+    }
+
+    public void setEmpleado(empleado empleado) {
+        this.emp = empleado;
+        // Actualiza la vista con la información del empleado
+        if (txtEmpleado != null && emp != null) {
+            txtEmpleado.setText(emp.getNombre() + " " + emp.getApellido());
+        }
     }
 
     public void initFactura() {
@@ -256,7 +261,9 @@ public class VistaVentasController implements Initializable {
             fac = fac.getFacturaFromDb(fac.getNumeroFactura());
             txtFechaEmision.setText(String.valueOf(fac.getFechaEmision()));
             txtNroFactura.setText(String.valueOf(fac.getNumeroFactura()));
-            txtEmpleado.setText(usr.getUserFromDb(fac.getIdEmpleado()).getNombre());
+            empleado e = new empleado();
+            e = e.getUserFromDb(fac.getIdEmpleado());
+            txtEmpleado.setText(e.getNombre() + " " + e.getApellido());
             cl = cl.getClienteFromDb(fac.getIdCliente());
             txtRucCliente.setText(cl.getRucCiCliente());
             txtNombreCliente.setText(cl.getNombreCliente());
@@ -449,6 +456,7 @@ public class VistaVentasController implements Initializable {
         txtFechaEmision.clear();
         tblTotales.setItems(totales);
 
+        txtEmpleado.setText(emp.getNombre() + " " + emp.getApellido());
         fac = new factura();
         fac.setNumeroFactura(fac.getUltimaFactura() + 1);
         txtNroFactura.setText(String.valueOf(fac.getNumeroFactura()));
@@ -462,6 +470,8 @@ public class VistaVentasController implements Initializable {
 
     @FXML
     private void guardar(ActionEvent event) {
+        
+        System.out.println(emp.getNombre());
 
         if (txtRucCliente.getText().equals("") || txtNombreCliente.getText().equals("")) {
 
@@ -502,8 +512,7 @@ public class VistaVentasController implements Initializable {
             alerta.setContentText("¿Desea grabar la factura?");
             Optional<ButtonType> opcion = alerta.showAndWait();
             if (opcion.get() == ButtonType.OK) {
-
-                fac = new factura(Timestamp.valueOf(currentDate), Integer.parseInt(txtNroFactura.getText()), cl.getIdCliente(), 1, totalGral, cmbFormaPago.getValue(), cmbTipoVenta.getValue(), 1, totalIva);
+                fac = new factura(Timestamp.valueOf(currentDate), Integer.parseInt(txtNroFactura.getText()), cl.getIdCliente(), emp.getIdEmpleado(), totalGral, cmbFormaPago.getValue(), cmbTipoVenta.getValue(), 1, totalIva);
                 if (fac.insertar()) {
                     c = 0;
                     for (detalleFactura detalle : lista) {

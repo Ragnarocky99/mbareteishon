@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
  *
@@ -74,55 +75,59 @@ public class usuario extends conexion implements sentencias {
         this.pswd = pswd;
     }
 
+    // Método para hashear la contraseña antes de almacenarla
+    private String hashPassword(String plainPassword) {
+        return BCrypt.hashpw(plainPassword, BCrypt.gensalt());
+    }
+
     @Override
     public boolean insertar() {
+        // Hashear la contraseña antes de almacenarla
+        String hashedPassword = hashPassword(this.pswd);
 
         String sql = "insert into usuarios(nombre, rol, pswd) values(?, ?, ?)";
 
         try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
             stm.setString(1, this.nombre);
             stm.setString(2, this.rol);
-            stm.setString(3, this.pswd);
+            stm.setString(3, hashedPassword); // Usar la contraseña hasheada
             stm.executeUpdate();
             return true;
 
         } catch (SQLException ex) {
-
             Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-
         }
+    }
 
+    // Otros métodos de la clase...
+    // Método para comparar contraseñas ingresadas con las almacenadas
+    public boolean verificarPassword(String plainPassword, String hashedPassword) {
+        return BCrypt.checkpw(plainPassword, hashedPassword);
     }
 
     @Override
-    public ArrayList consulta() {
-
+    public ArrayList<usuario> consulta() {
         ArrayList<usuario> usuarios = new ArrayList<>();
         String sql = "select * from usuarios";
 
         try (
-                Connection con = getCon(); Statement stm = con.createStatement(); ResultSet rs = stm.executeQuery(sql);) {
+                Connection con = getCon(); Statement stm = con.createStatement(); ResultSet rs = stm.executeQuery(sql)) {
 
             while (rs.next()) {
-
                 int id = rs.getInt("id_user");
                 String nom = rs.getString("nombre");
                 String rol = rs.getString("rol");
                 String psw = rs.getString("pswd");
                 usuario u = new usuario(id, nom, rol, psw);
                 usuarios.add(u);
-
             }
 
         } catch (SQLException ex) {
-            System.out.println("lol");
             Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
-
         }
 
         return usuarios;
-
     }
 
     public usuario getUserFromDb(int paramId) {
@@ -159,32 +164,24 @@ public class usuario extends conexion implements sentencias {
 
     @Override
     public boolean modificar() {
+        // Hashear la nueva contraseña antes de almacenarla
+        String hashedPassword = hashPassword(this.pswd);
 
-        String sql = "Update usuarios set nombre = ?, rol = ?, pswd = ? "
-                + "where id_user = ?";
+        String sql = "Update usuarios set nombre = ?, rol = ?, pswd = ? where id_user = ?";
 
         try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
             stm.setString(1, this.nombre);
             stm.setString(2, this.rol);
-            stm.setString(3, this.pswd);
+            stm.setString(3, hashedPassword); // Usar la contraseña hasheada
             stm.setInt(4, this.idUser);
 
             int rowsUpdated = stm.executeUpdate();
-
-            // Verificar si se ha actualizado al menos una fila
-            if (rowsUpdated > 0) {
-                return true;  // La modificación fue exitosa
-            } else {
-                return false; // No se realizó ninguna modificación
-            }
+            return rowsUpdated > 0;
 
         } catch (SQLException ex) {
-
             Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-
         }
-
     }
 
     @Override

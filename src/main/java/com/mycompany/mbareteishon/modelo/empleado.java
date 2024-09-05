@@ -13,35 +13,45 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
-/**
- *
- * @author nahue
- */
-public class empleado extends conexion implements sentencias{
+public class empleado extends conexion implements sentencias {
 
     private int idEmpleado;
     private String nombre;
     private String apellido;
     private String cargo;
+    private String pswd; // Campo para la contraseña
 
     public empleado() {
     }
 
-    public empleado(int idEmpleado, String nombre, String apellido, String cargo) {
+    public empleado(int idEmpleado, String nombre, String apellido, String cargo, String pswd) {
         this.idEmpleado = idEmpleado;
         this.nombre = nombre;
         this.apellido = apellido;
         this.cargo = cargo;
+        this.pswd = pswd; // Inicializa la contraseña
+    }
+
+    // Método para hashear la contraseña con bcrypt
+    private String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+    // Método para verificar la contraseña
+    public boolean checkPassword(String password) {
+        return BCrypt.checkpw(password, this.pswd);
     }
 
     @Override
     public boolean insertar() {
-        String sql = "INSERT INTO empleado (nombre, apellido, cargo) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO empleado (nombre, apellido, cargo, pswd) VALUES (?, ?, ?, ?)";
         try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
             stm.setString(1, this.nombre);
             stm.setString(2, this.apellido);
             stm.setString(3, this.cargo);
+            stm.setString(4, hashPassword(this.pswd)); // Hashea la contraseña antes de insertarla
             stm.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -54,47 +64,44 @@ public class empleado extends conexion implements sentencias{
         empleado e = new empleado();
 
         if (paramId != 0) {
+            String sql = "SELECT * FROM empleado WHERE id_empleado = ?";
 
-            String sql = "select * from empleado where id_empleado = ?";
-
-            try (
-                    Connection con = getCon(); PreparedStatement pst = con.prepareStatement(sql);) {
-
+            try (Connection con = getCon(); PreparedStatement pst = con.prepareStatement(sql)) {
                 pst.setInt(1, paramId);
 
                 try (ResultSet rs = pst.executeQuery()) {
                     while (rs.next()) {
-
                         int id = rs.getInt("id_empleado");
                         String nom = rs.getString("nombre");
                         String rol = rs.getString("apellido");
-                        String psw = rs.getString("cargo");
-                        e = new empleado(id, nom, rol, psw);
-
+                        String cargo = rs.getString("cargo");
+                        String psw = rs.getString("pswd"); // Obtiene la contraseña hasheada
+                        e = new empleado(id, nom, rol, cargo, psw);
                     }
                 }
 
             } catch (SQLException ex) {
-                Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(empleado.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
         return e;
     }
-    
+
     @Override
     public ArrayList<empleado> consulta() {
         ArrayList<empleado> empleados = new ArrayList<>();
         String sql = "SELECT * FROM empleado";
         try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql); ResultSet rs = stm.executeQuery()) {
             while (rs.next()) {
-                empleado empleado = new empleado(
+                empleado emp = new empleado(
                         rs.getInt("id_empleado"),
                         rs.getString("nombre"),
                         rs.getString("apellido"),
-                        rs.getString("cargo")
+                        rs.getString("cargo"),
+                        rs.getString("pswd") // Obtiene la contraseña hasheada
                 );
-                empleados.add(empleado);
+                empleados.add(emp);
             }
         } catch (SQLException ex) {
             Logger.getLogger(empleado.class.getName()).log(Level.SEVERE, null, ex);
@@ -104,12 +111,13 @@ public class empleado extends conexion implements sentencias{
 
     @Override
     public boolean modificar() {
-        String sql = "UPDATE empleado SET nombre = ?, apellido = ?, cargo = ? WHERE id_empleado = ?";
+        String sql = "UPDATE empleado SET nombre = ?, apellido = ?, cargo = ?, pswd = ? WHERE id_empleado = ?";
         try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
             stm.setString(1, this.nombre);
             stm.setString(2, this.apellido);
             stm.setString(3, this.cargo);
-            stm.setInt(4, this.idEmpleado);
+            stm.setString(4, hashPassword(this.pswd)); // Hashea la contraseña antes de actualizarla
+            stm.setInt(5, this.idEmpleado);
             stm.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -163,4 +171,11 @@ public class empleado extends conexion implements sentencias{
         this.cargo = cargo;
     }
 
+    public String getPswd() {
+        return pswd;
+    }
+
+    public void setPswd(String pswd) {
+        this.pswd = pswd;
+    }
 }

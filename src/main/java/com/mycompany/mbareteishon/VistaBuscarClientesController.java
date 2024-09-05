@@ -83,7 +83,6 @@ public class VistaBuscarClientesController implements Initializable {
 
     @FXML
     private void noMostrarFila(DragEvent event) {
-        
         btnAceptar.setDisable(false);
     }
 

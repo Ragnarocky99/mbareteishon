@@ -116,7 +116,7 @@ public class VistaGestionClientesController implements Initializable {
 
         btnAgregarCliente.setDisable(true);
         txtNombreCliente.setDisable(false);
-        txtDireccion.setDisable(true);
+        txtDireccion.setDisable(false);
         txtTelefono.setDisable(false);
         txtApellidoCliente.setDisable(false);
         txtRucCliente.setDisable(false);
@@ -251,27 +251,23 @@ public class VistaGestionClientesController implements Initializable {
         if (ValidadorString.isValid(rucCliente)) {
             one.setRucCiCliente(rucCliente);
             System.out.println("RUC Cliente válido: " + rucCliente);  // Mensaje de depuración
-            if(txtApellidoCliente.getText().isEmpty()){
+            if (txtApellidoCliente.getText().isEmpty()) {
                 one.setApellidoCliente("");
-            }
-            else{
+            } else {
                 one.setApellidoCliente(txtApellidoCliente.getText());
             }
-            if(txtTelefono.getText().isEmpty()){
+            if (txtTelefono.getText().isEmpty()) {
                 one.setTelefono("");
+            } else {
+                one.setTelefono(txtTelefono.getText());
             }
-            else{
-                one.setApellidoCliente(txtTelefono.getText());
-            }
-            if(txtDireccion.getText().isEmpty()){
+            if (txtDireccion.getText().isEmpty()) {
                 one.setDireccion("");
-            }
-            else{
+            } else {
                 one.setDireccion(txtDireccion.getText());
             }
             one.setNombreCliente(txtNombreCliente.getText());
-            
-           
+
             if (modificar) {
                 if (one.modificar()) {
                     Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
@@ -341,6 +337,7 @@ public class VistaGestionClientesController implements Initializable {
         txtApellidoCliente.clear();
 
         btnAgregarCliente.setDisable(false);
+        txtTelefono.setDisable(true);
         txtNombreCliente.setDisable(true);
         txtDireccion.setDisable(true);
         txtApellidoCliente.setDisable(true);
@@ -376,10 +373,10 @@ public class VistaGestionClientesController implements Initializable {
                     listaFiltrada.add(listas);
 
                 }
-                if (listas.getTelefono().contains(buscar)){
-                    
+                if (listas.getTelefono().contains(buscar)) {
+
                     listaFiltrada.add(listas);
-                    
+
                 }
 
             }

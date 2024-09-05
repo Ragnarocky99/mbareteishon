@@ -1,3 +1,4 @@
+com\mycompany\mbareteishon\VistaBuscarEmpleadosController.class
 com\mycompany\mbareteishon\VistaGestionClientesController.class
 com\mycompany\mbareteishon\VistaBuscarProveedoresController.class
 com\mycompany\mbareteishon\VistaLoginController.class
@@ -6,6 +7,7 @@ com\mycompany\mbareteishon\VistaPedidosController.class
 com\mycompany\mbareteishon\App.class
 com\mycompany\mbareteishon\ValidadorString.class
 com\mycompany\mbareteishon\modelo\empleado.class
+com\mycompany\mbareteishon\VistaGestionUsuariosController.class
 com\mycompany\mbareteishon\VistaBuscarArticulosController.class
 module-info.class
 com\mycompany\mbareteishon\modelo\detallePedido.class
@@ -18,6 +20,7 @@ com\mycompany\mbareteishon\VistaGestionArticulosController.class
 com\mycompany\mbareteishon\clases\conexion.class
 com\mycompany\mbareteishon\modelo\producto.class
 com\mycompany\mbareteishon\VistaBuscarPedidosController.class
+com\mycompany\mbareteishon\VistaGestionEmpleadosController.class
 com\mycompany\mbareteishon\modelo\pedido.class
 com\mycompany\mbareteishon\modelo\proveedor.class
 com\mycompany\mbareteishon\modelo\factura.class

@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package com.mycompany.mbareteishon;
 
-import com.mycompany.mbareteishon.modelo.usuario;
+import com.mycompany.mbareteishon.modelo.empleado;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,18 +16,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author nahue
- */
 public class VistaLoginController implements Initializable {
 
     @FXML
@@ -42,76 +30,73 @@ public class VistaLoginController implements Initializable {
     @FXML
     private PasswordField txtPswd;
 
-    private String usua;
-    private String pswd;
-
-    ObservableList<usuario> lista;
-
-    usuario usr = new usuario();
+    private ObservableList<empleado> lista;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        lista = FXCollections.observableArrayList(usr.consulta());
-        for (usuario string : lista) {
-
-            comboUsuario.getItems().addAll(string.getNombre());
-
+        // Inicializar la lista de empleados y cargar en el ComboBox
+        lista = FXCollections.observableArrayList(new empleado().consulta());
+        for (empleado e : lista) {
+            comboUsuario.getItems().add(e.getNombre() + " " + e.getApellido());
         }
-
     }
 
     @FXML
     private void actionIngresar(ActionEvent event) {
-        usua = comboUsuario.getValue();
-        pswd = txtPswd.getText();
-        // aca recibe el nombre y contraseña del combo y del textfield
+        String usua = comboUsuario.getValue();
+        String pswd = txtPswd.getText(); // Contraseña ingresada por el usuario
 
-        for (usuario nm : lista) {
-            if (nm.getNombre().equals(usua) && nm.getPswd().equals(pswd)) {
-                String fxml = "";
-                String titulo = "";
-                switch (nm.getRol()) {
-                    //este compara los roles
-                    case "root":
-                        fxml = "VistamMenu.fxml";
-                        titulo = "Admin. Mbarete";
-                        break;
-                    case "ventas":
-                        fxml = "VistamMenu.fxml";
-                        titulo = "Vendedor. Mbarete";
-                        break;
-                    case "query":
-                        fxml = "VistamMenu.fxml";
-                        titulo = "Consultas. Mbarete";
-                        break;
-                }
-                if (!fxml.isEmpty()) {
-                    abrirFxml(fxml, titulo, (Stage) ((Node) event.getSource()).getScene().getWindow());
-                } else {
-                    // Handle case where role is not matched
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Rol no reconocido.");
-                    alert.showAndWait();
-                }
-                return; // Exit after handling the login
+        if (usua == null || pswd == null || usua.isEmpty() || pswd.isEmpty()) {
+            showAlert("Error", "Por favor, complete todos los campos.");
+            return;
+        }
+
+        empleado empleadoAutenticado = null;
+        for (empleado e : lista) {
+            if ((e.getNombre() + " " + e.getApellido()).equals(usua) && e.checkPassword(pswd)) {
+                empleadoAutenticado = e;
+                break;
             }
         }
 
-        // Handle case where username or password is incorrect
+        if (empleadoAutenticado == null) {
+            showAlert("Error", "Nombre de usuario o contraseña incorrectos.");
+        } else {
+            String fxml = "";
+            String titulo = "";
+            switch (empleadoAutenticado.getCargo()) {
+                case "Root":
+                    fxml = "VistamMenu.fxml";
+                    titulo = "Admin. Mbarete";
+                    break;
+                case "Ventas":
+                    fxml = "VistamMenu.fxml";
+                    titulo = "Vendedor. Mbarete";
+                    break;
+                default:
+                    showAlert("Error", "Rol no reconocido.");
+                    return;
+            }
+            abrirFxml(fxml, titulo, (Stage) ((Node) event.getSource()).getScene().getWindow(), empleadoAutenticado);
+        }
+    }
+
+    private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
+        alert.setTitle(title);
         alert.setHeaderText(null);
-        alert.setContentText("Nombre de usuario o contraseña incorrectos.");
+        alert.setContentText(content);
         alert.showAndWait();
     }
 
-    public void abrirFxml(String fxml, String titulo, Stage currentStage) {
+    private void abrirFxml(String fxml, String titulo, Stage currentStage, empleado empleado) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Parent root = loader.load();
+
+            VistamMenuController vmc = loader.getController();
+            vmc.setEmpleado(empleado);
+
             Stage stage = new Stage();
             stage.setTitle(titulo);
             stage.setScene(new Scene(root));
@@ -119,14 +104,13 @@ public class VistaLoginController implements Initializable {
             stage.setResizable(false); // No permitir redimensionar
             stage.show();
 
-            // Cerrar la ventana actual
             if (currentStage != null) {
                 currentStage.close();
             }
 
         } catch (IOException ex) {
             System.out.println("Error al abrir el FXML");
-            Logger.getLogger(VistamMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VistaLoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

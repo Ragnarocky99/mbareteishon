@@ -116,7 +116,7 @@ public class VistaBuscarFacturaController implements Initializable {
     private VistaVentasController controladorVentas;
     private Stage primaryStage;
     VistaBuscarClientesController controladorDestinoC;
-    //VistaBuscarEmpleadosController controladorDestinoE;
+    VistaBuscarEmpleadosController controladorDestinoE;
 
     factura fac = new factura();
     empleado emp = new empleado();
@@ -230,6 +230,12 @@ public class VistaBuscarFacturaController implements Initializable {
             mostrarLista();
         }
     }
+    public void setEmpleadoSeleccionado(empleado emp){
+        this.emp = emp;
+        if (emp.getIdEmpleado()!= -1) {
+            mostrarLista();
+        }
+    }
 
     public void mostrarLista() {
 
@@ -264,8 +270,9 @@ public class VistaBuscarFacturaController implements Initializable {
             k3 = true;
         }
         if (!boxAllEmp.isSelected()) {
-            idEmpParse = Integer.parseInt(txtEmp.getText());
+            idEmpParse = emp.getIdEmpleado();
             query.append(" AND id_empleado = ?");
+            k4 = true;
         }
         if (boxActivo.isSelected()) {
             query.append(" AND activo = 1");
@@ -296,10 +303,17 @@ public class VistaBuscarFacturaController implements Initializable {
 
     @FXML
     private void buscarEmp(ActionEvent event) {
+        
+        abrirFxmlModal("vistaBuscarEmpleados.fxml", "Buscar Empleado");
     }
 
     @FXML
     private void checkAllEmp(ActionEvent event) {
+        if (boxAllEmp.isSelected()) {
+            btnBuscarEmp.setDisable(true);
+        } else {
+            btnBuscarEmp.setDisable(false);
+        }
     }
 
     private void noMostrarFila(MouseEvent event) {
@@ -372,9 +386,9 @@ public class VistaBuscarFacturaController implements Initializable {
 
                 controladorDestinoC = loader.getController();
 
-            } else if (titulo.equals("Buscar Producto")) {
+            } else if (titulo.equals("Buscar Empleado")) {
 
-                //controladorDestinoP = loader.getController();
+                controladorDestinoE = loader.getController();
             }
 
             Stage stage = new Stage();
@@ -392,10 +406,10 @@ public class VistaBuscarFacturaController implements Initializable {
                 controladorDestinoC.setStage(stage);
                 controladorDestinoC.setControladorBuscarFactura(this);
 
-            } else if (titulo.equals("Buscar Producto")) {
+            } else if (titulo.equals("Buscar Empleado")) {
 
-                //controladorDestinoP.setStage(stage);
-                //controladorDestinoP.setControladorVentas(this);
+                controladorDestinoE.setStage(stage);
+                controladorDestinoE.setControladorBuscarFactura(this);
             }
 
             // Mostrar y esperar a que se cierre
