@@ -45,6 +45,7 @@ public class VistaBuscarProveedoresController implements Initializable {
     
     private Stage stage;
     private VistaPedidosController controladorPedidos;
+    private VistaBuscarPedidosController controladorBpedidos;
 
     ObservableList<proveedor> lista;
     ObservableList<proveedor> listaFiltrada;
@@ -61,6 +62,9 @@ public class VistaBuscarProveedoresController implements Initializable {
 
     public void setControladorPedidos(VistaPedidosController controladorPedidos) {
         this.controladorPedidos = controladorPedidos;
+    }
+     public void setControladorBpedidos(VistaBuscarPedidosController controladorBpedidos) {
+        this.controladorBpedidos = controladorBpedidos;
     }
 
     @FXML
@@ -99,7 +103,10 @@ public class VistaBuscarProveedoresController implements Initializable {
         proveedor pro = tblProveedores.getSelectionModel().getSelectedItem();
         if (pro != null && controladorPedidos != null) {
             controladorPedidos.setProveedorSeleccionado(pro);
-            
+        }
+        if(pro != null && controladorBpedidos != null){
+            controladorBpedidos.setProveedorSeleccionado(pro);
+            controladorBpedidos.mostrarProv();
         }
         stage.close();
     }
