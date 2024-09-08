@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="908.0" style="-fx-background-color: #FFD750;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mbareteishon.VistaVentasController">
+   <children>
+      <Pane layoutX="15.0" layoutY="14.0" prefHeight="148.0" prefWidth="982.0" style="-fx-border-style: solid; -fx-background-color: #FFFF9E;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
+         <children>
+            <Pane layoutX="-1.0" prefHeight="148.0" prefWidth="286.0">
+               <children>
+                  <Label layoutX="11.0" layoutY="35.0" prefHeight="19.0" prefWidth="102.0" text="Fecha Emision">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="11.0" layoutY="67.0" prefHeight="20.0" prefWidth="87.0" text="N° Factura">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="11.0" layoutY="100.0" prefHeight="20.0" prefWidth="87.0" text="Empleado">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtFechaEmision" layoutX="130.0" layoutY="31.0">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtNroFactura" layoutX="130.0" layoutY="63.0">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtEmpleado" layoutX="130.0" layoutY="96.0">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </TextField>
+                  <Label layoutX="11.0" layoutY="5.0" prefHeight="19.0" prefWidth="87.0" text="Factura">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane layoutX="285.0" prefHeight="148.0" prefWidth="263.0">
+               <children>
+                  <Label layoutX="2.0" layoutY="5.0" text="Cliente">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="2.0" layoutY="34.0" prefHeight="19.0" prefWidth="87.0" text="RUC">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="2.0" layoutY="65.0" prefHeight="19.0" prefWidth="87.0" text="Nombre">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtRucCliente" layoutX="89.0" layoutY="30.0" prefHeight="27.0" prefWidth="127.0">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="btnBuscarCliente" layoutX="217.0" layoutY="30.0" mnemonicParsing="false" onAction="#buscarCliente" prefHeight="27.0" prefWidth="33.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="🔎">
+                     <font>
+                        <Font name="Consolas Bold" size="14.0" />
+                     </font></Button>
+                  <TextField fx:id="txtNombreCliente" layoutX="89.0" layoutY="62.0">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </TextField>
+                  <Label layoutX="2.0" layoutY="99.0" prefHeight="19.0" prefWidth="87.0" text="Activo">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font>
+                  </Label>
+                  <CheckBox fx:id="boxActivo" layoutX="89.0" layoutY="100.0" mnemonicParsing="false" style="-fx-background-color: #EBC759;">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </CheckBox>
+               </children>
+            </Pane>
+            <Pane layoutX="548.0" prefHeight="99.0" prefWidth="263.0">
+               <children>
+                  <Label layoutY="5.0" prefHeight="17.0" prefWidth="115.0" text="Tipo Factura">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font></Label>
+                  <Label layoutY="33.0" prefHeight="17.0" prefWidth="102.0" text="Tipo de Venta">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font></Label>
+                  <Label layoutY="65.0" prefHeight="19.0" prefWidth="108.0" text="Forma de Pago">
+                     <font>
+                        <Font name="Consolas" size="14.0" />
+                     </font></Label>
+                  <ComboBox fx:id="cmbTipoVenta" layoutX="107.0" layoutY="33.0" prefWidth="150.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" />
+                  <ComboBox fx:id="cmbFormaPago" layoutX="107.0" layoutY="65.0" prefWidth="150.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" />
+               </children>
+            </Pane>
+            <Button fx:id="btnAtras" layoutX="679.0" layoutY="109.0" mnemonicParsing="false" onAction="#atras" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="&lt;-">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="btnBuscarFactura" layoutX="712.0" layoutY="109.0" mnemonicParsing="false" onAction="#buscarFactura" prefHeight="25.0" prefWidth="127.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Buscar Factura">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="btnSiguiente" layoutX="838.0" layoutY="109.0" mnemonicParsing="false" onAction="#siguiente" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="-&gt;">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+         </children>
+      </Pane>
+      <Pane layoutX="10.0" layoutY="159.0" prefHeight="311.0" prefWidth="888.0" style="-fx-border-style: solid; -fx-background-color: #FFFF9E;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <children>
+            <TableView fx:id="tblDetalleFactura" layoutX="14.0" layoutY="14.0" onMouseClicked="#mostrarFila" onMouseExited="#noMostrarFila" prefHeight="234.0" prefWidth="861.0" style="-fx-background-color: #EBC759;">
+              <columns>
+                <TableColumn fx:id="colIdProducto" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="colNombreProducto" prefWidth="198.0" text="Nombre" />
+                  <TableColumn fx:id="colPrecioProducto" prefWidth="149.0" text="Precio" />
+                  <TableColumn fx:id="colCantidadProducto" prefWidth="86.0" text="Cantidad" />
+                  <TableColumn fx:id="colMontoTotalProducto" prefWidth="190.0" text="Monto Total" />
+                  <TableColumn fx:id="colGrav10" prefWidth="162.0" text="Gravadas 10%" />
+              </columns>
+            </TableView>
+            <Button fx:id="btnAgregarProdcucto" layoutX="14.0" layoutY="253.0" mnemonicParsing="false" onAction="#agregarProducto" prefHeight="44.0" prefWidth="74.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Agregar">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="btnModificarProducto" layoutX="98.0" layoutY="253.0" mnemonicParsing="false" onAction="#modificarProducto" prefHeight="44.0" prefWidth="94.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Modificar">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="btnEliminarProducto" layoutX="203.0" layoutY="253.0" mnemonicParsing="false" onAction="#eliminarProducto" prefHeight="44.0" prefWidth="87.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Eliminar">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+            <TableView fx:id="tblTotales" layoutX="522.0" layoutY="247.0" prefHeight="63.0" prefWidth="352.0" style="-fx-background-color: #EBC759;">
+              <columns>
+                <TableColumn fx:id="colTotalGral" prefWidth="190.0" text="Total General" />
+                  <TableColumn fx:id="colTotal10" prefWidth="161.0" text="Total 10 %" />
+              </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <Pane layoutX="10.0" layoutY="458.0" prefHeight="131.0" prefWidth="982.0" style="-fx-border-style: solid; -fx-background-color: #FFFF9E;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <children>
+            <Button fx:id="btnNuevoFactura" layoutX="14.0" layoutY="73.0" mnemonicParsing="false" onAction="#nuevo" prefHeight="44.0" prefWidth="74.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Nuevo">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="btnGuardarFactura" layoutX="99.0" layoutY="73.0" mnemonicParsing="false" onAction="#guardar" prefHeight="44.0" prefWidth="74.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Guardar">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="btnAnularFactura" layoutX="185.0" layoutY="73.0" mnemonicParsing="false" onAction="#anular" prefHeight="44.0" prefWidth="74.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Anular">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="btnCancelarFactura" layoutX="273.0" layoutY="73.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="44.0" prefWidth="87.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Cancelar">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+            <Label layoutX="21.0" layoutY="24.0" text="Codigo">
+               <font>
+                  <Font name="Consolas" size="14.0" />
+               </font></Label>
+            <TextField fx:id="txtCodProducto" layoutX="74.0" layoutY="19.0" prefHeight="27.0" prefWidth="139.0">
+               <font>
+                  <Font name="Consolas" size="14.0" />
+               </font>
+            </TextField>
+            <Button fx:id="btnBuscarProducto" layoutX="213.0" layoutY="19.0" mnemonicParsing="false" onAction="#buscarProducto" prefHeight="27.0" prefWidth="33.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="🔎">
+               <font>
+                  <Font name="Consolas" size="14.0" />
+               </font></Button>
+            <Label layoutX="273.0" layoutY="24.0" text="Cantidad">
+               <font>
+                  <Font name="Consolas" size="14.0" />
+               </font></Label>
+            <TextField fx:id="txtCantidadProducto" layoutX="342.0" layoutY="19.0" prefHeight="27.0" prefWidth="150.0">
+               <font>
+                  <Font name="Consolas" size="14.0" />
+               </font>
+            </TextField>
+            <Label layoutX="508.0" layoutY="24.0" text="Precio">
+               <font>
+                  <Font name="Consolas" size="14.0" />
+               </font></Label>
+            <TextField fx:id="txtPrecioProducto" layoutX="553.0" layoutY="19.0" prefHeight="27.0" prefWidth="150.0">
+               <font>
+                  <Font name="Consolas" size="14.0" />
+               </font>
+            </TextField>
+            <Button fx:id="btnAceptarProducto" layoutX="713.0" layoutY="20.0" mnemonicParsing="false" onAction="#aceptarProducto" prefHeight="56.0" prefWidth="74.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Aceptar">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="btnCancelarProducto" layoutX="795.0" layoutY="20.0" mnemonicParsing="false" onAction="#cancelarProducto" prefHeight="56.0" prefWidth="87.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Cancelar">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+            <Button fx:id="btnImprimirFactura" layoutX="382.0" layoutY="73.0" mnemonicParsing="false" onAction="#imprimirFactura" prefHeight="44.0" prefWidth="87.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Imprimir">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font></Button>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

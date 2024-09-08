@@ -19,9 +19,12 @@
                <children>
                   <Pane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-style: solid;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                      <children>
-                        <Label layoutX="14.0" layoutY="14.0" text="Buscar" />
+                        <Label layoutX="14.0" layoutY="14.0" text="Buscar">
+                           <font>
+                              <Font name="Consolas" size="14.0" />
+                           </font></Label>
                         <TextField fx:id="txtBuscarCliente" layoutX="69.0" layoutY="10.0" onKeyReleased="#buscar" prefHeight="25.0" prefWidth="641.0" />
-                        <TableView fx:id="tblCliente" layoutX="14.0" layoutY="44.0" onMouseClicked="#mostrarFila" onMouseReleased="#noMostrarFila" prefHeight="301.0" prefWidth="703.0" style="-fx-background-color: #F2AE27;">
+                        <TableView fx:id="tblCliente" layoutX="14.0" layoutY="44.0" onMouseClicked="#mostrarFila" onMouseReleased="#noMostrarFila" prefHeight="301.0" prefWidth="703.0" style="-fx-background-color: #EBC759;">
                           <columns>
                             <TableColumn fx:id="colRucCliente" prefWidth="170.0" text="RUC/CI" />
                             <TableColumn fx:id="colNombreCliente" prefWidth="274.0" text="Nombre" />
@@ -43,34 +46,56 @@
                <children>
                   <Pane layoutX="15.0" layoutY="15.0" prefHeight="412.0" prefWidth="731.0" style="-fx-border-style: solid;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                      <children>
-                        <Button fx:id="btnAgregarCliente" layoutX="14.0" layoutY="286.0" mnemonicParsing="false" onAction="#agregarCliente" prefHeight="70.0" prefWidth="78.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Agregar">
+                        <Button fx:id="btnAgregarCliente" layoutX="18.0" layoutY="292.0" mnemonicParsing="false" onAction="#agregarCliente" prefHeight="65.0" prefWidth="91.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Agregar">
                            <font>
-                              <Font name="Consolas" size="13.0" />
+                              <Font name="Consolas Bold" size="14.0" />
                            </font></Button>
-                        <Button fx:id="btnModificarCliente" layoutX="113.0" layoutY="287.0" mnemonicParsing="false" onAction="#modificarCliente" prefHeight="70.0" prefWidth="85.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Modificar">
+                        <Button fx:id="btnModificarCliente" layoutX="162.0" layoutY="292.0" mnemonicParsing="false" onAction="#modificarCliente" prefHeight="65.0" prefWidth="108.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Modificar">
                            <font>
-                              <Font name="Consolas" size="13.0" />
+                              <Font name="Consolas Bold" size="14.0" />
                            </font></Button>
-                        <Button fx:id="btnEliminarCliente" layoutX="215.0" layoutY="287.0" mnemonicParsing="false" onAction="#eliminarCliente" prefHeight="70.0" prefWidth="86.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Eliminar">
+                        <Button fx:id="btnEliminarCliente" layoutX="318.0" layoutY="292.0" mnemonicParsing="false" onAction="#eliminarCliente" prefHeight="65.0" prefWidth="91.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Eliminar">
                            <font>
-                              <Font name="Consolas" size="13.0" />
+                              <Font name="Consolas Bold" size="14.0" />
                            </font></Button>
-                        <Label layoutX="14.0" layoutY="34.0" text="Base ID" />
-                        <Label layoutX="14.0" layoutY="69.0" text="Nombre" />
-                        <Label layoutX="14.0" layoutY="108.0" text="Apellido" />
-                        <Label layoutX="14.0" layoutY="151.0" text="RUC/CI" />
-                        <TextField fx:id="txtIdCliente" disable="true" editable="false" layoutX="73.0" layoutY="30.0" prefHeight="25.0" prefWidth="218.0" />
-                        <TextField fx:id="txtNombreCliente" layoutX="73.0" layoutY="65.0" prefHeight="25.0" prefWidth="217.0" />
-                        <TextField fx:id="txtApellidoCliente" layoutX="73.0" layoutY="104.0" prefHeight="25.0" prefWidth="219.0" />
-                        <TextField fx:id="txtRucCliente" layoutX="73.0" layoutY="147.0" prefHeight="25.0" prefWidth="217.0" />
-                        <Button fx:id="btnAceptar" layoutX="73.0" layoutY="233.0" mnemonicParsing="false" onAction="#aceptar" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Aceptar">
+                        <Label layoutX="14.0" layoutY="34.0" text="Base ID">
                            <font>
-                              <Font name="Consolas" size="13.0" />
-                           </font></Button>
-                        <Button fx:id="btnCancelar" layoutX="152.0" layoutY="233.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Cancelar">
+                              <Font name="Consolas" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="14.0" layoutY="69.0" text="Nombre">
                            <font>
-                              <Font name="Consolas" size="13.0" />
+                              <Font name="Consolas" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="14.0" layoutY="108.0" text="Apellido">
+                           <font>
+                              <Font name="Consolas" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="14.0" layoutY="151.0" text="RUC/CI">
+                           <font>
+                              <Font name="Consolas" size="14.0" />
+                           </font></Label>
+                        <TextField fx:id="txtIdCliente" disable="true" editable="false" layoutX="99.0" layoutY="24.0" prefHeight="25.0" prefWidth="218.0" />
+                        <TextField fx:id="txtNombreCliente" layoutX="99.0" layoutY="59.0" prefHeight="25.0" prefWidth="217.0" />
+                        <TextField fx:id="txtApellidoCliente" layoutX="99.0" layoutY="98.0" prefHeight="25.0" prefWidth="216.0" />
+                        <TextField fx:id="txtRucCliente" layoutX="99.0" layoutY="141.0" prefHeight="25.0" prefWidth="217.0" />
+                        <TextField fx:id="txtTelefono" layoutX="99.0" layoutY="183.0" prefHeight="25.0" prefWidth="217.0" />
+                        <Button fx:id="btnAceptar" layoutX="493.0" layoutY="73.0" mnemonicParsing="false" onAction="#aceptar" prefHeight="53.0" prefWidth="96.0" style="-fx-background-color: #EBC759; -fx-border-color: black; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-width: 2;" text="Aceptar">
+                           <font>
+                              <Font name="Consolas Bold" size="14.0" />
                            </font></Button>
+                        <Button fx:id="btnCancelar" layoutX="493.0" layoutY="168.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="53.0" prefWidth="96.0" style="-fx-background-color: #EBC759; -fx-border-color: black; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-width: 2;" text="Cancelar">
+                           <font>
+                              <Font name="Consolas Bold" size="14.0" />
+                           </font></Button>
+                        <Label layoutX="14.0" layoutY="193.0" text="Telefono">
+                           <font>
+                              <Font name="Consolas" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="14.0" layoutY="238.0" text="Direccion">
+                           <font>
+                              <Font name="Consolas" size="14.0" />
+                           </font></Label>
+                        <TextField fx:id="txtDireccion" layoutX="99.0" layoutY="228.0" prefHeight="25.0" prefWidth="217.0" />
                      </children>
                   </Pane>
                </children></AnchorPane>

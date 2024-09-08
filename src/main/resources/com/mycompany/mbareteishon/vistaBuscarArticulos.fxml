@@ -6,19 +6,30 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFF9E;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mbareteishon.VistaBuscarArticulosController">
    <children>
       <TextField fx:id="txtBuscar" layoutX="77.0" layoutY="23.0" prefHeight="25.0" prefWidth="422.0" />
-      <TableView fx:id="tblProductos" layoutX="14.0" layoutY="63.0" onMouseEntered="#mostrarFila" onMouseExited="#noMostrarFila" prefHeight="253.0" prefWidth="570.0">
+      <TableView fx:id="tblProductos" layoutX="14.0" layoutY="63.0" onMouseEntered="#mostrarFila" onMouseExited="#noMostrarFila" prefHeight="253.0" prefWidth="570.0" style="-fx-background-color: #EBC759;">
         <columns>
-          <TableColumn fx:id="colIdProducto" prefWidth="236.0" text="ID" />
-          <TableColumn fx:id="colDescripcion" prefWidth="333.0" text="Descripcion" />
+          <TableColumn fx:id="colIdProducto" prefWidth="122.0" text="ID" />
+          <TableColumn fx:id="colNombre" prefWidth="151.0" text="Nombre" />
+            <TableColumn fx:id="colDesc" prefWidth="296.0" text="Descripcion" />
         </columns>
       </TableView>
-      <Button fx:id="btnAceptar" layoutX="14.0" layoutY="328.0" mnemonicParsing="false" onAction="#aceptar" prefHeight="25.0" prefWidth="246.0" text="Aceptar" />
-      <Button fx:id="btnCancelar" layoutX="338.0" layoutY="328.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="25.0" prefWidth="246.0" text="Cancelar" />
-      <Label layoutX="32.0" layoutY="27.0" text="Buscar" />
-      <Button fx:id="btnBuscar" layoutX="509.0" layoutY="23.0" mnemonicParsing="false" onAction="#buscar" prefHeight="25.0" prefWidth="35.0" text="🔎" />
+      <Button fx:id="btnAceptar" layoutX="14.0" layoutY="328.0" mnemonicParsing="false" onAction="#aceptar" prefHeight="25.0" prefWidth="246.0" style="-fx-background-color: #EBC759; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5;" text="Aceptar">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font></Button>
+      <Button fx:id="btnCancelar" layoutX="338.0" layoutY="328.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="25.0" prefWidth="246.0" style="-fx-background-color: #EBC759; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;" text="Cancelar">
+         <font>
+            <Font name="Consolas Bold" size="14.0" />
+         </font></Button>
+      <Label layoutX="23.0" layoutY="28.0" text="Buscar">
+         <font>
+            <Font name="Consolas" size="14.0" />
+         </font></Label>
+      <Button fx:id="btnBuscar" layoutX="509.0" layoutY="23.0" mnemonicParsing="false" onAction="#buscar" prefHeight="25.0" prefWidth="35.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="🔎" />
    </children>
 </AnchorPane>

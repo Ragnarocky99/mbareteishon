@@ -23,8 +23,6 @@ public class VistaBuscarArticulosController implements Initializable {
     @FXML
     private TableColumn<producto, Integer> colIdProducto;
     @FXML
-    private TableColumn<producto, String> colDescripcion;
-    @FXML
     private Button btnAceptar;
     @FXML
     private Button btnCancelar;
@@ -35,9 +33,14 @@ public class VistaBuscarArticulosController implements Initializable {
 
     private Stage stage;
     private VistaPedidosController controladorPedidos;
+    private VistaVentasController controladorVentas;
 
     ObservableList<producto> lista;
     ObservableList<producto> listaFiltrada;
+    @FXML
+    private TableColumn<producto, String> colNombre;
+    @FXML
+    private TableColumn<producto, String> colDesc;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -52,6 +55,9 @@ public class VistaBuscarArticulosController implements Initializable {
     public void setControladorPedidos(VistaPedidosController controladorPedidos) {
         this.controladorPedidos = controladorPedidos;
     }
+    public void setControladorVentas(VistaVentasController controladorVentas){
+        this.controladorVentas = controladorVentas;
+    }
 
     @FXML
     private void mostrarFila(MouseEvent event) {
@@ -62,7 +68,8 @@ public class VistaBuscarArticulosController implements Initializable {
     @FXML
     private void buscar(ActionEvent event) {
         lista = FXCollections.observableArrayList(new producto().consulta());
-        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("desc"));
+        colDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colIdProducto.setCellValueFactory(new PropertyValueFactory<>("id"));    
         tblProductos.setItems(lista);
 
@@ -89,6 +96,9 @@ public class VistaBuscarArticulosController implements Initializable {
         producto pro = tblProductos.getSelectionModel().getSelectedItem();
         if (pro != null && controladorPedidos != null) {
             controladorPedidos.setProductoSeleccionado(pro);
+        }
+        if(pro != null && controladorVentas != null){
+            controladorVentas.setProductoSeleccionado(pro);
         }
         stage.close();
     }

@@ -74,10 +74,13 @@ public class VistaGestionArticulosController implements Initializable {
     private boolean modificar;
     @FXML
     private TabPane tabProductos;
+    @FXML
+    private TextField txtNombrePro;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        txtNombrePro.setDisable(true);
         txtIdProducto.setDisable(true);
         txtDescProducto.setDisable(true);   
         txtPrecioVenta.setDisable(true);
@@ -96,6 +99,7 @@ public class VistaGestionArticulosController implements Initializable {
     @FXML
     private void noMostrarFila(MouseEvent event) {
         
+        txtNombrePro.setDisable(true);
         btnIrAPedido.setDisable(true);
         txtIdProducto.setDisable(true);
         txtDescProducto.setDisable(true);   
@@ -116,6 +120,7 @@ public class VistaGestionArticulosController implements Initializable {
         producto pro = tblProducto.getSelectionModel().getSelectedItem();
         btnIrAPedido.setDisable(false);
         
+        txtNombrePro.setText(String.valueOf(pro.getNombre()));
         txtIdProducto.setText(String.valueOf(pro.getId()));
         txtDescProducto.setText(String.valueOf(pro.getDesc()));
         txtPrecioVenta.setText(String.valueOf(pro.getPrecio()));
@@ -177,17 +182,17 @@ public class VistaGestionArticulosController implements Initializable {
         
     }
 
-
     @FXML
     private void actionAceptar(ActionEvent event) {
         
+            pro.setNombre(txtNombrePro.getText());
             pro.setDesc(txtDescProducto.getText());
             pro.setPrecio(Double.parseDouble(txtPrecioVenta.getText()));
             pro.setCosto(Double.parseDouble(txtCosto.getText()));
             pro.setStock(Integer.parseInt(txtStock.getText()));
             
             if(modificar){
-                if(pro.getPrecio() > 0 && pro.getCosto() > 0 && pro.getStock() > 0){
+                if(pro.getPrecio() > 0 && pro.getCosto() > 0 && pro.getStock() > 0 && !"".equals(pro.getNombre()) && !"".equals(pro.getDesc())){
                     if(pro.modificar()){
                         
                        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
@@ -213,12 +218,12 @@ public class VistaGestionArticulosController implements Initializable {
                     
                     Alert alerta = new Alert(Alert.AlertType.ERROR);
                     alerta.setHeaderText(null);
-                    alerta.setContentText("Valores Fuera de Rango");
+                    alerta.setContentText("Valores Fuera Incompletos");
                     alerta.show();
                     
                 }
             } else {
-                if(pro.getPrecio() > 0 && pro.getCosto() > 0 && pro.getStock() > 0){
+                if(pro.getPrecio() > 0 && pro.getCosto() > 0 && pro.getStock() > 0 && !"".equals(pro.getNombre()) && !"".equals(pro.getDesc())){
                     
                     if(pro.insertar()){
                     Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
@@ -244,6 +249,7 @@ public class VistaGestionArticulosController implements Initializable {
             
             mostrarDatos();
             
+            txtNombrePro.setDisable(true);
             txtIdProducto.setDisable(true);
             txtDescProducto.setDisable(true);   
             txtPrecioVenta.setDisable(true);
@@ -262,6 +268,7 @@ public class VistaGestionArticulosController implements Initializable {
         
         modificar = true;
         
+        txtNombrePro.setDisable(true);
         txtIdProducto.setDisable(true);
         txtDescProducto.setDisable(true);   
         txtPrecioVenta.setDisable(true);
@@ -274,6 +281,7 @@ public class VistaGestionArticulosController implements Initializable {
         btnAgregar.setDisable(false);
         mostrarDatos();
         
+        txtNombrePro.clear();
         txtIdProducto.clear();
         txtDescProducto.clear();   
         txtPrecioVenta.clear();
@@ -281,11 +289,11 @@ public class VistaGestionArticulosController implements Initializable {
         txtStock.clear();
         
     }
-    
 
     @FXML
     private void actionAgregar(ActionEvent event) {
         
+        txtNombrePro.clear();
         txtIdProducto.clear();
         txtDescProducto.clear();   
         txtPrecioVenta.clear();
@@ -294,6 +302,7 @@ public class VistaGestionArticulosController implements Initializable {
         
         modificar = false;
         
+        txtNombrePro.setDisable(false);
         txtIdProducto.setDisable(true);
         txtDescProducto.setDisable(false);   
         txtPrecioVenta.setDisable(false);
@@ -314,6 +323,7 @@ public class VistaGestionArticulosController implements Initializable {
         
         modificar = true;
         
+        txtNombrePro.setDisable(false);
         txtIdProducto.setDisable(true);
         txtDescProducto.setDisable(false);   
         txtPrecioVenta.setDisable(false);
@@ -354,6 +364,7 @@ public class VistaGestionArticulosController implements Initializable {
                 alertaExito.setContentText("Producto eliminado correctamente.");
                 alertaExito.showAndWait();
 
+                txtNombrePro.clear();
                 txtIdProducto.clear();
                 txtDescProducto.clear();   
                 txtPrecioVenta.clear();
@@ -368,6 +379,7 @@ public class VistaGestionArticulosController implements Initializable {
                 alertaError.setContentText("No se pudo eliminar el producto.");
                 alertaError.showAndWait();
 
+                txtNombrePro.setText(String.valueOf(pro.getNombre()));
                 txtIdProducto.setText(String.valueOf(pro.getId()));
                 txtDescProducto.setText(pro.getDesc());   
                 txtPrecioVenta.setText(String.valueOf(pro.getPrecio()));
@@ -377,6 +389,7 @@ public class VistaGestionArticulosController implements Initializable {
             }
         }
         
+        txtNombrePro.setDisable(true);
         txtIdProducto.setDisable(true);
         txtDescProducto.setDisable(true);   
         txtPrecioVenta.setDisable(true);
@@ -388,6 +401,7 @@ public class VistaGestionArticulosController implements Initializable {
         btnEliminar.setDisable(true);
         btnAgregar.setDisable(false);
         
+        txtNombrePro.clear();
         txtIdProducto.clear();
         txtDescProducto.clear();   
         txtPrecioVenta.clear();
@@ -402,7 +416,7 @@ public class VistaGestionArticulosController implements Initializable {
     public void mostrarDatos(){
         
         lista = FXCollections.observableArrayList(pro.consulta());
-        colDescProducto.setCellValueFactory(new PropertyValueFactory<>("desc"));
+        colDescProducto.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colIdProducto.setCellValueFactory(new PropertyValueFactory<>("id"));    
         tblProducto.setItems(lista);
         

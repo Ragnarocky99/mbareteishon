@@ -1,5 +1,6 @@
 package com.mycompany.mbareteishon;
 
+import com.mycompany.mbareteishon.modelo.empleado;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -16,18 +17,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-/**
- * FXML Controller class
- *
- * @author nahue
- */
-public class VistamMenuController implements Initializable {
 
+public class VistamMenuController implements Initializable {
 
     @FXML
     private Label txtFecha;
@@ -35,20 +30,26 @@ public class VistamMenuController implements Initializable {
     private Label txtHora;
     @FXML
     private MenuItem menuItemGestionarClientes;
+    @FXML
+    public Label txtEmp;
 
+    private empleado emp;
+
+    @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        
+        // Inicializar la fecha y la hora en la interfaz
+        inicializarFechaHora();
+    }
+
+    private void inicializarFechaHora() {
         // Obtener la fecha actual
         LocalDate currentDate = LocalDate.now();
-        // Formatear la fecha
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formattedDate = currentDate.format(formatter);
-        // Mostrar la fecha en el label
         txtFecha.setText(formattedDate);
-        
+
         // Actualizar la hora cada segundo
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             LocalTime currentTime = LocalTime.now();
             String formattedTime = currentTime.format(timeFormatter);
@@ -56,36 +57,56 @@ public class VistamMenuController implements Initializable {
         }), new KeyFrame(Duration.seconds(1)));
         clock.setCycleCount(Timeline.INDEFINITE);
         clock.play();
-             
-    }   
+    }
+
+    public void setEmpleado(empleado empleado) {
+        this.emp = empleado;
+        // Mostrar información del empleado en la interfaz
+        if (txtEmp != null && emp != null) {
+            txtEmp.setText(emp.getNombre() + " " + emp.getApellido());
+        }
+    }
 
     @FXML
     private void goToGestionarCliente(ActionEvent event) {
-        
-        abrirFxml("vistaGestionClientes.fxml","Gestion de Clientes");
-        
-    }   
+        abrirFxml("vistaGestionClientes.fxml", "Gestión de Clientes");
+    }
+
     @FXML
     private void goToGestionarArticulo(ActionEvent event) {
-        
-        abrirFxml("vistaGestionArticulos.fxml","Gestion de Articulos");
-        
+        abrirFxml("vistaGestionArticulos.fxml", "Gestión de Artículos");
     }
 
     @FXML
     private void goToGestionarProveedor(ActionEvent event) {
-        
-        abrirFxml("vistaGestionProveedor.fxml","Gestion de Proveedores");
-        
+        abrirFxml("vistaGestionProveedor.fxml", "Gestión de Proveedores");
     }
-    
-    
-    public void abrirFxml(String fxml, String titulo){
-        
-        // Bloque para crear una nueva escena
+
+    @FXML
+    private void goToAcercaDe(ActionEvent event) {
+        abrirFxml("vistaAcercaDe.fxml", "Acerca De");
+    }
+
+    @FXML
+    private void goToPedidos(ActionEvent event) {
+        abrirFxml("vistaPedidos.fxml", "Pedidos");
+    }
+
+    @FXML
+    private void goToVentas(ActionEvent event) {
+        abrirFxml("vistaVentas.fxml", "Ventas");
+    }
+
+    private void abrirFxml(String fxml, String titulo) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Parent root = loader.load();
+
+            if ("vistaVentas.fxml".equals(fxml)) {
+                VistaVentasController ventasController = loader.getController();
+                ventasController.setEmpleado(emp); // Pasar el empleado al controlador
+            }
+
             Stage stage = new Stage();
             stage.setTitle(titulo);
             stage.setScene(new Scene(root));
@@ -94,14 +115,5 @@ public class VistamMenuController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(VistamMenuController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
     }
-
-    @FXML
-    private void goToAcercaDe(ActionEvent event) {
-        
-    }
-
-    
 }

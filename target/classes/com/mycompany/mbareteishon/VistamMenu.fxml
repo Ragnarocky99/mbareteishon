@@ -13,8 +13,8 @@
          <menus>
             <Menu mnemonicParsing="false" text="Movimientos">
               <items>
-                <MenuItem mnemonicParsing="false" text="Ventas" />
-                  <MenuItem mnemonicParsing="false" text="Pedidos" />
+                <MenuItem mnemonicParsing="false" onAction="#goToVentas" text="Ventas" />
+                  <MenuItem mnemonicParsing="false" onAction="#goToPedidos" text="Pedidos" />
                   <MenuItem mnemonicParsing="false" text="Apertura de Caja" />
                   <MenuItem mnemonicParsing="false" text="Cierre de Caja" />
               </items>
@@ -53,12 +53,17 @@
       </MenuBar>
       <Label fx:id="txtFecha" layoutX="465.0" layoutY="30.0" prefHeight="100.0" prefWidth="415.0" text="Fecha" textAlignment="CENTER" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="30.0">
          <font>
-            <Font size="64.0" />
+            <Font name="Century" size="64.0" />
          </font>
       </Label>
       <Label fx:id="txtHora" layoutX="465.0" layoutY="130.0" prefHeight="70.0" prefWidth="415.0" text="Hora" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="130.0">
          <font>
             <Font size="48.0" />
+         </font>
+      </Label>
+      <Label fx:id="txtEmp" layoutX="686.0" layoutY="599.0" prefHeight="17.0" prefWidth="100.0" text="Empleado" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
+         <font>
+            <Font name="Consolas" size="19.0" />
          </font>
       </Label>
    </children>
