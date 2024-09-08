@@ -205,51 +205,60 @@ public class VistaGestionEmpleadosController implements Initializable {
     @FXML
     private void eliminarUsuario(ActionEvent event) {
 
-        // Obtener el ID del cliente desde el campo correspondiente
-        int idEmp = Integer.parseInt(txtId.getText());
+        if (!txtId.getText().equals("1")) {
 
-        // Crear una alerta de confirmación
-        Alert alertaConfirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        alertaConfirmacion.setTitle("Confirmar Eliminación");
-        alertaConfirmacion.setHeaderText(null);
-        alertaConfirmacion.setContentText("¿Estás seguro de eliminar este usuario? Esta acción no se puede deshacer.");
+            // Obtener el ID del cliente desde el campo correspondiente
+            int idEmp = Integer.parseInt(txtId.getText());
 
-        // Mostrar la alerta de confirmación y esperar a que el usuario elija una opción
-        Optional<ButtonType> resultado = alertaConfirmacion.showAndWait();
-        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            // El usuario ha confirmado la eliminación, proceder con la operación
-            emp.setIdEmpleado(idEmp);
+            // Crear una alerta de confirmación
+            Alert alertaConfirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+            alertaConfirmacion.setTitle("Confirmar Eliminación");
+            alertaConfirmacion.setHeaderText(null);
+            alertaConfirmacion.setContentText("¿Estás seguro de eliminar este usuario? Esta acción no se puede deshacer.");
 
-            if (emp.eliminar()) {
-                // Mostrar mensaje de eliminación exitosa
-                Alert alertaExito = new Alert(Alert.AlertType.INFORMATION);
-                alertaExito.setTitle("Eliminación Exitosa");
-                alertaExito.setHeaderText(null);
-                alertaExito.setContentText("Proveedor eliminado correctamente.");
-                alertaExito.showAndWait();
+            // Mostrar la alerta de confirmación y esperar a que el usuario elija una opción
+            Optional<ButtonType> resultado = alertaConfirmacion.showAndWait();
+            if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+                // El usuario ha confirmado la eliminación, proceder con la operación
+                emp.setIdEmpleado(idEmp);
 
-                txtId.clear();
-                txtNombre.clear();
-                txtApellido.clear();
-                txtPswd.clear();
+                if (emp.eliminar()) {
+                    // Mostrar mensaje de eliminación exitosa
+                    Alert alertaExito = new Alert(Alert.AlertType.INFORMATION);
+                    alertaExito.setTitle("Eliminación Exitosa");
+                    alertaExito.setHeaderText(null);
+                    alertaExito.setContentText("Empleado eliminado correctamente.");
+                    alertaExito.showAndWait();
 
-            } else {
-                // Mostrar mensaje de error
-                Alert alertaError = new Alert(Alert.AlertType.ERROR);
-                alertaError.setTitle("Error");
-                alertaError.setHeaderText(null);
-                alertaError.setContentText("No se pudo eliminar el proveedor.");
-                alertaError.showAndWait();
+                    txtId.clear();
+                    txtNombre.clear();
+                    txtApellido.clear();
+                    txtPswd.clear();
 
-                txtId.setText(String.valueOf(emp.getIdEmpleado()));
-                txtNombre.setText(emp.getNombre());
-                txtApellido.setText(emp.getApellido());
-                txtPswd.clear();
+                } else {
+                    // Mostrar mensaje de error
+                    Alert alertaError = new Alert(Alert.AlertType.ERROR);
+                    alertaError.setTitle("Error");
+                    alertaError.setHeaderText(null);
+                    alertaError.setContentText("No se pudo eliminar el empleado.");
+                    alertaError.showAndWait();
+
+                    txtId.setText(String.valueOf(emp.getIdEmpleado()));
+                    txtNombre.setText(emp.getNombre());
+                    txtApellido.setText(emp.getApellido());
+                    txtPswd.clear();
+
+                }
 
             }
 
+        } else {
+            Alert alertaError = new Alert(Alert.AlertType.ERROR);
+            alertaError.setTitle("Error");
+            alertaError.setHeaderText(null);
+            alertaError.setContentText("No se puede eliminar al administrador");
+            alertaError.showAndWait();
         }
-
         txtId.clear();
         txtNombre.clear();
         txtApellido.clear();
@@ -326,12 +335,12 @@ public class VistaGestionEmpleadosController implements Initializable {
 
     @FXML
     private void cancelar(ActionEvent event) {
-        
+
         txtId.clear();
         txtNombre.clear();
         txtApellido.clear();
         txtPswd.clear();
-        
+
         txtNombre.setDisable(true);
         txtApellido.setDisable(true);
         btnAceptar.setDisable(true);
@@ -339,7 +348,7 @@ public class VistaGestionEmpleadosController implements Initializable {
         btnModificarUsuario.setDisable(true);
         btnEliminarUsuario.setDisable(true);
         btnAgregarUsuario.setDisable(false);
-        
+
     }
 
 }

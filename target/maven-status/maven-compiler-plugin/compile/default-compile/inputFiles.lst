@@ -6,11 +6,13 @@ C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\c
 C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\modelo\pedido.java
 C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\modelo\producto.java
 C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\VistaBuscarFacturaController.java
+C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\clases\Numero_a_Letra.java
 C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\modelo\detallePedido.java
 C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\VistaBuscarProveedoresController.java
 C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\clases\sentencias.java
 C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\modelo\usuario.java
 C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\VistaGestionArticulosController.java
+C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\clases\reporte.java
 C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\modelo\factura.java
 C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\VistaGestionClientesController.java
 C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\ValidadorString.java
@@ -25,5 +27,4 @@ C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\m
 C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\VistaVentasController.java
 C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\modelo\detalleFactura.java
 C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\clases\conexion.java
-C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\VistaGestionUsuariosController.java
 C:\Users\nahue\OneDrive\Documentos\NetBeansProjects\mbareteishon\src\main\java\com\mycompany\mbareteishon\VistamMenuController.java

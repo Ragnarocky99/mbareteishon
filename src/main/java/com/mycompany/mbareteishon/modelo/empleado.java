@@ -60,6 +60,20 @@ public class empleado extends conexion implements sentencias {
         }
     }
 
+    public String getAdminPswd() {
+        String ps = new String();
+        String sql = "SELECT pswd FROM empleado where cargo = \"Admin\"";
+        try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql); ResultSet rs = stm.executeQuery()) {
+            while (rs.next()) {
+                ps = rs.getString("pswd");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(empleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ps;
+
+    }
+
     public empleado getUserFromDb(int paramId) {
         empleado e = new empleado();
 

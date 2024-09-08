@@ -5,6 +5,7 @@
 package com.mycompany.mbareteishon;
 
 import com.mycompany.mbareteishon.modelo.detallePedido;
+import com.mycompany.mbareteishon.modelo.empleado;
 import com.mycompany.mbareteishon.modelo.pedido;
 import com.mycompany.mbareteishon.modelo.producto;
 import com.mycompany.mbareteishon.modelo.proveedor;
@@ -34,11 +35,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -124,11 +128,16 @@ public class VistaPedidosController implements Initializable {
 
     pedido ped = new pedido();
 
+    private empleado emp = new empleado();
+
     detallePedido det = new detallePedido();
+
+    empleado empAdmin = new empleado();
 
     VistaBuscarPedidosController controladorDestinoPed;
     VistaBuscarArticulosController controladorDestinoA;
     VistaBuscarProveedoresController controladorDestinoP;
+    VistamMenuController vm;
 
     ObservableList<detallePedido> lista = FXCollections.observableArrayList();
     ObservableList<detallePedido> listaAux = FXCollections.observableArrayList();
@@ -137,6 +146,8 @@ public class VistaPedidosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        empAdmin.setPswd(empAdmin.getAdminPswd());
 
         this.primaryStage = primaryStage;
 
@@ -480,73 +491,72 @@ public class VistaPedidosController implements Initializable {
         for (detallePedido pedido : lista) {
             System.out.println(pedido.getNro() + " " + pedido.getIdPro());
         }
-        
+
         if (txtProveedor.getText().equals("")) {
 
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("");
-                alerta.setHeaderText(null);
-                alerta.setContentText("No se ha seleccionado un proveedor");
-                alerta.showAndWait();
-            } else if (lista.isEmpty()) {
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("");
+            alerta.setHeaderText(null);
+            alerta.setContentText("No se ha seleccionado un proveedor");
+            alerta.showAndWait();
+        } else if (lista.isEmpty()) {
 
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("");
-                alerta.setHeaderText(null);
-                alerta.setContentText("No se ha insertado ningun producto");
-                alerta.showAndWait();
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("");
+            alerta.setHeaderText(null);
+            alerta.setContentText("No se ha insertado ningun producto");
+            alerta.showAndWait();
 
-            } else {
+        } else {
 
-                Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-                alerta.setTitle("El sistema comunica;");
-                alerta.setHeaderText(null);
-                alerta.setContentText("¿Desea grabar el pedido?");
-                Optional<ButtonType> opcion = alerta.showAndWait();
-                if (opcion.get() == ButtonType.OK) {
+            Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+            alerta.setTitle("El sistema comunica;");
+            alerta.setHeaderText(null);
+            alerta.setContentText("¿Desea grabar el pedido?");
+            Optional<ButtonType> opcion = alerta.showAndWait();
+            if (opcion.get() == ButtonType.OK) {
 
-                    ped = new pedido(Integer.parseInt(txtIdPedido.getText()), prov.getId(), String.valueOf(txtEmision.getText()), 1, Double.parseDouble(txtTotal.getText()));
-                    if (ped.insertar()) {//insertado
+                ped = new pedido(Integer.parseInt(txtIdPedido.getText()), prov.getId(), String.valueOf(txtEmision.getText()), 1, Double.parseDouble(txtTotal.getText()));
+                if (ped.insertar()) {//insertado
 
-                        for (detallePedido pedido : lista) {
+                    for (detallePedido pedido : lista) {
 
-                            det = new detallePedido();
-                            det.setIdPed(ped.getId());
-                            det.setIdPro(pedido.getIdPro());
-                            det.setCantidad(pedido.getCantidad());
-                            det.setCosto(pedido.getCosto());
-                            det.setCostoTotal(pedido.getCostoTotal());
-                            pro.setId(det.getIdPro());
-                            if (det.insertar()) {
-                                System.out.println("se inserto " + det.getIdPro());
-                            } else {
-                                System.out.println("no se inserto " + det.getIdPro());
-                            }
-
+                        det = new detallePedido();
+                        det.setIdPed(ped.getId());
+                        det.setIdPro(pedido.getIdPro());
+                        det.setCantidad(pedido.getCantidad());
+                        det.setCosto(pedido.getCosto());
+                        det.setCostoTotal(pedido.getCostoTotal());
+                        pro.setId(det.getIdPro());
+                        if (det.insertar()) {
+                            System.out.println("se inserto " + det.getIdPro());
+                        } else {
+                            System.out.println("no se inserto " + det.getIdPro());
                         }
-                        Alert alertaIn = new Alert(Alert.AlertType.INFORMATION);
-                        alertaIn.setTitle("El sistema comunica:");
-                        alertaIn.setHeaderText(null);
-                        alertaIn.setContentText("Insertado correctamente en la base de datos");
-                        alertaIn.show();
-                        totalPedido = 0;
-                        modificar = false;
-                        c = 0;
 
-
-                        inicializarPedido();
-                        mostrarPedido();
-
-                    } else {
-                        Alert alertaIn = new Alert(Alert.AlertType.ERROR);
-                        alertaIn.setTitle("El sistema comunica:");
-                        alertaIn.setHeaderText(null);
-                        alertaIn.setContentText("Error. Registro no insertado.");
-                        alertaIn.show();
                     }
-                }
+                    Alert alertaIn = new Alert(Alert.AlertType.INFORMATION);
+                    alertaIn.setTitle("El sistema comunica:");
+                    alertaIn.setHeaderText(null);
+                    alertaIn.setContentText("Insertado correctamente en la base de datos");
+                    alertaIn.show();
+                    totalPedido = 0;
+                    modificar = false;
+                    c = 0;
 
+                    inicializarPedido();
+                    mostrarPedido();
+
+                } else {
+                    Alert alertaIn = new Alert(Alert.AlertType.ERROR);
+                    alertaIn.setTitle("El sistema comunica:");
+                    alertaIn.setHeaderText(null);
+                    alertaIn.setContentText("Error. Registro no insertado.");
+                    alertaIn.show();
+                }
             }
+
+        }
 
     }
 
@@ -561,21 +571,21 @@ public class VistaPedidosController implements Initializable {
         if (opcion.get() == ButtonType.OK) {
 
             lista.clear();
-                totalPedido = 0;
+            totalPedido = 0;
 
-                btnAgregarDetalle.setFocusTraversable(true);
+            btnAgregarDetalle.setFocusTraversable(true);
 
-                txtRuc.clear();
-                txtIdPedido.clear();
-                txtProveedor.clear();
-                tblDetallePedido.setItems(FXCollections.observableArrayList());
-                txtTotal.clear();
-                txtCodigoProducto.clear();
-                txtCantidadProducto.clear();
-                txtCostoProducto.clear();
+            txtRuc.clear();
+            txtIdPedido.clear();
+            txtProveedor.clear();
+            tblDetallePedido.setItems(FXCollections.observableArrayList());
+            txtTotal.clear();
+            txtCodigoProducto.clear();
+            txtCantidadProducto.clear();
+            txtCostoProducto.clear();
 
-                inicializarPedido();
-            
+            inicializarPedido();
+
         }
 
     }
@@ -605,19 +615,83 @@ public class VistaPedidosController implements Initializable {
     @FXML
     private void anularPedido(ActionEvent event) {
 
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle("El sistema comunica;");
-        alerta.setHeaderText(null);
-        alerta.setContentText("Realmente desea anular este pedido?");
-        Optional<ButtonType> opcion = alerta.showAndWait();
-        if (opcion.get() == ButtonType.OK) {
+        if (emp.getCargo().equals("Admin")) {
 
-            ped.setEstado(0);
-            ped.modificar();
+            Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+            alerta.setTitle("El sistema comunica;");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Realmente desea anular este pedido?");
+            Optional<ButtonType> opcion = alerta.showAndWait();
+            if (opcion.get() == ButtonType.OK) {
+
+                ped.setEstado(0);
+                ped.modificar();
+
+            }
+            mostrarPedido();
+
+        } else {
+
+            // Crear un Alert personalizado
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.setTitle("Autenticación requerida");
+            alert.setHeaderText("Ingrese su contraseña de administrador.");
+
+            // Crear un PasswordField para la entrada de contraseña
+            PasswordField passwordField = new PasswordField();
+            passwordField.setPromptText("Contraseña");
+
+            // Crear un GridPane para organizar el PasswordField en el Alert
+            GridPane grid = new GridPane();
+            grid.add(passwordField, 0, 0);
+
+            // Configurar el contenido del Alert
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.setContent(grid);
+
+            // Añadir los botones OK y Cancel
+            alert.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+            // Mostrar el Alert y esperar la respuesta del usuario
+            Optional<ButtonType> result = alert.showAndWait();
+
+            // Manejar la respuesta del usuario
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                String enteredPassword = passwordField.getText();
+                // Comparar la contraseña ingresada
+                if (empAdmin.checkPassword(enteredPassword)) {
+                    System.out.println("Contraseña correcta");
+                    Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                    alerta.setTitle("El sistema comunica;");
+                    alerta.setHeaderText(null);
+                    alerta.setContentText("Realmente desea anular este pedido?");
+                    Optional<ButtonType> opcion = alerta.showAndWait();
+                    if (opcion.get() == ButtonType.OK) {
+
+                        ped.setEstado(0);
+                        ped.modificar();
+
+                    }
+                    mostrarPedido();
+
+                } else {
+                    System.out.println("Contraseña incorrecta");
+                    Alert alertaIn = new Alert(Alert.AlertType.INFORMATION);
+                    alertaIn.setTitle("El sistema comunica:");
+                    alertaIn.setHeaderText(null);
+                    alertaIn.setContentText("Contraseña incorrecta");
+                    alertaIn.show();
+                }
+            } else {
+                System.out.println("Autenticación cancelada");
+            }
 
         }
-        mostrarPedido();
 
+    }
+
+    private boolean comparePassword(String enteredPassword, String correctPassword) {
+        return enteredPassword.equals(correctPassword);
     }
 
     @FXML
@@ -727,8 +801,8 @@ public class VistaPedidosController implements Initializable {
             txtRuc.setText(prov.getRuc());
         }
     }
-    
-    public void setPedidoSeleccionado(pedido ped){
+
+    public void setPedidoSeleccionado(pedido ped) {
         this.ped = ped;
         if (ped.getId() != -1) {
             mostrarPedido();
@@ -813,6 +887,10 @@ public class VistaPedidosController implements Initializable {
 
         abrirFxmlModal("vistaBuscarProveedores.fxml", "Buscar Proveedor");
 
+    }
+
+    public void setEmp(empleado emp) {
+        this.emp = emp;
     }
 
 }

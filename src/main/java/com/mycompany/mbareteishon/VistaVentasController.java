@@ -30,11 +30,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -135,23 +138,25 @@ public class VistaVentasController implements Initializable {
 
     producto pro = new producto();
 
+    empleado empAdmin = new empleado();
+    
     cliente cl = new cliente();
 
     private empleado emp = new empleado();
-    
+
     VistaBuscarFacturaController controladorDestinoF;
     VistaBuscarClientesController controladorDestinoC;
     VistaBuscarArticulosController controladorDestinoP;
 
     public void initialize(URL url, ResourceBundle rb) {
 
+        empAdmin.setPswd(empAdmin.getAdminPswd());
         totales.add(fac);
         initFactura();
         this.primaryStage = primaryStage;
         cmbTipoVenta.getItems().addAll("Mostrador", "Delivery");
         cmbFormaPago.getItems().addAll("Efectivo", "Credito");
 
-        
         fac.setNumeroFactura(fac.getUltimaFactura());
         //txtEmpleado.setText(emp.getNombre() + " " + emp.getApellido());
 
@@ -470,7 +475,7 @@ public class VistaVentasController implements Initializable {
 
     @FXML
     private void guardar(ActionEvent event) {
-        
+
         System.out.println(emp.getNombre());
 
         if (txtRucCliente.getText().equals("") || txtNombreCliente.getText().equals("")) {
@@ -548,16 +553,73 @@ public class VistaVentasController implements Initializable {
     @FXML
     private void anular(ActionEvent event) {
 
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle("El sistema comunica;");
-        alerta.setHeaderText(null);
-        alerta.setContentText("Realmente desea anular esta factura?");
-        Optional<ButtonType> opcion = alerta.showAndWait();
-        if (opcion.get() == ButtonType.OK) {
-            fac.setActivo(0);
-            System.out.println(fac.modificar());
+        if (emp.getCargo().equals("Admin")) {
+
+            Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+            alerta.setTitle("El sistema comunica;");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Realmente desea anular este pedido?");
+            Optional<ButtonType> opcion = alerta.showAndWait();
+            if (opcion.get() == ButtonType.OK) {
+                fac.setActivo(0);
+                System.out.println(fac.modificar());
+            }
+            mostrarFactura();
+
+        } else {
+
+            // Crear un Alert personalizado
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.setTitle("Autenticación requerida");
+            alert.setHeaderText("Ingrese su contraseña de administrador.");
+
+            // Crear un PasswordField para la entrada de contraseña
+            PasswordField passwordField = new PasswordField();
+            passwordField.setPromptText("Contraseña");
+
+            // Crear un GridPane para organizar el PasswordField en el Alert
+            GridPane grid = new GridPane();
+            grid.add(passwordField, 0, 0);
+
+            // Configurar el contenido del Alert
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.setContent(grid);
+
+            // Añadir los botones OK y Cancel
+            alert.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+            // Mostrar el Alert y esperar la respuesta del usuario
+            Optional<ButtonType> result = alert.showAndWait();
+
+            // Manejar la respuesta del usuario
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                String enteredPassword = passwordField.getText();
+                // Comparar la contraseña ingresada
+                if (empAdmin.checkPassword(enteredPassword)) {
+                    Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                    alerta.setTitle("El sistema comunica;");
+                    alerta.setHeaderText(null);
+                    alerta.setContentText("Realmente desea anular este pedido?");
+                    Optional<ButtonType> opcion = alerta.showAndWait();
+                    if (opcion.get() == ButtonType.OK) {
+                        fac.setActivo(0);
+                        System.out.println(fac.modificar());
+                    }
+                    mostrarFactura();
+
+                } else {
+                    System.out.println("Contraseña incorrecta");
+                    Alert alertaIn = new Alert(Alert.AlertType.INFORMATION);
+                    alertaIn.setTitle("El sistema comunica:");
+                    alertaIn.setHeaderText(null);
+                    alertaIn.setContentText("Contraseña incorrecta");
+                    alertaIn.show();
+                }
+            } else {
+                System.out.println("Autenticación cancelada");
+            }
+
         }
-        mostrarFactura();
     }
 
     @FXML

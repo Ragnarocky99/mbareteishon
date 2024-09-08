@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -15,8 +16,6 @@
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#goToVentas" text="Ventas" />
                   <MenuItem mnemonicParsing="false" onAction="#goToPedidos" text="Pedidos" />
-                  <MenuItem mnemonicParsing="false" text="Apertura de Caja" />
-                  <MenuItem mnemonicParsing="false" text="Cierre de Caja" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Informes">
@@ -24,19 +23,18 @@
                 <MenuItem mnemonicParsing="false" text="Ventas por Fecha" />
                   <MenuItem mnemonicParsing="false" text="Pedidos por fecha" />
                   <MenuItem mnemonicParsing="false" text="Recuento" />
-                  <MenuItem mnemonicParsing="false" text="Inventario" />
+                  <MenuItem mnemonicParsing="false" onAction="#goToInventario" text="Inventario" />
+                  <MenuItem mnemonicParsing="false" onAction="#goToNominaClientes" text="Nomina Cliente" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Clientes">
               <items>
                 <MenuItem fx:id="menuItemGestionarClientes" mnemonicParsing="false" onAction="#goToGestionarCliente" text="Gestionar Clientes" />
-                  <MenuItem mnemonicParsing="false" text="Ventas por Cliente" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Articulos">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#goToGestionarArticulo" text="Gestionar Articulos" />
-                  <MenuItem mnemonicParsing="false" text="Articulos por Pedido" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Proveedores">
@@ -47,6 +45,11 @@
             <Menu mnemonicParsing="false" text="Ayuda">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#goToAcercaDe" text="Acerca de" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" onAction="#goToEmpleados" text="Empleados">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Gestionar Empleados" />
               </items>
             </Menu>
          </menus>
@@ -61,10 +64,11 @@
             <Font size="48.0" />
          </font>
       </Label>
-      <Label fx:id="txtEmp" layoutX="686.0" layoutY="599.0" prefHeight="17.0" prefWidth="100.0" text="Empleado" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
+      <Label fx:id="txtEmp" layoutX="14.0" layoutY="574.0" prefHeight="27.0" prefWidth="403.0" text="Empleado" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="15.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
+      <Button layoutX="14.0" layoutY="601.0" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar Sesion" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" />
    </children>
 </AnchorPane>

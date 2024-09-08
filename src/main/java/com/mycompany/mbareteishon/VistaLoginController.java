@@ -65,7 +65,7 @@ public class VistaLoginController implements Initializable {
             String fxml = "";
             String titulo = "";
             switch (empleadoAutenticado.getCargo()) {
-                case "Root":
+                case "Admin":
                     fxml = "VistamMenu.fxml";
                     titulo = "Admin. Mbarete";
                     break;
@@ -102,6 +102,7 @@ public class VistaLoginController implements Initializable {
             stage.setScene(new Scene(root));
             stage.setMaximized(true); // Maximizar la ventana
             stage.setResizable(false); // No permitir redimensionar
+            vmc.setStage(stage);
             stage.show();
 
             if (currentStage != null) {

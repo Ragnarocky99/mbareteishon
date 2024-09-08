@@ -1,5 +1,6 @@
 package com.mycompany.mbareteishon;
 
+import com.mycompany.mbareteishon.clases.reporte;
 import com.mycompany.mbareteishon.modelo.empleado;
 import java.io.IOException;
 import java.net.URL;
@@ -17,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
@@ -33,7 +35,15 @@ public class VistamMenuController implements Initializable {
     @FXML
     public Label txtEmp;
 
-    private empleado emp;
+    public empleado emp;
+
+    Stage stage;
+    
+    reporte rep = new reporte();
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -106,6 +116,10 @@ public class VistamMenuController implements Initializable {
                 VistaVentasController ventasController = loader.getController();
                 ventasController.setEmpleado(emp); // Pasar el empleado al controlador
             }
+            if ("vistaPedidos.fxml".equals(fxml)) {
+                VistaPedidosController pedidosControlller = loader.getController();
+                pedidosControlller.setEmp(emp);
+            }
 
             Stage stage = new Stage();
             stage.setTitle(titulo);
@@ -115,5 +129,42 @@ public class VistamMenuController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(VistamMenuController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @FXML
+    private void goToInventario(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void goToEmpleados(ActionEvent event) {
+
+        if (emp.getCargo().equals("Admin")) {
+
+            abrirFxml("VistaGestionEmpleados.fxml", "Gestion de Empleados");
+
+        } else {
+
+            Alert alertaError = new Alert(Alert.AlertType.ERROR);
+            alertaError.setTitle("Error");
+            alertaError.setHeaderText(null);
+            alertaError.setContentText("Solo los administradores pueden gestionar empleados.");
+            alertaError.showAndWait();
+
+        }
+
+    }
+
+    @FXML
+    private void cerrarSesion(ActionEvent event) {
+        emp = new empleado();
+        abrirFxml("vistaLogin.fxml", "");
+        this.stage.close();
+
+    }
+
+    @FXML
+    private void goToNominaClientes(ActionEvent event) {
+        rep.generarReporte("/reportes/nomina_clientes.jasper", "Nomina Clientes");
     }
 }
