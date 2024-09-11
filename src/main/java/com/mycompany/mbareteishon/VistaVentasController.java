@@ -139,7 +139,7 @@ public class VistaVentasController implements Initializable {
     producto pro = new producto();
 
     empleado empAdmin = new empleado();
-    
+
     cliente cl = new cliente();
 
     private empleado emp = new empleado();
@@ -416,6 +416,9 @@ public class VistaVentasController implements Initializable {
         tblTotales.setDisable(true);
         aggDetalle();
         btnBuscarProducto.requestFocus();
+        txtCantidadProducto.setText(String.valueOf(det.getCantidad()));
+        txtCodProducto.setText(String.valueOf(det.getIdProducto()));
+        txtPrecioProducto.setText(String.valueOf(det.getMonto()));
         modificar = true;
 
     }
@@ -524,6 +527,8 @@ public class VistaVentasController implements Initializable {
                         c += 1;
                         det = new detalleFactura(c, detalle.getCantidad(), detalle.getIdProducto(), detalle.getNumeroFactura(), detalle.getMontoTotal(), detalle.getMonto(), detalle.getIva10());
                         det.insertar();
+                        pro.setId(det.getIdProducto());
+                        pro.eliminarStock(det.getCantidad());
 
                     }
                     Alert alertaIn = new Alert(Alert.AlertType.INFORMATION);
@@ -649,121 +654,131 @@ public class VistaVentasController implements Initializable {
     @FXML
     private void aceptarProducto(ActionEvent event) {
 
-        totalGral = 0;
-        if (!modificar) {
+        try {
+            totalGral = 0;
+            if (!modificar) {
 
-            if ("".equals(txtCodProducto.getText())) {
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("");
-                alerta.setHeaderText(null);
-                alerta.setContentText("No se ha seleccionado un producto");
-                alerta.showAndWait();
-            } else if (Integer.parseInt(txtCantidadProducto.getText()) <= 0) {
-
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("");
-                alerta.setHeaderText(null);
-                alerta.setContentText("Cantidad menor o igual a cero");
-                alerta.showAndWait();
-
-            } else {
-
-                int cant = Integer.parseInt(txtCantidadProducto.getText());
-                double precio = Double.parseDouble(txtPrecioProducto.getText());
-                double total = cant * precio;
-                det = new detalleFactura(lista.size() + 1, cant, Integer.parseInt(txtCodProducto.getText()), fac.getNumeroFactura(), total, precio, total * 0.10);
-                det.setNombre(pro.getNombre());
-                if (comprobarProdRepetido()) {
-
-                    Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-                    alerta.setTitle("El sistema comunica;");
+                if ("".equals(txtCodProducto.getText())) {
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                    alerta.setTitle("");
                     alerta.setHeaderText(null);
-                    alerta.setContentText("Se detecto una repeticion de productos en \n"
-                            + "ID : " + det.getIdProducto() + " Nombre : " + pro.getNombre() + "\n"
-                            + "Desea combinar sus cantidades?");
-                    Optional<ButtonType> opcion = alerta.showAndWait();
-                    if (opcion.get() == ButtonType.OK) {
+                    alerta.setContentText("No se ha seleccionado un producto");
+                    alerta.showAndWait();
+                } else if (Integer.parseInt(txtCantidadProducto.getText()) <= 0) {
 
-                        c = 0;
-                        for (detalleFactura df : lista) {
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                    alerta.setTitle("");
+                    alerta.setHeaderText(null);
+                    alerta.setContentText("Cantidad menor o igual a cero");
+                    alerta.showAndWait();
 
-                            df.setNro(c + 1);
-                            c += 1;
+                } else {
+
+                    int cant = Integer.parseInt(txtCantidadProducto.getText());
+                    double precio = Double.parseDouble(txtPrecioProducto.getText());
+                    double total = cant * precio;
+                    det = new detalleFactura(lista.size() + 1, cant, Integer.parseInt(txtCodProducto.getText()), fac.getNumeroFactura(), total, precio, total * 0.1);
+                    det.setNombre(pro.getNombre());
+                    if (comprobarProdRepetido()) {
+
+                        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                        alerta.setTitle("El sistema comunica;");
+                        alerta.setHeaderText(null);
+                        alerta.setContentText("Se detecto una repeticion de productos en \n"
+                                + "ID : " + det.getIdProducto() + " Nombre : " + pro.getNombre() + "\n"
+                                + "Desea combinar sus cantidades?");
+                        Optional<ButtonType> opcion = alerta.showAndWait();
+                        if (opcion.get() == ButtonType.OK) {
+
+                            c = 0;
+                            for (detalleFactura df : lista) {
+
+                                df.setNro(c + 1);
+                                c += 1;
+
+                            }
+
+                            lista.set(det.getNro() - 1, det);
+                            tblDetalleFactura.setItems(lista);
 
                         }
 
+                    } else {
+
+                        lista.add(det);
+                        tblDetalleFactura.setItems(lista);
+
+                    }
+
+                }
+
+            } else {
+
+                if ("".equals(txtCodProducto.getText())) {
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                    alerta.setTitle("");
+                    alerta.setHeaderText(null);
+                    alerta.setContentText("No se ha seleccionado un producto");
+                    alerta.showAndWait();
+                } else if (Integer.parseInt(txtCantidadProducto.getText()) <= 0) {
+
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                    alerta.setTitle("");
+                    alerta.setHeaderText(null);
+                    alerta.setContentText("Cantidad menor o igual a cero");
+                    alerta.showAndWait();
+
+                } else {
+                    pos = det.getNro();
+                    pro.setId(Integer.parseInt(txtCodProducto.getText()));
+                    int cant = Integer.parseInt(txtCantidadProducto.getText());
+                    double precio = Double.parseDouble(txtPrecioProducto.getText());
+                    double total = cant * precio;
+
+                    //det = new detalleFactura(pos, pro.getId(), cant, cost, total, Integer.parseInt(txtIdPedido.getText()), det.consultaNombre(pro.getId()));
+                    det = new detalleFactura(pos, cant, Integer.parseInt(txtCodProducto.getText()), fac.getNumeroFactura(), total, precio, total * 0.1);
+                    det.setNombre(pro.getNombre());
+                    if (comprobarProdRepetido()) {
+
+                        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                        alerta.setTitle("El sistema comunica;");
+                        alerta.setHeaderText(null);
+                        alerta.setContentText("Se detecto una repeticion de productos en " + det.getNro() + "\n"
+                                + "ID : " + det.getIdProducto() + " Nombre : " + pro.getNombre() + "\n"
+                                + "Desea combinar sus cantidades?");
+                        Optional<ButtonType> opcion = alerta.showAndWait();
+                        if (opcion.get() == ButtonType.OK) {
+
+                            lista.set(det.getNro() - 1, det);
+                            lista.remove(pos - 1);
+                            tblDetalleFactura.setItems(lista);
+
+                            c = 0;
+                            for (detalleFactura df : lista) {
+
+                                df.setNro(c + 1);
+                                c += 1;
+
+                            }
+
+                        }
+
+                    } else {
                         lista.set(det.getNro() - 1, det);
                         tblDetalleFactura.setItems(lista);
 
                     }
 
-                } else {
-
-                    lista.add(det);
-                    tblDetalleFactura.setItems(lista);
-
                 }
 
             }
+        } catch (Exception e) {
 
-        } else {
-
-            if ("".equals(txtCodProducto.getText())) {
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("");
-                alerta.setHeaderText(null);
-                alerta.setContentText("No se ha seleccionado un producto");
-                alerta.showAndWait();
-            } else if (Integer.parseInt(txtCantidadProducto.getText()) <= 0) {
-
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("");
-                alerta.setHeaderText(null);
-                alerta.setContentText("Cantidad menor o igual a cero");
-                alerta.showAndWait();
-
-            } else {
-                pos = det.getNro();
-                pro.setId(Integer.parseInt(txtCodProducto.getText()));
-                int cant = Integer.parseInt(txtCantidadProducto.getText());
-                double precio = Double.parseDouble(txtPrecioProducto.getText());
-                double total = cant * precio;
-
-                //det = new detalleFactura(pos, pro.getId(), cant, cost, total, Integer.parseInt(txtIdPedido.getText()), det.consultaNombre(pro.getId()));
-                det = new detalleFactura(pos, cant, Integer.parseInt(txtCodProducto.getText()), fac.getNumeroFactura(), total, precio, total * 0.10);
-                det.setNombre(pro.getNombre());
-                if (comprobarProdRepetido()) {
-
-                    Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-                    alerta.setTitle("El sistema comunica;");
-                    alerta.setHeaderText(null);
-                    alerta.setContentText("Se detecto una repeticion de productos en " + det.getNro() + "\n"
-                            + "ID : " + det.getIdProducto() + " Nombre : " + pro.getNombre() + "\n"
-                            + "Desea combinar sus cantidades?");
-                    Optional<ButtonType> opcion = alerta.showAndWait();
-                    if (opcion.get() == ButtonType.OK) {
-
-                        lista.set(det.getNro() - 1, det);
-                        lista.remove(pos - 1);
-                        tblDetalleFactura.setItems(lista);
-
-                        c = 0;
-                        for (detalleFactura df : lista) {
-
-                            df.setNro(c + 1);
-                            c += 1;
-
-                        }
-
-                    }
-
-                } else {
-                    lista.set(det.getNro() - 1, det);
-                    tblDetalleFactura.setItems(lista);
-
-                }
-
-            }
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Valores invalidos");
+            alerta.showAndWait();
 
         }
 

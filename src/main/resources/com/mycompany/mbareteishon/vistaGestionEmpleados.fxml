@@ -19,9 +19,12 @@
                <children>
                   <Pane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-style: solid;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                      <children>
-                        <Label layoutX="14.0" layoutY="14.0" text="Buscar" />
+                        <Label layoutX="14.0" layoutY="14.0" text="Buscar">
+                           <font>
+                              <Font name="Consolas" size="14.0" />
+                           </font></Label>
                         <TextField fx:id="txtBuscarUsuario" layoutX="69.0" layoutY="10.0" onKeyReleased="#buscarUsuario" prefHeight="25.0" prefWidth="445.0" />
-                        <TableView fx:id="tblUsuario" layoutX="14.0" layoutY="44.0" onMouseClicked="#mostrarFila" onMouseReleased="#noMostrarFila" prefHeight="301.0" prefWidth="500.0" style="-fx-background-color: #F2AE27;">
+                        <TableView fx:id="tblUsuario" layoutX="14.0" layoutY="44.0" onMouseClicked="#mostrarFila" onMouseReleased="#noMostrarFila" prefHeight="301.0" prefWidth="500.0" style="-fx-background-color: #EBC759;">
                            <columns>
                               <TableColumn fx:id="colId" prefWidth="100.0" text="ID" />
                               <TableColumn fx:id="colNombre" prefWidth="200.0" text="Nombre" />
@@ -45,38 +48,50 @@
                <children>
                   <Pane layoutX="15.0" layoutY="15.0" prefHeight="412.0" prefWidth="731.0" style="-fx-border-style: solid;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                      <children>
-                        <Button fx:id="btnAgregarUsuario" layoutX="14.0" layoutY="335.0" mnemonicParsing="false" onAction="#agregarUsuario" prefHeight="70.0" prefWidth="78.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Agregar">
+                        <Button fx:id="btnAgregarUsuario" layoutX="18.0" layoutY="292.0" mnemonicParsing="false" onAction="#agregarUsuario" prefHeight="65.0" prefWidth="91.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Agregar">
                            <font>
-                              <Font name="Consolas" size="13.0" />
+                              <Font name="Consolas Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btnModificarUsuario" layoutX="113.0" layoutY="336.0" mnemonicParsing="false" onAction="#modificarUsuario" prefHeight="70.0" prefWidth="85.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Modificar">
+                        <Button fx:id="btnModificarUsuario" layoutX="158.0" layoutY="292.0" mnemonicParsing="false" onAction="#modificarUsuario" prefHeight="65.0" prefWidth="91.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Modificar">
                            <font>
-                              <Font name="Consolas" size="13.0" />
+                              <Font name="Consolas Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btnEliminarUsuario" layoutX="215.0" layoutY="336.0" mnemonicParsing="false" onAction="#eliminarUsuario" prefHeight="70.0" prefWidth="86.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Eliminar">
+                        <Button fx:id="btnEliminarUsuario" layoutX="300.0" layoutY="292.0" mnemonicParsing="false" onAction="#eliminarUsuario" prefHeight="65.0" prefWidth="91.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Eliminar">
                            <font>
-                              <Font name="Consolas" size="13.0" />
+                              <Font name="Consolas Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Label layoutX="14.0" layoutY="34.0" text="ID" />
-                        <Label layoutX="14.0" layoutY="69.0" text="Nombre" />
-                        <Label layoutX="14.0" layoutY="147.0" text="Contraseña" />
+                        <Label layoutX="14.0" layoutY="34.0" text="ID">
+                           <font>
+                              <Font name="Consolas" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="14.0" layoutY="69.0" text="Nombre">
+                           <font>
+                              <Font name="Consolas" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="14.0" layoutY="147.0" text="Contraseña">
+                           <font>
+                              <Font name="Consolas" size="14.0" />
+                           </font></Label>
                         <TextField fx:id="txtId" disable="true" editable="false" layoutX="89.0" layoutY="30.0" prefHeight="25.0" prefWidth="218.0" />
                         <TextField fx:id="txtNombre" layoutX="90.0" layoutY="65.0" prefHeight="25.0" prefWidth="217.0" />
                         <TextField fx:id="txtPswd" layoutX="90.0" layoutY="143.0" prefHeight="25.0" prefWidth="217.0" />
-                        <Button fx:id="btnAceptar" layoutX="73.0" layoutY="282.0" mnemonicParsing="false" onAction="#aceptar" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Aceptar">
+                        <Button fx:id="btnAceptar" layoutX="365.0" layoutY="57.0" mnemonicParsing="false" onAction="#aceptar" prefHeight="53.0" prefWidth="96.0" style="-fx-background-color: #EBC759; -fx-border-color: black; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-width: 2;" text="Aceptar">
                            <font>
-                              <Font name="Consolas" size="13.0" />
+                              <Font name="Consolas Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btnCancelar" layoutX="152.0" layoutY="282.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Cancelar">
+                        <Button fx:id="btnCancelar" layoutX="365.0" layoutY="152.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="53.0" prefWidth="96.0" style="-fx-background-color: #EBC759; -fx-border-color: black; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-width: 2;" text="Cancelar">
                            <font>
-                              <Font name="Consolas" size="13.0" />
+                              <Font name="Consolas Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Label layoutX="14.0" layoutY="105.0" text="Apellido" />
+                        <Label layoutX="14.0" layoutY="105.0" text="Apellido">
+                           <font>
+                              <Font name="Consolas" size="14.0" />
+                           </font></Label>
                         <TextField fx:id="txtApellido" layoutX="90.0" layoutY="101.0" prefHeight="25.0" prefWidth="217.0" />
                      </children>
                   </Pane>

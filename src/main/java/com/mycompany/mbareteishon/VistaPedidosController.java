@@ -291,147 +291,155 @@ public class VistaPedidosController implements Initializable {
     @FXML
     private void aceptarProducto(ActionEvent event) {
 
-        if (!modificar) {
+        try {
+            if (!modificar) {
 
-            if ("".equals(txtCodigoProducto.getText())) {
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("");
-                alerta.setHeaderText(null);
-                alerta.setContentText("No se ha seleccionado un producto");
-                alerta.showAndWait();
-            } else if (Integer.parseInt(txtCantidadProducto.getText()) <= 0) {
+                if ("".equals(txtCodigoProducto.getText())) {
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                    alerta.setTitle("");
+                    alerta.setHeaderText(null);
+                    alerta.setContentText("No se ha seleccionado un producto");
+                    alerta.showAndWait();
+                } else if (Integer.parseInt(txtCantidadProducto.getText()) <= 0) {
 
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("");
-                alerta.setHeaderText(null);
-                alerta.setContentText("Cantidad menor o igual a cero");
-                alerta.showAndWait();
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                    alerta.setTitle("");
+                    alerta.setHeaderText(null);
+                    alerta.setContentText("Cantidad menor o igual a cero");
+                    alerta.showAndWait();
+
+                } else {
+
+                    System.out.println("Seleccionado para agregar : " + pro.getId());
+                    c = lista.size();
+                    int cant = Integer.parseInt(txtCantidadProducto.getText());
+                    double cost = Double.parseDouble(txtCostoProducto.getText());
+                    double total = cant * cost;
+                    det = new detallePedido(c + 1, pro.getId(), cant, cost, total, Integer.parseInt(txtIdPedido.getText()), pro.getNombre());
+                    if (comprobarProdRepetido()) {
+
+                        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                        alerta.setTitle("El sistema comunica;");
+                        alerta.setHeaderText(null);
+                        alerta.setContentText("Se detecto una repeticion de productos en \n"
+                                + "ID : " + det.getIdPro() + " Nombre : " + det.getNombre() + "\n"
+                                + "Desea combinar sus cantidades?");
+                        Optional<ButtonType> opcion = alerta.showAndWait();
+                        if (opcion.get() == ButtonType.OK) {
+
+                            System.out.println("Elemento a modificar : " + det.getNro() + " ID" + det.getIdPro());
+                            System.out.println("En el array " + (det.getNro() - 1));
+                            System.out.println("Tamaño del array " + lista.size());
+                            System.out.println("------------------Array--------------------");
+                            c = 0;
+                            for (detallePedido pedido : lista) {
+
+                                pedido.setNro(c + 1);
+                                c += 1;
+                                System.out.println("Elemento " + (pedido.getNro() - 1) + " ID" + pedido.getIdPro());
+
+                            }
+                            lista.set(det.getNro() - 1, det);
+                            tblDetallePedido.setItems(lista);
+
+                        }
+
+                    } else {
+
+                        lista.add(det);
+                        tblDetallePedido.setItems(lista);
+
+                    }
+
+                    System.out.println("------------------Nuevo Array--------------------");
+                    for (detallePedido pedido : lista) {
+
+                        System.out.println("Elemento " + (pedido.getNro() - 1) + " ID" + pedido.getIdPro());
+
+                    }
+
+                }
 
             } else {
 
-                System.out.println("Seleccionado para agregar : " + pro.getId());
-                c = lista.size();
-                int cant = Integer.parseInt(txtCantidadProducto.getText());
-                double cost = Double.parseDouble(txtCostoProducto.getText());
-                double total = cant * cost;
-                det = new detallePedido(c + 1, pro.getId(), cant, cost, total, Integer.parseInt(txtIdPedido.getText()), pro.getNombre());
-                if (comprobarProdRepetido()) {
-
-                    Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-                    alerta.setTitle("El sistema comunica;");
+                if ("".equals(txtCodigoProducto.getText())) {
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                    alerta.setTitle("");
                     alerta.setHeaderText(null);
-                    alerta.setContentText("Se detecto una repeticion de productos en \n"
-                            + "ID : " + det.getIdPro() + " Nombre : " + det.getNombre() + "\n"
-                            + "Desea combinar sus cantidades?");
-                    Optional<ButtonType> opcion = alerta.showAndWait();
-                    if (opcion.get() == ButtonType.OK) {
+                    alerta.setContentText("No se ha seleccionado un producto");
+                    alerta.showAndWait();
+                } else if (Integer.parseInt(txtCantidadProducto.getText()) <= 0) {
 
-                        System.out.println("Elemento a modificar : " + det.getNro() + " ID" + det.getIdPro());
-                        System.out.println("En el array " + (det.getNro() - 1));
-                        System.out.println("Tamaño del array " + lista.size());
-                        System.out.println("------------------Array--------------------");
-                        c = 0;
-                        for (detallePedido pedido : lista) {
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                    alerta.setTitle("");
+                    alerta.setHeaderText(null);
+                    alerta.setContentText("Cantidad menor o igual a cero");
+                    alerta.showAndWait();
 
-                            pedido.setNro(c + 1);
-                            c += 1;
-                            System.out.println("Elemento " + (pedido.getNro() - 1) + " ID" + pedido.getIdPro());
+                } else {
+                    pos = det.getNro();
+                    pro.setId(Integer.parseInt(txtCodigoProducto.getText()));
+                    int cant = Integer.parseInt(txtCantidadProducto.getText());
+                    double cost = Double.parseDouble(txtCostoProducto.getText());
+                    double total = cant * cost;
+
+                    det = new detallePedido(pos, pro.getId(), cant, cost, total, Integer.parseInt(txtIdPedido.getText()), det.consultaNombre(pro.getId()));
+
+                    if (comprobarProdRepetido()) {
+
+                        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+                        alerta.setTitle("El sistema comunica;");
+                        alerta.setHeaderText(null);
+                        alerta.setContentText("Se detecto una repeticion de productos en \n"
+                                + "ID : " + det.getIdPro() + " Nombre : " + det.getNombre() + "\n"
+                                + "Desea combinar sus cantidades?");
+                        Optional<ButtonType> opcion = alerta.showAndWait();
+                        if (opcion.get() == ButtonType.OK) {
+
+                            System.out.println("Elemento a modificar : " + det.getNro() + " ID" + det.getIdPro());
+                            System.out.println("Elemento a eliminar : " + (pos - 1));
+                            System.out.println("En el array " + (det.getNro() - 1));
+                            System.out.println("Tamaño del array " + lista.size());
+                            System.out.println("Tamaño del array " + lista.size());
+                            System.out.println("------------------Array--------------------");
+                            for (detallePedido pedido : lista) {
+
+                                System.out.println("Elemento " + (pedido.getNro() - 1) + " ID" + pedido.getIdPro());
+
+                            }
+
+                            lista.set(det.getNro() - 1, det);
+                            lista.remove(pos - 1);
+                            tblDetallePedido.setItems(lista);
+
+                            System.out.println("------------------Nuevo Array--------------------");
+                            c = 0;
+                            for (detallePedido pedido : lista) {
+
+                                pedido.setNro(c + 1);
+                                c += 1;
+                                System.out.println("Elemento " + (pedido.getNro() - 1) + " ID" + pedido.getIdPro());
+
+                            }
 
                         }
+
+                    } else {
+
                         lista.set(det.getNro() - 1, det);
                         tblDetallePedido.setItems(lista);
 
                     }
 
-                } else {
-
-                    lista.add(det);
-                    tblDetallePedido.setItems(lista);
-
-                }
-
-                System.out.println("------------------Nuevo Array--------------------");
-                for (detallePedido pedido : lista) {
-
-                    System.out.println("Elemento " + (pedido.getNro() - 1) + " ID" + pedido.getIdPro());
-
                 }
 
             }
-
-        } else {
-
-            if ("".equals(txtCodigoProducto.getText())) {
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("");
-                alerta.setHeaderText(null);
-                alerta.setContentText("No se ha seleccionado un producto");
-                alerta.showAndWait();
-            } else if (Integer.parseInt(txtCantidadProducto.getText()) <= 0) {
-
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("");
-                alerta.setHeaderText(null);
-                alerta.setContentText("Cantidad menor o igual a cero");
-                alerta.showAndWait();
-
-            } else {
-                pos = det.getNro();
-                pro.setId(Integer.parseInt(txtCodigoProducto.getText()));
-                int cant = Integer.parseInt(txtCantidadProducto.getText());
-                double cost = Double.parseDouble(txtCostoProducto.getText());
-                double total = cant * cost;
-
-                det = new detallePedido(pos, pro.getId(), cant, cost, total, Integer.parseInt(txtIdPedido.getText()), det.consultaNombre(pro.getId()));
-
-                if (comprobarProdRepetido()) {
-
-                    Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-                    alerta.setTitle("El sistema comunica;");
-                    alerta.setHeaderText(null);
-                    alerta.setContentText("Se detecto una repeticion de productos en \n"
-                            + "ID : " + det.getIdPro() + " Nombre : " + det.getNombre() + "\n"
-                            + "Desea combinar sus cantidades?");
-                    Optional<ButtonType> opcion = alerta.showAndWait();
-                    if (opcion.get() == ButtonType.OK) {
-
-                        System.out.println("Elemento a modificar : " + det.getNro() + " ID" + det.getIdPro());
-                        System.out.println("Elemento a eliminar : " + (pos - 1));
-                        System.out.println("En el array " + (det.getNro() - 1));
-                        System.out.println("Tamaño del array " + lista.size());
-                        System.out.println("Tamaño del array " + lista.size());
-                        System.out.println("------------------Array--------------------");
-                        for (detallePedido pedido : lista) {
-
-                            System.out.println("Elemento " + (pedido.getNro() - 1) + " ID" + pedido.getIdPro());
-
-                        }
-
-                        lista.set(det.getNro() - 1, det);
-                        lista.remove(pos - 1);
-                        tblDetallePedido.setItems(lista);
-
-                        System.out.println("------------------Nuevo Array--------------------");
-                        c = 0;
-                        for (detallePedido pedido : lista) {
-
-                            pedido.setNro(c + 1);
-                            c += 1;
-                            System.out.println("Elemento " + (pedido.getNro() - 1) + " ID" + pedido.getIdPro());
-
-                        }
-
-                    }
-
-                } else {
-
-                    lista.set(det.getNro() - 1, det);
-                    tblDetallePedido.setItems(lista);
-
-                }
-
-            }
-
+        } catch (Exception e) {
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Valores invalidos");
+            alerta.showAndWait();
         }
 
         totalPedido = 0;
@@ -530,9 +538,11 @@ public class VistaPedidosController implements Initializable {
                         pro.setId(det.getIdPro());
                         if (det.insertar()) {
                             System.out.println("se inserto " + det.getIdPro());
+                            pro.agregarStock(det.getCantidad());
                         } else {
                             System.out.println("no se inserto " + det.getIdPro());
                         }
+                        
 
                     }
                     Alert alertaIn = new Alert(Alert.AlertType.INFORMATION);

@@ -11,7 +11,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFF9E;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mbareteishon.VistaLoginController">
    <children>
-      <Pane layoutX="14.0" layoutY="14.0" prefHeight="358.0" prefWidth="272.0" style="-fx-border-style: solid; -fx-border-width: 3; -fx-background-color: #FEB647#FEB647;">
+      <Pane layoutX="14.0" layoutY="14.0" prefHeight="358.0" prefWidth="272.0" style="-fx-border-style: solid; -fx-background-radius: 20; -fx-border-width: 3; -fx-background-color: #FEB647#FEB647; -fx-border-radius: 20;">
          <children>
             <Label layoutX="24.0" layoutY="36.0" text="Bienvenid@" textOverrun="CENTER_WORD_ELLIPSIS">
                <font>
@@ -33,13 +33,13 @@
       <ComboBox fx:id="comboUsuario" layoutX="300.0" layoutY="72.0" prefHeight="25.0" prefWidth="235.0" style="-fx-background-color: #EBC759;" />
       <Label layoutX="300.0" layoutY="47.0" text="Usuario">
          <font>
-            <Font size="17.0" />
+            <Font name="Consolas" size="17.0" />
          </font></Label>
       <Label layoutX="300.0" layoutY="132.0" text="Contraseña">
          <font>
-            <Font size="17.0" />
+            <Font name="Consolas" size="17.0" />
          </font></Label>
-      <Button fx:id="btnIngresar" layoutX="304.0" layoutY="241.0" mnemonicParsing="false" onAction="#actionIngresar" prefHeight="25.0" prefWidth="235.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Ingresar">
+      <Button fx:id="btnIngresar" layoutX="304.0" layoutY="241.0" mnemonicParsing="false" onAction="#actionIngresar" prefHeight="25.0" prefWidth="235.0" style="-fx-background-color: #EBC759; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5;" text="Ingresar">
          <font>
             <Font name="Consolas Bold" size="17.0" />
          </font></Button>
