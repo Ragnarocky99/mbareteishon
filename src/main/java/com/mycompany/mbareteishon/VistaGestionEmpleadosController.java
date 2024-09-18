@@ -139,7 +139,6 @@ public class VistaGestionEmpleadosController implements Initializable {
     private void mostrarFila(MouseEvent event) {
 
         emp = tblUsuario.getSelectionModel().getSelectedItem();
-        btnIrA.setDisable(false);
 
         txtId.setText(String.valueOf(emp.getIdEmpleado()));
         txtNombre.setText(String.valueOf(emp.getNombre()));

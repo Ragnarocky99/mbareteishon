@@ -24,18 +24,13 @@
                               <Font name="Consolas" size="14.0" />
                            </font></Label>
                         <TextField fx:id="txtBuscarUsuario" layoutX="69.0" layoutY="10.0" onKeyReleased="#buscarUsuario" prefHeight="25.0" prefWidth="445.0" />
-                        <TableView fx:id="tblUsuario" layoutX="14.0" layoutY="44.0" onMouseClicked="#mostrarFila" onMouseReleased="#noMostrarFila" prefHeight="301.0" prefWidth="500.0" style="-fx-background-color: #EBC759;">
+                        <TableView fx:id="tblUsuario" layoutX="13.0" layoutY="44.0" onMouseClicked="#mostrarFila" onMouseReleased="#noMostrarFila" prefHeight="346.0" prefWidth="500.0" style="-fx-background-color: #EBC759;">
                            <columns>
                               <TableColumn fx:id="colId" prefWidth="100.0" text="ID" />
                               <TableColumn fx:id="colNombre" prefWidth="200.0" text="Nombre" />
                               <TableColumn fx:id="colApellido" prefWidth="200.0" text="Apellido" />
                            </columns>
                         </TableView>
-                        <Button fx:id="btnIrA" layoutX="14.0" layoutY="366.0" mnemonicParsing="false" onAction="#verInfoUsuario" prefHeight="25.0" prefWidth="53.0" style="-fx-background-color: #EBC759; -fx-border-color: black;" text="Ir a">
-                           <font>
-                              <Font name="Consolas" size="13.0" />
-                           </font>
-                        </Button>
                      </children>
                   </Pane>
                </children>
@@ -75,9 +70,9 @@
                            <font>
                               <Font name="Consolas" size="14.0" />
                            </font></Label>
-                        <TextField fx:id="txtId" disable="true" editable="false" layoutX="89.0" layoutY="30.0" prefHeight="25.0" prefWidth="218.0" />
-                        <TextField fx:id="txtNombre" layoutX="90.0" layoutY="65.0" prefHeight="25.0" prefWidth="217.0" />
-                        <TextField fx:id="txtPswd" layoutX="90.0" layoutY="143.0" prefHeight="25.0" prefWidth="217.0" />
+                        <TextField fx:id="txtId" disable="true" editable="false" layoutX="102.0" layoutY="30.0" prefHeight="25.0" prefWidth="218.0" />
+                        <TextField fx:id="txtNombre" layoutX="102.0" layoutY="65.0" prefHeight="25.0" prefWidth="217.0" />
+                        <TextField fx:id="txtPswd" layoutX="102.0" layoutY="143.0" prefHeight="25.0" prefWidth="217.0" />
                         <Button fx:id="btnAceptar" layoutX="365.0" layoutY="57.0" mnemonicParsing="false" onAction="#aceptar" prefHeight="53.0" prefWidth="96.0" style="-fx-background-color: #EBC759; -fx-border-color: black; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-width: 2;" text="Aceptar">
                            <font>
                               <Font name="Consolas Bold" size="14.0" />
@@ -92,7 +87,7 @@
                            <font>
                               <Font name="Consolas" size="14.0" />
                            </font></Label>
-                        <TextField fx:id="txtApellido" layoutX="90.0" layoutY="101.0" prefHeight="25.0" prefWidth="217.0" />
+                        <TextField fx:id="txtApellido" layoutX="102.0" layoutY="101.0" prefHeight="25.0" prefWidth="217.0" />
                      </children>
                   </Pane>
                </children>

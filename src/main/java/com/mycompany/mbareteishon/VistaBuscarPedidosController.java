@@ -73,17 +73,19 @@ public class VistaBuscarPedidosController implements Initializable {
     @FXML
     private TableColumn<pedido, Integer> colId;
     @FXML
-    private TableColumn<pedido, Integer> colProv;
+    private TableColumn<pedido, String> colProv;
     @FXML
     private TableColumn<pedido, String> colFecha;
     @FXML
     private TableColumn<pedido, Double> colMonto;
     @FXML
-    private TableColumn<pedido, Integer> colEstado;
+    private TableColumn<pedido, String> colEstado;
 
     public boolean k1 = false, k2 = false, k3 = false;
 
-    public StringBuilder query = new StringBuilder("SELECT * FROM pedidos WHERE 1");
+    public StringBuilder query = new StringBuilder("SELECT * FROM pedidos p "
+            + "INNER JOIN heladeriabd.proveedor ON " +
+"	 heladeriabd.pedidos.id_proveedor = heladeriabd.proveedor.id_proveedor WHERE 1");
 
     public int desdeIdParse, hastaIdParse;
     public String desdeFechaParse, hastaFechaParse;
@@ -119,9 +121,9 @@ public class VistaBuscarPedidosController implements Initializable {
         btnBuscarProv.setDisable(true);
 
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colProv.setCellValueFactory(new PropertyValueFactory<>("idprov"));
+        colProv.setCellValueFactory(new PropertyValueFactory<>("nombreProv"));
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaEmision"));
-        colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+        colEstado.setCellValueFactory(new PropertyValueFactory<>("estadoStr"));
         colMonto.setCellValueFactory(new PropertyValueFactory<>("montoTotal"));
 
     }
@@ -209,32 +211,34 @@ public class VistaBuscarPedidosController implements Initializable {
         k2 = false;
         k3 = false;
 
-        query = new StringBuilder("SELECT * FROM pedidos WHERE 1");
+        query = new StringBuilder("SELECT * FROM pedidos p "
+            + "INNER JOIN proveedor pro ON " +
+"p.id_proveedor = pro.id_proveedor WHERE 1");
 
         if (!boxAllId.isSelected()) {
             System.out.println("o");
             desdeIdParse = Integer.parseInt(txtDesdeId.getText());
             hastaIdParse = Integer.parseInt(txtHastaId.getText());
-            query.append(" AND id_pedidos BETWEEN ? AND ?");
+            query.append(" AND p.id_pedidos BETWEEN ? AND ?");
             k1 = true;
         }
         if (!boxAllFecha.isSelected()) {
             desdeFechaParse = String.valueOf(dPDesde.getValue());
             hastaFechaParse = String.valueOf(dPHasta.getValue());
-            query.append(" AND fechaEmision BETWEEN ? AND ?");
+            query.append(" AND p.fechaEmision BETWEEN ? AND ?");
             k2 = true;
         }
         if (!boxAllProv.isSelected()) {
             idProvParse = prov.getId();
-            query.append(" AND id_proveedor = ?");
+            query.append(" AND p.id_proveedor = ?");
             k3 = true;
         }
         if (boxActivo.isSelected()) {
-            query.append(" AND estado = 1");
+            query.append(" AND p.estado = 1");
             estParse = 1;
         }
         if (boxAnulado.isSelected()) {
-            query.append(" AND estado = 0");
+            query.append(" AND p.estado = 0");
             estParse = 2;
         }
 

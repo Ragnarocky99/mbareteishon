@@ -74,12 +74,12 @@
                         <TextField fx:id="txtIdProveedor" disable="true" editable="false" layoutX="200.0" layoutY="35.0" prefHeight="25.0" prefWidth="218.0" />
                         <TextField fx:id="txtNombreProveedor" layoutX="200.0" layoutY="80.0" prefHeight="25.0" prefWidth="217.0" />
                         <TextField fx:id="txtRucProveedor" layoutX="200.0" layoutY="125.0" prefHeight="25.0" prefWidth="217.0" />
-                        <Button fx:id="btnAceptar" layoutX="493.0" layoutY="73.0" mnemonicParsing="false" onAction="#aceptar" prefHeight="53.0" prefWidth="96.0" style="-fx-background-color: #EBC759; -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15; -fx-border-width: 2;" text="Aceptar">
+                        <Button fx:id="btnAceptar" layoutX="493.0" layoutY="73.0" mnemonicParsing="false" onAction="#aceptar" prefHeight="53.0" prefWidth="96.0" style="-fx-background-color: #EBC759; -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15; -fx-border-width: 1;" stylesheets="@css/hover.css" text="Aceptar">
                            <font>
                               <Font name="Consolas Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btnCancelar" layoutX="493.0" layoutY="168.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="53.0" prefWidth="96.0" style="-fx-background-color: #EBC759; -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15; -fx-border-width: 2;" text="Cancelar">
+                        <Button fx:id="btnCancelar" layoutX="493.0" layoutY="168.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="53.0" prefWidth="96.0" style="-fx-background-color: #EBC759; -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15; -fx-border-width: 1;" stylesheets="@css/hoverProv.css" text="Cancelar">
                            <font>
                               <Font name="Consolas Bold" size="14.0" />
                            </font>

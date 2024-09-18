@@ -2,6 +2,8 @@ package com.mycompany.mbareteishon;
 
 import com.mycompany.mbareteishon.clases.reporte;
 import com.mycompany.mbareteishon.modelo.empleado;
+import com.mycompany.mbareteishon.modelo.estadistica;
+import com.mycompany.mbareteishon.modelo.producto;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -21,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -39,7 +42,15 @@ public class VistamMenuController implements Initializable {
 
     Stage stage;
     
+    estadistica est = new estadistica();
+    
     reporte rep = new reporte();
+    @FXML
+    private Label txtCantVen;
+    @FXML
+    private Label txtVentR;
+    @FXML
+    private TableView<producto> tblArt;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -49,8 +60,19 @@ public class VistamMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // Inicializar la fecha y la hora en la interfaz
         inicializarFechaHora();
+        updEstadisticas();
+        
     }
 
+    public void updEstadisticas(){
+        
+        est = est.getStats();
+        
+        txtCantVen.setText(est.getCantVendida() + " Gs");
+        txtVentR.setText(String.valueOf(est.getVentR()));
+        
+    }
+    
     private void inicializarFechaHora() {
         // Obtener la fecha actual
         LocalDate currentDate = LocalDate.now();
@@ -114,7 +136,9 @@ public class VistamMenuController implements Initializable {
 
             if ("vistaVentas.fxml".equals(fxml)) {
                 VistaVentasController ventasController = loader.getController();
-                ventasController.setEmpleado(emp); // Pasar el empleado al controlador
+                ventasController.setEmpleado(emp);
+                ventasController.setVM(this);
+                // Pasar el empleado al controlador
             }
             if ("vistaPedidos.fxml".equals(fxml)) {
                 VistaPedidosController pedidosControlller = loader.getController();

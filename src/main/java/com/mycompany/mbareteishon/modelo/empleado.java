@@ -46,7 +46,7 @@ public class empleado extends conexion implements sentencias {
 
     @Override
     public boolean insertar() {
-        String sql = "INSERT INTO empleado (nombre, apellido, cargo, pswd) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO empleado (nombreEmp, apellidoEmp, cargo, pswd) VALUES (?, ?, ?, ?)";
         try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
             stm.setString(1, this.nombre);
             stm.setString(2, this.apellido);
@@ -86,8 +86,8 @@ public class empleado extends conexion implements sentencias {
                 try (ResultSet rs = pst.executeQuery()) {
                     while (rs.next()) {
                         int id = rs.getInt("id_empleado");
-                        String nom = rs.getString("nombre");
-                        String rol = rs.getString("apellido");
+                        String nom = rs.getString("nombreEmp");
+                        String rol = rs.getString("apellidoEmp");
                         String cargo = rs.getString("cargo");
                         String psw = rs.getString("pswd"); // Obtiene la contraseña hasheada
                         e = new empleado(id, nom, rol, cargo, psw);
@@ -110,8 +110,8 @@ public class empleado extends conexion implements sentencias {
             while (rs.next()) {
                 empleado emp = new empleado(
                         rs.getInt("id_empleado"),
-                        rs.getString("nombre"),
-                        rs.getString("apellido"),
+                        rs.getString("nombreEmp"),
+                        rs.getString("apellidoEmp"),
                         rs.getString("cargo"),
                         rs.getString("pswd") // Obtiene la contraseña hasheada
                 );
@@ -125,7 +125,7 @@ public class empleado extends conexion implements sentencias {
 
     @Override
     public boolean modificar() {
-        String sql = "UPDATE empleado SET nombre = ?, apellido = ?, cargo = ?, pswd = ? WHERE id_empleado = ?";
+        String sql = "UPDATE empleado SET nombreEmp = ?, apellidoEmp = ?, cargo = ?, pswd = ? WHERE id_empleado = ?";
         try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
             stm.setString(1, this.nombre);
             stm.setString(2, this.apellido);

@@ -143,12 +143,12 @@ public class VistaBuscarFacturaController implements Initializable {
 
         colNro.setCellValueFactory(new PropertyValueFactory<>("numeroFactura"));;
         colEmision.setCellValueFactory(new PropertyValueFactory<>("fechaEmision"));;
-        colCliente.setCellValueFactory(new PropertyValueFactory<>("idCliente"));;
-        colVendedor.setCellValueFactory(new PropertyValueFactory<>("idEmpleado"));;
+        colCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCl"));;
+        colVendedor.setCellValueFactory(new PropertyValueFactory<>("nombreEm"));;
         colFP.setCellValueFactory(new PropertyValueFactory<>("formaPago"));;
         colTV.setCellValueFactory(new PropertyValueFactory<>("tipoVenta"));;
         colMonto.setCellValueFactory(new PropertyValueFactory<>("totalGral"));;
-        colActivo.setCellValueFactory(new PropertyValueFactory<>("activo"));;
+        colActivo.setCellValueFactory(new PropertyValueFactory<>("estadoStr"));;
 
     }
 
@@ -250,7 +250,17 @@ public class VistaBuscarFacturaController implements Initializable {
         k3 = false;
         k4 = false;
 
-        query = new StringBuilder("SELECT * FROM factura WHERE 1");
+        query = new StringBuilder("SELECT * FROM factura f "
+                + "INNER JOIN cliente c ON "
+                + "f.id_cliente = c.id_cliente "
+                + "INNER JOIN empleado e ON "
+                + "f.id_empleado = e.id_empleado "
+                + "WHERE 1");
+        /*
+        query = new StringBuilder("SELECT * FROM pedidos p "
+            + "INNER JOIN proveedor pro ON " +
+            "p.id_proveedor = pro.id_proveedor WHERE 1");
+        */
 
         if (!boxAllId.isSelected()) {
             desdeIdParse = Integer.parseInt(txtDesdeId.getText());

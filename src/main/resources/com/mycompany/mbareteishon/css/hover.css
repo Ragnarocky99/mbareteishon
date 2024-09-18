@@ -1,0 +1,49 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 16 sept 2024, 11:10:38
+    Author     : nahue
+*/
+
+#comboUsuario:hover {
+    -fx-background-color: #87CEEB;  /* Cambia el color de fondo del ComboBox */
+    -fx-border-color: black;      /* Cambia el color del borde */
+    -fx-border-width: 2px;          /* Ajusta el grosor del borde */
+}
+#txtPswd:hover{
+    -fx-background-color: #87CEEB;  /* Cambia el color de fondo del ComboBox */
+    -fx-border-color: black;      /* Cambia el color del borde */
+    -fx-border-width: 2px; 
+}
+#btnIngresar:hover{
+    -fx-background-color: black;  /* Cambia el color de fondo del ComboBox */
+    -fx-border-color: #4682B4;      /* Cambia el color del borde */
+    -fx-border-width: 2px; 
+}
+#btnAceptar:hover{
+    -fx-background-color: black;  /* Cambia el color de fondo del ComboBox */
+    -fx-border-color: #4682B4;      /* Cambia el color del borde */
+    -fx-border-width: 2px; 
+}
+#btnCancelar:hover{
+    -fx-background-color: black;  /* Cambia el color de fondo del ComboBox */
+    -fx-border-color: #4682B4;      /* Cambia el color del borde */
+    -fx-border-width: 2px; 
+}
+#btnAgregarProveedor:hover{
+    -fx-background-color: black;  /* Cambia el color de fondo del ComboBox */
+    -fx-border-color: #4682B4;      /* Cambia el color del borde */
+    -fx-border-width: 2px; 
+}
+#btnModificarProveedor:hover{
+    -fx-background-color: black;  
+    -fx-border-color: #4682B4;      
+    -fx-border-width: 2px; 
+}
+#btnEliminarProveedor:hover{
+    -fx-background-color: black; 
+    -fx-border-color: #4682B4;      
+    -fx-border-width: 2px; 
+}

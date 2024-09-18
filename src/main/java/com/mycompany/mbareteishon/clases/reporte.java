@@ -68,7 +68,7 @@ public class reporte extends conexion {
         }
     }
     
-    public void generarReporteF(String ubicacion,String titulo, int id, int total){
+    public void generarReporteF(String ubicacion,String titulo, int id){
        
         try {
             // Ruta al archivo .jasper
@@ -77,10 +77,36 @@ public class reporte extends conexion {
             // Parámetros del informe
             Map<String, Object> parameters = new HashMap<>();
             
-            parameters.put("id", id);
+            parameters.put("num_factura", id);
+            // Agrega parámetros según sea necesario
+
+            // Llenar el informe
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parameters, getCon());
+
+            // Mostrar el informe en una nueva ventana
+            JasperViewer viewer = new JasperViewer(jasperPrint, false);
+            viewer.setTitle(titulo);
+            viewer.setVisible(true);
+
+        }catch (JRException ex) {
+            Logger.getLogger(reporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void generarReporteF(String ubicacion,String titulo, int id, double total){
+       
+        try {
+            // Ruta al archivo .jasper
+            String reportPath = getClass().getResource(ubicacion).getPath();
+
+            // Parámetros del informe
+            Map<String, Object> parameters = new HashMap<>();
+            
+            parameters.put("numero_factura", id);
             // Agrega parámetros según sea necesario
             
             // Convertir el total a letras
+            
             Numero_a_Letra converter = new Numero_a_Letra();
             String totalEnLetras = converter.Convertir(String.valueOf(total), true);
             parameters.put("totalEnLetras", totalEnLetras);

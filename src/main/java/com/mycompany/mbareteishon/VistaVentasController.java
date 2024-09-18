@@ -1,5 +1,6 @@
 package com.mycompany.mbareteishon;
 
+import com.mycompany.mbareteishon.clases.reporte;
 import com.mycompany.mbareteishon.modelo.cliente;
 import com.mycompany.mbareteishon.modelo.detalleFactura;
 import com.mycompany.mbareteishon.modelo.empleado;
@@ -131,6 +132,8 @@ public class VistaVentasController implements Initializable {
     ObservableList<detalleFactura> lista = FXCollections.observableArrayList();
 
     detalleFactura det = new detalleFactura();
+    
+    reporte rep = new reporte();
 
     ObservableList<factura> totales = FXCollections.observableArrayList();
 
@@ -143,6 +146,8 @@ public class VistaVentasController implements Initializable {
     cliente cl = new cliente();
 
     private empleado emp = new empleado();
+    
+    VistamMenuController vM;
 
     VistaBuscarFacturaController controladorDestinoF;
     VistaBuscarClientesController controladorDestinoC;
@@ -271,7 +276,7 @@ public class VistaVentasController implements Initializable {
             txtEmpleado.setText(e.getNombre() + " " + e.getApellido());
             cl = cl.getClienteFromDb(fac.getIdCliente());
             txtRucCliente.setText(cl.getRucCiCliente());
-            txtNombreCliente.setText(cl.getNombreCliente());
+            txtNombreCliente.setText(cl.getNombreCliente() + " " + cl.getApellidoCliente());
             det.setIdProducto(fac.getNumeroFactura());
             lista = FXCollections.observableArrayList(det.consulta());
 
@@ -336,6 +341,10 @@ public class VistaVentasController implements Initializable {
         }
     }
 
+    public void setVM(VistamMenuController vM){
+        this.vM = vM;
+    }
+    
     @FXML
     private void buscarCliente(ActionEvent event) {
 
@@ -541,6 +550,8 @@ public class VistaVentasController implements Initializable {
                     c = 0;
                     mostrarFactura();
                     initFactura();
+                    
+                    vM.updEstadisticas();
 
                 } else {
                     Alert alertaIn = new Alert(Alert.AlertType.ERROR);
@@ -755,7 +766,7 @@ public class VistaVentasController implements Initializable {
 
                             c = 0;
                             for (detalleFactura df : lista) {
-
+                                
                                 df.setNro(c + 1);
                                 c += 1;
 
@@ -785,6 +796,7 @@ public class VistaVentasController implements Initializable {
         totalGral = 0;
         totalIva = 0;
         for (detalleFactura det : lista) {
+            det.setIva10(det.getMontoTotal()*0.1);
             totalGral += det.getMontoTotal();
             totalIva += det.getIva10();
             System.out.println(det.getIva10());
@@ -847,6 +859,10 @@ public class VistaVentasController implements Initializable {
 
     @FXML
     private void imprimirFactura(ActionEvent event) {
+        
+        System.out.println(fac.getNumeroFactura());
+        rep.generarReporteF("/reportes/factura.jasper","Factura", fac.getNumeroFactura());
+        
     }
 
     public void abrirFxmlModal(String fxml, String titulo) {

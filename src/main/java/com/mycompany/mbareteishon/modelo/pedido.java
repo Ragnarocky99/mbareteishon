@@ -29,6 +29,8 @@ public class pedido extends conexion implements sentencias {
     private String fechaEmision;
     private int estado;
     private double montoTotal;
+    private String estadoStr;
+    private String nombreProv;
 
     public pedido() {
     }
@@ -39,8 +41,31 @@ public class pedido extends conexion implements sentencias {
         this.fechaEmision = fechaEmision;
         this.estado = estado;
         this.montoTotal = montoTotal;
+        if (estado == 1) {
+            this.estadoStr = "Activo";
+        } else {
+            this.estadoStr = "Anulado";
+        }
     }
 
+    public String getEstadoStr() {
+        return estadoStr;
+    }
+
+    public void setEstadoStr(String estadoStr) {
+        this.estadoStr = estadoStr;
+    }
+
+    public String getNombreProv() {
+        return nombreProv;
+    }
+
+    public void setNombreProv(String nombreProv) {
+        this.nombreProv = nombreProv;
+    }
+
+    
+    
     public int getId() {
         return id;
     }
@@ -173,7 +198,14 @@ public class pedido extends conexion implements sentencias {
                         String fecha = rs.getString("fechaEmision");
                         int est = rs.getInt("estado");
                         double mT = rs.getDouble("montoTotal");
+
                         ped = new pedido(idped, idprove, fecha, est, mT);
+
+                        if (est == 1) {
+                            this.estadoStr = "Activo";
+                        } else {
+                            this.estadoStr = "Anulado";
+                        }
 
                     }
                 }
@@ -204,6 +236,11 @@ public class pedido extends conexion implements sentencias {
                 int est = rs.getInt("estado");
                 double mT = rs.getDouble("montoTotal");
                 pedido p = new pedido(idped, idprove, fecha, est, mT);
+                if (est == 1) {
+                    this.estadoStr = "Activo";
+                } else {
+                    this.estadoStr = "Anulado";
+                }
                 pedidos.add(p);
 
             }
@@ -273,24 +310,22 @@ public class pedido extends conexion implements sentencias {
         String sql = String.valueOf(ct.query);
         pedido ped = new pedido();
         int c = 1;
-        System.out.println(sql);
         try (
                 Connection con = getCon(); PreparedStatement pst = con.prepareStatement(sql);) {
-                System.out.println(sql);
             if (ct.k1) {
                 pst.setInt(c, ct.desdeIdParse);
                 c += 1;
                 pst.setInt(c, ct.hastaIdParse);
                 c += 1;
             }
-            
+
             if (ct.k2) {
                 pst.setString(c, ct.desdeFechaParse);
                 c += 1;
                 pst.setString(c, ct.hastaFechaParse);
                 c += 1;
             }
-            
+
             if (ct.k3) {
                 pst.setInt(c, ct.idProvParse);
                 c += 1;
@@ -305,6 +340,12 @@ public class pedido extends conexion implements sentencias {
                     int est = rs.getInt("estado");
                     double mT = rs.getDouble("montoTotal");
                     ped = new pedido(idped, idprove, fecha, est, mT);
+                    ped.setNombreProv(rs.getString("nombre"));
+                    if (est == 1) {
+                        this.estadoStr = "Activo";
+                    } else {
+                        this.estadoStr = "Anulado";
+                    }
                     pedidos.add(ped);
 
                 }

@@ -5,10 +5,13 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="800.0" style="-fx-background-color: #FFFF9E;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mbareteishon.VistamMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="673.0" prefWidth="800.0" style="-fx-background-color: #FFFF9E;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.mbareteishon.VistamMenuController">
    <children>
       <MenuBar layoutY="2.0" style="-fx-background-color: #EBCB59;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <menus>
@@ -20,9 +23,8 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Informes">
               <items>
-                <MenuItem mnemonicParsing="false" text="Ventas por Fecha" />
-                  <MenuItem mnemonicParsing="false" text="Pedidos por fecha" />
-                  <MenuItem mnemonicParsing="false" text="Recuento" />
+                <MenuItem mnemonicParsing="false" text="Ventas por mes" />
+                  <MenuItem mnemonicParsing="false" text="Pedidos por mes" />
                   <MenuItem mnemonicParsing="false" onAction="#goToInventario" text="Inventario" />
                   <MenuItem mnemonicParsing="false" onAction="#goToNominaClientes" text="Nomina Cliente" />
               </items>
@@ -42,14 +44,14 @@
                 <MenuItem mnemonicParsing="false" onAction="#goToGestionarProveedor" text="Gestionar Proveedores" />
               </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Ayuda">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#goToAcercaDe" text="Acerca de" />
-              </items>
-            </Menu>
             <Menu mnemonicParsing="false" onAction="#goToEmpleados" text="Empleados">
               <items>
                 <MenuItem mnemonicParsing="false" text="Gestionar Empleados" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Ayuda">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#goToAcercaDe" text="Acerca de" />
               </items>
             </Menu>
          </menus>
@@ -70,5 +72,45 @@
          </font>
       </Label>
       <Button layoutX="14.0" layoutY="601.0" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar Sesion" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" />
+      <Pane layoutX="14.0" layoutY="30.0" prefHeight="200.0" prefWidth="573.0" AnchorPane.leftAnchor="15.0">
+         <children>
+            <Label layoutX="14.0" layoutY="16.0" text="Cantidad Vendida :">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Label fx:id="txtCantVen" layoutX="274.0" layoutY="16.0" prefHeight="32.0" prefWidth="285.0" text="0Gs" textAlignment="JUSTIFY">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="14.0" layoutY="48.0" text="Ventas Realizadas : ">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Label fx:id="txtVentR" layoutX="274.0" layoutY="48.0" prefHeight="32.0" prefWidth="285.0" text="0" textAlignment="JUSTIFY">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="15.0" layoutY="230.0" prefHeight="376.0" prefWidth="285.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Articulos Vendidos">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tblArt" layoutX="13.0" layoutY="46.0" prefHeight="316.0" prefWidth="247.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="Nombre" />
+                <TableColumn prefWidth="99.0" text="Stock Actual" />
+                  <TableColumn prefWidth="75.0" text="Salida" />
+              </columns>
+            </TableView>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

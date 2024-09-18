@@ -34,6 +34,26 @@ public class factura extends conexion implements sentencias {
     private String tipoVenta;
     private int activo;
     private double iva10;
+    private String estadoStr;
+    private String nombreCl;
+    private String nombreEm;
+
+    public String getNombreCl() {
+        return nombreCl;
+    }
+
+    public void setNombreCl(String nombreCl) {
+        this.nombreCl = nombreCl;
+    }
+
+    public String getNombreEm() {
+        return nombreEm;
+    }
+
+    public void setNombreEm(String nombreEm) {
+        this.nombreEm = nombreEm;
+    }
+    
 
     public factura() {
     }
@@ -303,6 +323,13 @@ public class factura extends conexion implements sentencias {
                     double i10 = rs.getDouble("iva_10");
 
                     fac = new factura(fa, n, ic, ie, tg, fp, tp, a, i10);
+                    fac.setNombreCl(rs.getString("nombre") + " " + rs.getString("apellido"));
+                    fac.setNombreEm(rs.getString("nombreEmp") + " " + rs.getString("apellidoEmp"));
+                    if (a == 1) {
+                        fac.setEstadoStr("Activo");
+                    } else {
+                        fac.setEstadoStr("Anulado");
+                    }
                     facturas.add(fac);
 
                 }
@@ -385,6 +412,14 @@ public class factura extends conexion implements sentencias {
 
     public void setIva10(double iva10) {
         this.iva10 = iva10;
+    }
+
+    public String getEstadoStr() {
+        return estadoStr;
+    }
+
+    public void setEstadoStr(String estadoStr) {
+        this.estadoStr = estadoStr;
     }
 
 }

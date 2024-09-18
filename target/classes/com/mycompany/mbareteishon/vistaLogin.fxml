@@ -30,7 +30,7 @@
             </ImageView>
          </children>
       </Pane>
-      <ComboBox fx:id="comboUsuario" layoutX="300.0" layoutY="72.0" prefHeight="25.0" prefWidth="235.0" style="-fx-background-color: #EBC759;" />
+      <ComboBox fx:id="comboUsuario" layoutX="300.0" layoutY="72.0" prefHeight="25.0" prefWidth="235.0" style="-fx-background-color: #EBC759;" stylesheets="@css/hover.css" />
       <Label layoutX="300.0" layoutY="47.0" text="Usuario">
          <font>
             <Font name="Consolas" size="17.0" />
@@ -39,10 +39,10 @@
          <font>
             <Font name="Consolas" size="17.0" />
          </font></Label>
-      <Button fx:id="btnIngresar" layoutX="304.0" layoutY="241.0" mnemonicParsing="false" onAction="#actionIngresar" prefHeight="25.0" prefWidth="235.0" style="-fx-background-color: #EBC759; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5;" text="Ingresar">
+      <PasswordField fx:id="txtPswd" layoutX="300.0" layoutY="168.0" prefHeight="25.0" prefWidth="235.0" style="-fx-background-color: #EBC759;" stylesheets="@css/hover.css" />
+      <Button fx:id="btnIngresar" layoutX="304.0" layoutY="241.0" mnemonicParsing="false" onAction="#actionIngresar" prefHeight="25.0" prefWidth="235.0" style="-fx-background-color: #EBC759; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5;" stylesheets="@css/hover.css" text="Ingresar">
          <font>
             <Font name="Consolas Bold" size="17.0" />
          </font></Button>
-      <PasswordField fx:id="txtPswd" layoutX="300.0" layoutY="168.0" prefHeight="25.0" prefWidth="235.0" style="-fx-background-color: #EBC759;" />
    </children>
 </Pane>

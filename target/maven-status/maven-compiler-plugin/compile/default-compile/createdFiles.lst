@@ -28,3 +28,4 @@ com\mycompany\mbareteishon\VistaGestionEmpleadosController.class
 com\mycompany\mbareteishon\clases\reporte.class
 com\mycompany\mbareteishon\modelo\factura.class
 com\mycompany\mbareteishon\VistaBuscarClientesController.class
+com\mycompany\mbareteishon\modelo\estadistica.class
