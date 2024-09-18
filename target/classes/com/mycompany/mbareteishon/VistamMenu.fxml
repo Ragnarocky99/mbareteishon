@@ -105,9 +105,9 @@
             </Label>
             <TableView fx:id="tblArt" layoutX="13.0" layoutY="46.0" prefHeight="316.0" prefWidth="247.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Nombre" />
-                <TableColumn prefWidth="99.0" text="Stock Actual" />
-                  <TableColumn prefWidth="75.0" text="Salida" />
+                <TableColumn fx:id="colNom" prefWidth="75.0" text="Nombre" />
+                <TableColumn fx:id="colStck" prefWidth="99.0" text="Stock Actual" />
+                  <TableColumn fx:id="colSal" prefWidth="75.0" text="Salida" />
               </columns>
             </TableView>
          </children>

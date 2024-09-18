@@ -132,7 +132,7 @@ public class VistaVentasController implements Initializable {
     ObservableList<detalleFactura> lista = FXCollections.observableArrayList();
 
     detalleFactura det = new detalleFactura();
-    
+
     reporte rep = new reporte();
 
     ObservableList<factura> totales = FXCollections.observableArrayList();
@@ -146,7 +146,7 @@ public class VistaVentasController implements Initializable {
     cliente cl = new cliente();
 
     private empleado emp = new empleado();
-    
+
     VistamMenuController vM;
 
     VistaBuscarFacturaController controladorDestinoF;
@@ -341,10 +341,10 @@ public class VistaVentasController implements Initializable {
         }
     }
 
-    public void setVM(VistamMenuController vM){
+    public void setVM(VistamMenuController vM) {
         this.vM = vM;
     }
-    
+
     @FXML
     private void buscarCliente(ActionEvent event) {
 
@@ -550,7 +550,7 @@ public class VistaVentasController implements Initializable {
                     c = 0;
                     mostrarFactura();
                     initFactura();
-                    
+
                     vM.updEstadisticas();
 
                 } else {
@@ -675,6 +675,12 @@ public class VistaVentasController implements Initializable {
                     alerta.setHeaderText(null);
                     alerta.setContentText("No se ha seleccionado un producto");
                     alerta.showAndWait();
+                } else if (Integer.parseInt(txtCantidadProducto.getText()) > pro.getStockById(Integer.parseInt(txtCodProducto.getText()))) {
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                    alerta.setTitle("");
+                    alerta.setHeaderText(null);
+                    alerta.setContentText("La cantidad seleccionada es mayor al stock disponible");
+                    alerta.showAndWait();
                 } else if (Integer.parseInt(txtCantidadProducto.getText()) <= 0) {
 
                     Alert alerta = new Alert(Alert.AlertType.INFORMATION);
@@ -731,6 +737,12 @@ public class VistaVentasController implements Initializable {
                     alerta.setHeaderText(null);
                     alerta.setContentText("No se ha seleccionado un producto");
                     alerta.showAndWait();
+                } else if (Integer.parseInt(txtCantidadProducto.getText()) > pro.getStockById(Integer.parseInt(txtCodProducto.getText()))) {
+                    Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                    alerta.setTitle("");
+                    alerta.setHeaderText(null);
+                    alerta.setContentText("La cantidad seleccionada es mayor al stock disponible");
+                    alerta.showAndWait();
                 } else if (Integer.parseInt(txtCantidadProducto.getText()) <= 0) {
 
                     Alert alerta = new Alert(Alert.AlertType.INFORMATION);
@@ -766,7 +778,7 @@ public class VistaVentasController implements Initializable {
 
                             c = 0;
                             for (detalleFactura df : lista) {
-                                
+
                                 df.setNro(c + 1);
                                 c += 1;
 
@@ -796,7 +808,7 @@ public class VistaVentasController implements Initializable {
         totalGral = 0;
         totalIva = 0;
         for (detalleFactura det : lista) {
-            det.setIva10(det.getMontoTotal()*0.1);
+            det.setIva10(det.getMontoTotal() * 0.1);
             totalGral += det.getMontoTotal();
             totalIva += det.getIva10();
             System.out.println(det.getIva10());
@@ -859,10 +871,10 @@ public class VistaVentasController implements Initializable {
 
     @FXML
     private void imprimirFactura(ActionEvent event) {
-        
+
         System.out.println(fac.getNumeroFactura());
-        rep.generarReporteF("/reportes/factura.jasper","Factura", fac.getNumeroFactura());
-        
+        rep.generarReporteF("/reportes/factura.jasper", "Factura", fac.getNumeroFactura());
+
     }
 
     public void abrirFxmlModal(String fxml, String titulo) {

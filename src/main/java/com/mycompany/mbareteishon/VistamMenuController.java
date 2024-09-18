@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +25,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -50,7 +54,15 @@ public class VistamMenuController implements Initializable {
     @FXML
     private Label txtVentR;
     @FXML
-    private TableView<producto> tblArt;
+    private TableView<estadistica> tblArt;
+    
+    ObservableList<estadistica> estats;
+    @FXML
+    private TableColumn<estadistica, String> colNom;
+    @FXML
+    private TableColumn<estadistica, Integer> colStck;
+    @FXML
+    private TableColumn<estadistica, Integer> colSal;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -68,6 +80,13 @@ public class VistamMenuController implements Initializable {
         
         est = est.getStats();
         
+        estats = FXCollections.observableArrayList(est.getProductosVendidos());
+        
+        colNom.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colSal.setCellValueFactory(new PropertyValueFactory<>("cant"));
+        colStck.setCellValueFactory(new PropertyValueFactory<>("stck"));
+        
+        tblArt.setItems(estats);
         txtCantVen.setText(est.getCantVendida() + " Gs");
         txtVentR.setText(String.valueOf(est.getVentR()));
         
