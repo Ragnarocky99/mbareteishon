@@ -17,6 +17,7 @@ import javafx.scene.control.Alert;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -45,8 +46,6 @@ public class VistaGestionEmpleadosController implements Initializable {
     @FXML
     private TableColumn<empleado, String> colApellido;
     @FXML
-    private Button btnIrA;
-    @FXML
     private Button btnAgregarUsuario;
     @FXML
     private Button btnModificarUsuario;
@@ -70,18 +69,22 @@ public class VistaGestionEmpleadosController implements Initializable {
     empleado emp = new empleado();
     ObservableList<empleado> lista;
     ObservableList<empleado> listaFiltrada;
+    @FXML
+    private ComboBox<String> cmbEstado;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         mostrarDatos();
 
+        cmbEstado.getItems().addAll("Activo", "Inactivo");
         btnAgregarUsuario.setDisable(false);
         btnModificarUsuario.setDisable(true);
         btnEliminarUsuario.setDisable(true);
         btnAceptar.setDisable(true);
         btnCancelar.setDisable(true);
 
+        cmbEstado.setDisable(true);
         txtNombre.setDisable(true);
         txtApellido.setDisable(true);
         txtPswd.setDisable(true);
@@ -144,6 +147,13 @@ public class VistaGestionEmpleadosController implements Initializable {
         txtNombre.setText(String.valueOf(emp.getNombre()));
         txtApellido.setText(String.valueOf(emp.getApellido()));
 
+        if(emp.getEstado() == 1){
+            cmbEstado.setValue("Activo");
+        }
+        else{
+            cmbEstado.setValue("Inactivo");
+        }
+        
         btnAgregarUsuario.setDisable(false);
         btnModificarUsuario.setDisable(false);
         btnEliminarUsuario.setDisable(false);
@@ -153,12 +163,10 @@ public class VistaGestionEmpleadosController implements Initializable {
         txtNombre.setDisable(true);
         txtApellido.setDisable(true);
         txtPswd.setDisable(true);
+        cmbEstado.setDisable(true);
 
     }
 
-    @FXML
-    private void verInfoUsuario(ActionEvent event) {
-    }
 
     @FXML
     private void agregarUsuario(ActionEvent event) {
@@ -171,6 +179,7 @@ public class VistaGestionEmpleadosController implements Initializable {
         btnAceptar.setDisable(false);
         btnCancelar.setDisable(false);
 
+        cmbEstado.setDisable(false);
         txtNombre.setDisable(false);
         txtApellido.setDisable(false);
         txtPswd.setDisable(false);
@@ -186,9 +195,16 @@ public class VistaGestionEmpleadosController implements Initializable {
     private void modificarUsuario(ActionEvent event) {
 
         emp.setIdEmpleado(Integer.parseInt(txtId.getText()));
+        if(cmbEstado.getValue().equals("Activo")){
+            emp.setEstado(1);
+        }
+        else{
+            emp.setEstado(0);
+        }
 
         modificar = true;
 
+        cmbEstado.setDisable(false);
         txtNombre.setDisable(false);
         txtApellido.setDisable(false);
         btnAceptar.setDisable(false);
@@ -211,9 +227,9 @@ public class VistaGestionEmpleadosController implements Initializable {
 
             // Crear una alerta de confirmación
             Alert alertaConfirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-            alertaConfirmacion.setTitle("Confirmar Eliminación");
+            alertaConfirmacion.setTitle("Confirmar Anulacion");
             alertaConfirmacion.setHeaderText(null);
-            alertaConfirmacion.setContentText("¿Estás seguro de eliminar este usuario? Esta acción no se puede deshacer.");
+            alertaConfirmacion.setContentText("¿Estás seguro de anular este usuario?");
 
             // Mostrar la alerta de confirmación y esperar a que el usuario elija una opción
             Optional<ButtonType> resultado = alertaConfirmacion.showAndWait();
@@ -224,9 +240,9 @@ public class VistaGestionEmpleadosController implements Initializable {
                 if (emp.eliminar()) {
                     // Mostrar mensaje de eliminación exitosa
                     Alert alertaExito = new Alert(Alert.AlertType.INFORMATION);
-                    alertaExito.setTitle("Eliminación Exitosa");
+                    alertaExito.setTitle("Anulacion Exitosa");
                     alertaExito.setHeaderText(null);
-                    alertaExito.setContentText("Empleado eliminado correctamente.");
+                    alertaExito.setContentText("Empleado anulado correctamente.");
                     alertaExito.showAndWait();
 
                     txtId.clear();
@@ -239,7 +255,7 @@ public class VistaGestionEmpleadosController implements Initializable {
                     Alert alertaError = new Alert(Alert.AlertType.ERROR);
                     alertaError.setTitle("Error");
                     alertaError.setHeaderText(null);
-                    alertaError.setContentText("No se pudo eliminar el empleado.");
+                    alertaError.setContentText("No se pudo anular el empleado.");
                     alertaError.showAndWait();
 
                     txtId.setText(String.valueOf(emp.getIdEmpleado()));
@@ -255,7 +271,7 @@ public class VistaGestionEmpleadosController implements Initializable {
             Alert alertaError = new Alert(Alert.AlertType.ERROR);
             alertaError.setTitle("Error");
             alertaError.setHeaderText(null);
-            alertaError.setContentText("No se puede eliminar al administrador");
+            alertaError.setContentText("No se puede anular al administrador");
             alertaError.showAndWait();
         }
         txtId.clear();
@@ -320,6 +336,7 @@ public class VistaGestionEmpleadosController implements Initializable {
             }
         }
 
+        cmbEstado.setDisable(true);
         txtNombre.setDisable(true);
         txtApellido.setDisable(true);
         btnAceptar.setDisable(true);

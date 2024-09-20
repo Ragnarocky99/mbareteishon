@@ -5,6 +5,7 @@
 package com.mycompany.mbareteishon.clases;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -122,5 +123,31 @@ public class reporte extends conexion {
         }catch (JRException ex) {
             Logger.getLogger(reporte.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void generarReporteVH(String ubicacion,String titulo, Timestamp time){
+        
+         try {
+            // Ruta al archivo .jasper
+            String reportPath = getClass().getResource(ubicacion).getPath();
+
+            // Parámetros del informe
+            Map<String, Object> parameters = new HashMap<>();
+            
+            parameters.put("FECHA_ACTUAL", time);
+            // Agrega parámetros según sea necesario
+
+            // Llenar el informe
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parameters, getCon());
+
+            // Mostrar el informe en una nueva ventana
+            JasperViewer viewer = new JasperViewer(jasperPrint, false);
+            viewer.setTitle(titulo);
+            viewer.setVisible(true);
+
+        }catch (JRException ex) {
+            Logger.getLogger(reporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }

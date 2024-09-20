@@ -23,6 +23,7 @@
             </Menu>
             <Menu mnemonicParsing="false" text="Informes">
               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#goToVentasHoy" text="Ventas de Hoy" />
                 <MenuItem mnemonicParsing="false" text="Ventas por mes" />
                   <MenuItem mnemonicParsing="false" text="Pedidos por mes" />
                   <MenuItem mnemonicParsing="false" onAction="#goToInventario" text="Inventario" />

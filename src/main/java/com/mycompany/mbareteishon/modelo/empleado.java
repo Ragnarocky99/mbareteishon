@@ -22,16 +22,18 @@ public class empleado extends conexion implements sentencias {
     private String apellido;
     private String cargo;
     private String pswd; // Campo para la contraseña
+    private int estado;
 
     public empleado() {
     }
 
-    public empleado(int idEmpleado, String nombre, String apellido, String cargo, String pswd) {
+    public empleado(int idEmpleado, String nombre, String apellido, String cargo, String pswd, int estado) {
         this.idEmpleado = idEmpleado;
         this.nombre = nombre;
         this.apellido = apellido;
         this.cargo = cargo;
-        this.pswd = pswd; // Inicializa la contraseña
+        this.pswd = pswd;
+        this.estado = estado; // Inicializa la contraseña
     }
 
     // Método para hashear la contraseña con bcrypt
@@ -46,7 +48,7 @@ public class empleado extends conexion implements sentencias {
 
     @Override
     public boolean insertar() {
-        String sql = "INSERT INTO empleado (nombreEmp, apellidoEmp, cargo, pswd) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO empleado (nombreEmp, apellidoEmp, cargo, pswd, estado) VALUES (?, ?, ?, ?, 1)";
         try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
             stm.setString(1, this.nombre);
             stm.setString(2, this.apellido);
@@ -89,8 +91,9 @@ public class empleado extends conexion implements sentencias {
                         String nom = rs.getString("nombreEmp");
                         String rol = rs.getString("apellidoEmp");
                         String cargo = rs.getString("cargo");
-                        String psw = rs.getString("pswd"); // Obtiene la contraseña hasheada
-                        e = new empleado(id, nom, rol, cargo, psw);
+                        String psw = rs.getString("pswd");   // Obtiene la contraseña hasheada
+                        int est = rs.getInt("estado");
+                        e = new empleado(id, nom, rol, cargo, psw,est);
                     }
                 }
 
@@ -113,7 +116,8 @@ public class empleado extends conexion implements sentencias {
                         rs.getString("nombreEmp"),
                         rs.getString("apellidoEmp"),
                         rs.getString("cargo"),
-                        rs.getString("pswd") // Obtiene la contraseña hasheada
+                        rs.getString("pswd"),
+                        rs.getInt("estado") // Obtiene la contraseña hasheada
                 );
                 empleados.add(emp);
             }
@@ -142,7 +146,7 @@ public class empleado extends conexion implements sentencias {
 
     @Override
     public boolean eliminar() {
-        String sql = "DELETE FROM empleado WHERE id_empleado = ?";
+        String sql = "UPDATE empleado SET estado = 0 WHERE id_empleado = ?";
         try (Connection con = getCon(); PreparedStatement stm = con.prepareStatement(sql)) {
             stm.setInt(1, this.idEmpleado);
             stm.executeUpdate();
@@ -191,5 +195,13 @@ public class empleado extends conexion implements sentencias {
 
     public void setPswd(String pswd) {
         this.pswd = pswd;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
 }

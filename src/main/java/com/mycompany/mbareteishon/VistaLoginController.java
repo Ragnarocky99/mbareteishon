@@ -37,7 +37,9 @@ public class VistaLoginController implements Initializable {
         // Inicializar la lista de empleados y cargar en el ComboBox
         lista = FXCollections.observableArrayList(new empleado().consulta());
         for (empleado e : lista) {
-            comboUsuario.getItems().add(e.getNombre() + " " + e.getApellido());
+            if(e.getEstado() == 1){
+                comboUsuario.getItems().add(e.getNombre() + " " + e.getApellido());
+            }
         }
     }
 

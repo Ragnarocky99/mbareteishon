@@ -6,6 +6,8 @@ import com.mycompany.mbareteishon.modelo.estadistica;
 import com.mycompany.mbareteishon.modelo.producto;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -209,5 +211,10 @@ public class VistamMenuController implements Initializable {
     @FXML
     private void goToNominaClientes(ActionEvent event) {
         rep.generarReporte("/reportes/nomina_clientes.jasper", "Nomina Clientes");
+    }
+
+    @FXML
+    private void goToVentasHoy(ActionEvent event) {
+        rep.generarReporteVH("/reportes/ventas_x_dia.jasper", "Ventas del dia Actual", Timestamp.from(Instant.now()));
     }
 }

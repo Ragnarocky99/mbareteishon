@@ -18,6 +18,7 @@ com\mycompany\mbareteishon\VistaLoginController.class
 com\mycompany\mbareteishon\ValidadorString.class
 com\mycompany\mbareteishon\modelo\empleado.class
 com\mycompany\mbareteishon\VistaBuscarArticulosController.class
+com\mycompany\mbareteishon\VistaRegistroController.class
 module-info.class
 com\mycompany\mbareteishon\modelo\detallePedido.class
 com\mycompany\mbareteishon\clases\sentencias.class
