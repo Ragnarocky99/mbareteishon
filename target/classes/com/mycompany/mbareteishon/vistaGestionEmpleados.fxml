@@ -73,6 +73,7 @@
                            </font></Label>
                         <TextField fx:id="txtId" disable="true" editable="false" layoutX="102.0" layoutY="30.0" prefHeight="25.0" prefWidth="218.0" />
                         <TextField fx:id="txtNombre" layoutX="102.0" layoutY="65.0" prefHeight="25.0" prefWidth="217.0" />
+                        <TextField fx:id="txtApellido" layoutX="102.0" layoutY="101.0" prefHeight="25.0" prefWidth="217.0" />
                         <TextField fx:id="txtPswd" layoutX="102.0" layoutY="143.0" prefHeight="25.0" prefWidth="217.0" />
                         <Button fx:id="btnAceptar" layoutX="365.0" layoutY="57.0" mnemonicParsing="false" onAction="#aceptar" prefHeight="53.0" prefWidth="96.0" style="-fx-background-color: #EBC759; -fx-border-color: black; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-width: 2;" text="Aceptar">
                            <font>
@@ -88,7 +89,6 @@
                            <font>
                               <Font name="Consolas" size="14.0" />
                            </font></Label>
-                        <TextField fx:id="txtApellido" layoutX="102.0" layoutY="101.0" prefHeight="25.0" prefWidth="217.0" />
                         <Label layoutX="14.0" layoutY="188.0" text="Estado">
                            <font>
                               <Font name="Consolas" size="14.0" />

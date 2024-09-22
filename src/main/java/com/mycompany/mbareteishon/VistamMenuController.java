@@ -3,7 +3,6 @@ package com.mycompany.mbareteishon;
 import com.mycompany.mbareteishon.clases.reporte;
 import com.mycompany.mbareteishon.modelo.empleado;
 import com.mycompany.mbareteishon.modelo.estadistica;
-import com.mycompany.mbareteishon.modelo.producto;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
