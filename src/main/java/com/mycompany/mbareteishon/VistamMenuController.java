@@ -106,6 +106,9 @@ public class VistamMenuController implements Initializable {
             LocalTime currentTime = LocalTime.now();
             String formattedTime = currentTime.format(timeFormatter);
             txtHora.setText(formattedTime);
+            if(currentTime.getSecond() % 15 == 0){
+                updEstadisticas();
+            }
         }), new KeyFrame(Duration.seconds(1)));
         clock.setCycleCount(Timeline.INDEFINITE);
         clock.play();

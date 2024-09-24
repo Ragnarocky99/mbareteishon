@@ -73,7 +73,7 @@ public class estadistica extends conexion {
         estadistica est = new estadistica();
         ArrayList<estadistica> estats = new ArrayList();
         
-        String sql = "SELECT p.Stock ,p.nombre, SUM(df.cantidad) AS cantidad_vendida FROM producto p JOIN detalle_factura df ON p.id_producto = df.id_producto JOIN factura f ON df.numero_factura = f.numero_factura WHERE f.fecha_emision BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 1 DAY) - INTERVAL 1 SECOND GROUP BY p.id_producto, p.nombre";
+        String sql = "SELECT p.Stock ,p.nombre, SUM(df.cantidad) AS cantidad_vendida FROM producto p JOIN detalle_factura df ON p.id_producto = df.id_producto JOIN factura f ON df.numero_factura = f.numero_factura WHERE f.activo = 1 AND f.fecha_emision BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 1 DAY) - INTERVAL 1 SECOND GROUP BY p.id_producto, p.nombre";
 
         try (
                 Connection con = getCon(); Statement stm = con.createStatement(); ResultSet rs = stm.executeQuery(sql);) {
