@@ -49,7 +49,7 @@ public class VistaRegistroController implements Initializable {
 
         if (txtNombre.getText().equals("") || txtApellido.getText().equals("") || txtPswd.getText().equals("") || txtPswdRep.getText().equals("")) {
             showAlert("Advertencia", "Debe rellenar todos los campos");
-        } else if (txtPswd.getText().equals(txtPswdRep.getText())) {
+        } else if (!(txtPswd.getText().equals(txtPswdRep.getText()))) {
             showAlert("", "Las contraseñas no son iguales");
         } else {
 
